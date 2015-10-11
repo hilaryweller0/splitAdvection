@@ -1,0 +1,1072 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+
+\renewcommand{\floatpagefraction}{0.95}
+\renewcommand{\textfraction}{0}
+\renewcommand{\topfraction}{1}
+\renewcommand{\bottomfraction}{1}
+
+\RequirePackage{tweaklist}
+\renewcommand{\itemhook}
+{
+    \setlength{\topsep}{3pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \setlength{\itemsep}{0pt}
+    \setlength{\labelwidth}{10pt}
+    \setlength{\leftmargin}{\labelwidth}
+}
+
+\renewcommand{\enumhook}
+{
+    \setlength{\topsep}{3pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \setlength{\itemsep}{3pt}
+    \setlength{\labelwidth}{10pt}
+    \setlength{\leftmargin}{\labelwidth}
+}
+
+\renewcommand{\descriptionlabel}[1]{\parbox{\leftmargin}{\raggedleft #1.~}}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\paperwidth 15cm
+\paperheight 12cm
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Dimension Splitting Errors in Atmospheric Transport
+\end_layout
+
+\begin_layout Author
+Yumeng Chen, Hilary Weller and James Shaw
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Dimensionally split schemes are attractive for atmospheric modelling due
+ to their high accuracy in each spatial dimension and efficiency, operating
+ in each dimension separately 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg. "
+key "LR96,LLM96,BS99,PL07,KNK15"
+
+\end_inset
+
+.
+ Inherent conservation and accurate long time steps can also be achieved
+ without remapping by using the flux form semi-Lagrangian (FFSL or forward
+ in time) technique 
+\begin_inset CommandInset citation
+LatexCommand citep
+after "and EN14"
+before "eg. "
+key "Smo82,CW84"
+
+\end_inset
+
+ which integrates the dependent variable over a swept volume upstream of
+ every face in order to calculate fluxes in and out of cells.
+ One-dimensional single stage, FFSL schemes can be combined to achieve second
+ order accuracy, conservation and preservation of constants in multi-dimensions
+ by using COSMIC splitting 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "LLM96"
+
+\end_inset
+
+ which combines advective form and flux form updates in each direction in
+ order to eliminate conservation and constancy preservation errors.
+ Dimensionally split schemes have even found to give good accuracy on non-orthog
+onal grids such as the cubed sphere 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "PL07,KNK15"
+
+\end_inset
+
+.
+ However on non-orthongal grids, dimensionally split schemes do not account
+ properly for non-orthogonality and first-order errors will inevitably occur.
+\end_layout
+
+\begin_layout Standard
+First-order errors on non-orthogonal grids can be eliminated by using genuinely
+ multi-dimensional advection schemes.
+ These can be either FFSL 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg."
+key "Las02,LR05b,Miu07b,TCD14"
+
+\end_inset
+
+, method of lines 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "MOL, discretising space and time separetely, eg."
+key "WWF09,SG11,WS14"
+
+\end_inset
+
+ or semi-Lagrangian with conservative re-mapping 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "IK04,LNU10,ZWS04"
+
+\end_inset
+
+.
+ However the FFSL and MOL multi-dimensional schemes have not been extended
+ to work with Courant numbers significantly larger than one.
+ FFSL multi-dimensional schemes could be extended to handle large time-steps
+ by integrating the upstream swept volume over a large upstream volume,
+ interacting with a large number of upstream cells.
+ However the cost would be proportional to to time-step since the larger
+ the Courant number, the more cells the upstream swept volume would have
+ to overlap with.
+ This technique therefore offers no advantage over using a smaller time-step.
+ MOL multi-dimensional schemes could be extended to work with Courant numbers
+ larger than one by using implicit time-stepping.
+ This would increase the computational cost per tracer advected since the
+ solution of a matrix equation would be needed for every advected tracer
+ (although common pre-conditioners could be used, enabling multi-tracer
+ efficiency).
+ The other disadvantage of implicit time-stepping is the large phase errors
+ when long time-steps are used in contrast to semi-Lagrangian or FFSL schemes
+ which maintain accuracy with long time-steps.
+ Conservative semi-Lagrangian naturally extends to long time-steps but the
+ conservative remapping is complicated and expensive, particularly on non-rectan
+gular grids.
+ 
+\end_layout
+
+\begin_layout Standard
+It is therefore not clear what approach should be taken for achieving long
+ time-steps advecting multiple tracers on non-orthogonal grids.
+ In this paper, we show the affect of the first order errors of dimensionally
+ split FFSL scheme on a number of test-cases which use non-orthogonal grids
+ and compare with a genuinely multi-dimensional MOL scheme.
+ 
+\end_layout
+
+\begin_layout Section
+Transport Schemes
+\end_layout
+
+\begin_layout Subsection
+Dimensionally Split Flux-Form Semi-Lagrangian (FFSL) Scheme
+\end_layout
+
+\begin_layout Standard
+Description from Yumeng (you can include a tex file)
+\end_layout
+
+\begin_layout Subsection
+Multi-dimensional Method of Lines (MOL) Scheme
+\end_layout
+
+\begin_layout Standard
+The numerical model uses a method of lines, finite volume advection scheme
+ written using OpenFOAM.
+ This involves a cubic upwind spatial discretisation 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "WS14"
+
+\end_inset
+
+ combined with Crank-Nicholson in time.
+ Although the interpolation uses a cubic polynomial, cell centre values
+ are approximated as cell average values and face centre values are approximated
+ as face average values so the method is formally limited to 2nd order in
+ space.
+ The finite volume advection scheme using Gauss's divergence theorem to
+ approximate the divergece term of the advection equation:
+\begin_inset Formula 
+\begin{equation}
+\nabla\cdot\mathbf{u}\phi=\frac{1}{V}\sum_{f\in c}\phi_{f}\mathbf{u}_{f}\cdot\mathbf{S}_{f}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $V$
+\end_inset
+
+ is the cell volume, the summation is over all faces, 
+\begin_inset Formula $f$
+\end_inset
+
+, of cell 
+\begin_inset Formula $c$
+\end_inset
+
+, 
+\begin_inset Formula $\phi_{f}$
+\end_inset
+
+ is the value of the tracer, 
+\begin_inset Formula $\phi$
+\end_inset
+
+ interpolated onto face 
+\begin_inset Formula $f$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{u}_{f}$
+\end_inset
+
+ is the velocity on face 
+\begin_inset Formula $f$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{S}_{f}$
+\end_inset
+
+ is the vector normal to face 
+\begin_inset Formula $f$
+\end_inset
+
+ with magnitude equal to the area of face 
+\begin_inset Formula $f$
+\end_inset
+
+ (ie the face area vector).
+ The advection scheme uses a fit to a 2d (or 3d) polynomial using an upwind-bias
+ed stencil of cells (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:stencil"
+
+\end_inset
+
+) in order to interpolate from known cell values onto a face.
+ In 2d, the cubic polynomial is:
+\lang english
+
+\begin_inset Formula 
+\begin{equation}
+\phi=a+bx+cy+dx^{2}+exy+fy^{2}+gx^{3}+hx^{2}y+ixy^{2}
+\end{equation}
+
+\end_inset
+
+omitting terms in 
+\begin_inset Formula $y^{3}$
+\end_inset
+
+, where 
+\begin_inset Formula $x$
+\end_inset
+
+ is the direction normal to a cell face and 
+\begin_inset Formula $y$
+\end_inset
+
+ is perpendicular to 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ Coefficients 
+\begin_inset Formula $a$
+\end_inset
+
+ to 
+\begin_inset Formula $i$
+\end_inset
+
+ are set from a least squares fit to the cell data in the stencil.
+ The least-squares problem involves a 
+\begin_inset Formula $9\times m$
+\end_inset
+
+ matrix singular value decomposition for every face where 
+\begin_inset Formula $m$
+\end_inset
+
+ is the size of the stencil.
+ However this is purely a geometric calculation and is therefore a pre-processin
+g activity since the grid is fixed.
+ This generates a set of weights for calculating 
+\begin_inset Formula $\phi_{f}$
+\end_inset
+
+ from the cell values in the stencil, leaving 
+\begin_inset Formula $m$
+\end_inset
+
+ multiplies for each face for each call of the advection operator.
+ The stencils are found for three-dimensional, arbitrarily structured grids
+ by finding the face(s) closest to upwind of the face we are interpolating
+ onto, taking the two cells either side of the upwind face(s) and then taking
+ the vertex neighbours of those central cells (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:stencil"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset External
+	template XFig
+	filename figs/cubicUpCPCstencil.fig
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Stencil of upwind-biased cells for interpolating onto face 
+\begin_inset Formula $F$
+\end_inset
+
+ using a 2d cubic polynomial
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:stencil"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to ensure that the fit is accurate in the cells either side of
+ face 
+\begin_inset Formula $f$
+\end_inset
+
+ and to ensure that the values in these adjacent cells have the strongest
+ control over 
+\begin_inset Formula $\phi_{f}$
+\end_inset
+
+, rows associated with these values in the least squares fit matrix are
+ weighted a factor of 1000 relative to the other rows.
+ This does not affect the order of accuracy.
+ The value 
+\begin_inset Formula $\phi_{f}$
+\end_inset
+
+ is then calculated as a higher-order correction to first-order upwind:
+ 
+\begin_inset Formula 
+\begin{equation}
+\phi_{f}=\phi_{\text{up}}+\sum_{c}w_{c}\phi_{c}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $w_{c}$
+\end_inset
+
+ are the weights for each cell of the stencil calculated from the least
+ squares fit, with 
+\begin_inset Formula $w_{\text{up}}$
+\end_inset
+
+ reduced by 1 to make the fit a correction on upwind.
+ 
+\end_layout
+
+\begin_layout Standard
+In order to reduce the matrix size for the Crank-Nicholson time-stepping,
+ a first-order upwind spatial discretisation is used for the implicit solution
+ and the higher-order contribution is a deferred correction.
+ This means that two implicit solves are used per time-step so that the
+ higher-order terms are solved to second-order in time.
+ Consequently, assuming that the velocity field and mesh are constant in
+ time, the time-stepping scheme is defined as:
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\phi^{\prime}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{\prime}+2\sum_{c}w_{c}\phi_{c}^{n}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}\\
+\frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{n+1}+\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Coordinate Systems and Grids on a Plane
+\end_layout
+
+\begin_layout Standard
+In order to use test cases as simple as possible, without the need for incorpora
+ting spherical geometry, our computational domain consists of a periodic
+ two-dimensional plane with deformations in the coordinate system (or grid)
+ mimicking the kind of distortions which are produced by a cubed-sphere
+ grid or by terrain following coordinates over orography.
+ 
+\end_layout
+
+\begin_layout Section
+Results of Test Cases
+\end_layout
+
+\begin_layout Standard
+A range of test cases are undertaken on uniform and on distorted grids using
+ the dimensionally split scheme and the multi-dimensional scheme in order
+ to evaluate the influences of grid distortions and the validity of using
+ a dimenisonally split scheme on a distorted grid.
+ 
+\end_layout
+
+\begin_layout Subsection
+Solid Body Rotation
+\end_layout
+
+\begin_layout Standard
+Description of the test case from Yumeng...
+\end_layout
+
+\begin_layout Standard
+Description of the distorted grid
+\end_layout
+
+\begin_layout Standard
+Results of all schemes
+\end_layout
+
+\begin_layout Subsection
+Deformational Flow
+\end_layout
+
+\begin_layout Standard
+Description of the test case from Yumeng...
+\end_layout
+
+\begin_layout Standard
+Description of the distorted grid
+\end_layout
+
+\begin_layout Standard
+Results of all schemes
+\end_layout
+
+\begin_layout Subsection
+Horizontal Advection over Orography
+\end_layout
+
+\begin_layout Standard
+Description of the test case
+\end_layout
+
+\begin_layout Standard
+Horizontal advection over orography 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "SLF+02"
+
+\end_inset
+
+ using a basic terrain following (BTF) grid (with mesh layers at the heights
+ of the BTF coordinates.
+ Numerical solution of the advection equation
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{u}\phi=0
+\end{equation}
+
+\end_inset
+
+for 
+\begin_inset Formula $\phi$
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+ is the divergence free velocity prescribed from a streamfunction.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features tabularvalignment="middle" tabularwidth="100line%">
+<column alignment="center" valignment="middle" width="14text%">
+<column alignment="center" valignment="top" width="42text%">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dimensionally split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-dimensional
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=25\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 0.74
+\end_layout
+
+\begin_layout Plain Layout
+mode 
+\begin_inset Formula $c$
+\end_inset
+
+ =0.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yumeng's pictures in this column
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=50\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 1.48
+\end_layout
+
+\begin_layout Plain Layout
+mode 
+\begin_inset Formula $c$
+\end_inset
+
+ =0.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=100\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 2.96
+\end_layout
+
+\begin_layout Plain Layout
+mode 
+\begin_inset Formula $c$
+\end_inset
+
+ =0.8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=200\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 5.93
+\end_layout
+
+\begin_layout Plain Layout
+mode 
+\begin_inset Formula $c$
+\end_inset
+
+ =1.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=500\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 14.8
+\end_layout
+
+\begin_layout Plain Layout
+mode 
+\begin_inset Formula $c$
+\end_inset
+
+ =4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt500CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=1000\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 29.6
+\end_layout
+
+\begin_layout Plain Layout
+mode 
+\begin_inset Formula $c$
+\end_inset
+
+ =8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt1000CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_legends_Tall_TdiffAll.pdf
+	lyxscale 50
+	width 85text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Tracer contours after 0, 5000 and 10000s for the horizontal advection over
+ orography and errors in colour.
+ Different plots use different time-steps.
+ Spatial resolution is 
+\begin_inset Formula $\Delta x=1\ $
+\end_inset
+
+km, 
+\begin_inset Formula $\Delta z=500\ $
+\end_inset
+
+m.
+ Maximum and mode Courant numbers, 
+\begin_inset Formula $c$
+\end_inset
+
+, given above figures.
+ The mode Courant number is defined to be the Courant number without the
+ presence of orography 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:horizontalAdvectionWithDt"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Section
+Discussion and Conclusions
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "numerics"
+options "abbrvnat"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
