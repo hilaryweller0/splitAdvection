@@ -1050,6 +1050,429 @@ name "fig:horizontalAdvectionWithDt"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle" tabularwidth="100line%">
+<column alignment="center" valignment="middle" width="14text%">
+<column alignment="center" valignment="top" width="42text%">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dimensionally split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-dimensional
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta x=2\ $
+\end_inset
+
+km
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta z=1\ $
+\end_inset
+
+km
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=50\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 0.59
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yumeng's pictures in this column
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_coarse_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta x=1\ $
+\end_inset
+
+km
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta z=500\ $
+\end_inset
+
+m
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=25\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 0.74
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta x=500\ $
+\end_inset
+
+m
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta z=250\ $
+\end_inset
+
+m
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=12.5\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 0.78
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_fine_save_cubicUpwindCPCFit_dt12.5CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta x=250\ $
+\end_inset
+
+m
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta z=125\ $
+\end_inset
+
+m
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t=6.25\ $
+\end_inset
+
+s
+\end_layout
+
+\begin_layout Plain Layout
+max 
+\begin_inset Formula $c$
+\end_inset
+
+ = 0.78
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_vfine_save_cubicUpwindCPCFit_dt6.25CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/vSlice_horizontalAdvection_orography_legends_Tall_TdiffAll.pdf
+	lyxscale 50
+	width 85text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Tracer contours after 0, 5000 and 10000s for the horizontal advection over
+ orography and errors in colour.
+ Different plots use different spatial and temporal resolutions but they
+ use the same horizontal (mode) Courant number of 0.2.
+ The maximum Courant number is dependent on the resolution of the orography.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:horizontalAdvectionWithDx"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+Insert one graph comparing PPM and multi-dimensional results here.
+ Perhaps results for 5000s and 10000s separate if otherwise too crowded.
+ Perhaps 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ separate.
+ See data in file data/horizontalAdvectionErrorsMultiD.dat for these errors
+ for the multi-d results
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Convergence of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error metrics at 5000 and 10000s after initialisation for the dimensionally
+ split and multi-dimensions schemes using the results shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:horizontalAdvectionWithDx"
+
+\end_inset
+
+, all using a horizontal Courant number of 0.2.
+ Lines also show theoretical first- and second-order convergence are also
+ shown.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:horizontalAdvectConverge"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
