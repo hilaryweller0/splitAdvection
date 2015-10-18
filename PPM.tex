@@ -1,0 +1,160 @@
+\paragraph{}
+The dimensionally splitting scheme decribed in this paper is known as Conservative Operator Splitting for Multidimensions with Inherently Constancy (COSMIC) splitting \citep{Leonard1996} or flux-form semi-Lagrangian by \citep{Lin1996}. This dimensionally splitting scheme allows one-dimensional piecewise parabolic method (PPM) \citep{Colella1984} combined with a long time steps technique \citep{Leonard1995} to be extended to two-dimensional.
+\section{Long time-step permitting PPM} 
+\label{sec:PPM} 
+\paragraph{} 
+Both PPM and the long time steps technique use subgrid cell reconstruction. Although they are defined for varying grid spacing, we will only describe them for uniform grid interval, $\Delta x$. Long time-step permitting PPM is described on a domain with length $L$, which is divided into $n$ grid points. The position of $j$th grid is $x_j = j\Delta x$ and $j = 0, 1, 2, \cdots, n-1$ and the corresponding tracer is $\phi_j$. Subgrid cell reconstruction uses the space average mass within the $j$th grid box at time $t_n$, which is defined as: 
+\begin{equation} \label{eq:2.1} 
+\phi^n_j = \frac{1}{\Delta x} \int^{x_{j+\frac{1}{2}}}_{x_{j-\frac{1}{2}}} \phi (x,t)dx
+\end{equation}
+where $x_{j-\frac{1}{2}}$ is the midpoint between $x_{j-1}$ and $x_{j}$ and is also the boundary of each grid point. Thus, $x_{j-\frac{1}{2}} = x_j - \frac{\Delta x}{2}$.
+\paragraph{} 
+The long time steps technique \citep{Leonard1995} calculates the flux through the edge of boundaries by transforming the time integral to a space integral in terms of the analytical solution of the advection equation and using the relationship $u\Delta t = c\Delta x$ and $u$dt = dx, where $c$ is the Courant number. This reveals that the flux at the left boundary $x_{j-\frac{1}{2}}$ can be obtained using the average mass between $x_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}}-c\Delta x$, and can be written as the following equation:
+\begin{equation} \label{eq:2.2} 
+c\phi_{j-\frac{1}{2}} = \frac{c}{\Delta t} \int^{\Delta t}_{0} \phi (x_j - \frac{\Delta x}{2}, t)dt = \frac{1}{\Delta x} \int^{x_j-\frac {\Delta x}{2}}_{x_j-\frac {\Delta x}{2}-c\Delta x} \phi (x)dx 
+\end{equation} 
+\paragraph{} 
+\begin{figure}
+% \vspace{-20pt}
+\centering
+\includegraphics[scale=0.6]{YumengsGraphics/nirvana.pdf}
+% \vspace{-20pt}
+\caption{The 1D long time permitting technique. The mass between $x_{j,L}$ and $x_{j-c_N-1,R}$ can be calculated using equation \ref{eq:2.3}, and the mass between $x_{j-c_N-1,R}$ and $x_{j-c}$ should be calculated using PPM \label{fig:2.1}}
+\end{figure}
+The cumulative mass from the start point to the $j$th left zone edges is defined as $M_{j-\frac{1}{2}}$ and can be estimated by the definition of $\phi_j$ in equation \ref{eq:2.1} and can be discretized as follows \citep{Colella1984}:
+\begin{equation} \label{eq:2.3}
+M_{j-\frac{1}{2}} = \sum_{k < j} \phi_{k}\Delta x
+\end{equation} 
+If the Courant number is an integer $c_N$, the flux at left boundary can be calculated directly using the difference between the cumulative mass at $x_{j-\frac{1}{2}}$, $M_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}-c_N}$, $M_{j-c_N-\frac{1}{2}}$. However, because the Courant number is not necessarily integer, the equation \ref{eq:2.2} is unable to be applied to all conditions. Hence, the Courant number is divided into integer part, $c_N$, and decimal part (or remnant Courant number), $c_r$. The Courant number thus becomes $c = c_N + c_r$ \citep{Leonard1995}. The long time step permitting technique is illustrated in figure \ref{fig:2.1}. Similar to semi-Lagrangian, the long time step permitting feature is achieved by tracing back to the departure point and the time step is restricted by the deformational Courant number $c_d$. In this way, the CFL restriction is removed, because the remnant Courant number is always less than one. The flux equation becomes:
+\begin{equation} 
+c\phi_{j-\frac{1}{2}} = M_{j-\frac{1}{2}} - M_{j-c_N-\frac{1}{2}} + \frac{1}{\Delta x} \int^{x_j-\frac {\Delta x}{2}-c_N\Delta x}_{x_j-\frac {\Delta x}{2}-c\Delta x} \phi (x)dx 
+\end{equation} 
+\paragraph{}
+The remaining problem is to calculate the component of the flux related to the remnant Courant number, $c_r$, using PPM. PPM assumes that the profile at each interval is a parabola and thus can be represented by a second order polynomial \citep{Colella1984}. The equation can be achieved using $\phi(\xi = 0) = \phi_L$, $\phi(\xi = 1) = \phi_R$ and $ \int^{1}_{0} \phi (\xi) d\xi = \phi_j  $, which is obtained by \citet{Colella1984} as:
+\begin{equation} \label{eq:2.4} 
+\phi(x) = \phi_{L,j} + \xi (\Delta \phi_j + \phi_{6,j}(1-\xi)) 
+\end{equation} 
+where $ \xi = \frac{x-x_{j-\frac{1}{2}}}{\Delta x} $, $ \Delta \phi_j = \phi_{R,j} - \phi_{L,j} $, $ \phi_{6,j} = 6(\phi_j-\frac{1}{2}(\phi_{L,j}+\phi_{R,j})) $ and $\phi_{L,j}$ and $\phi_{R,j}$ represent the left and right boundary of $j$th interval respectively. Therefore, the flux can be calculated directly using the integral of $\phi(x)$
+\paragraph{} 
+From equation \ref{eq:2.4}, the boundary values of $\phi$ are required. A quartic polynomial mass interpolation \citep{Colella1984} is implemented to calculate $M_{j+\frac{1}{2}}$. Thus, the tracer value at the right boundary, $\phi_{j+\frac{1}{2}}$, can be calculated by differentiating $M_{j+\frac{1}{2}} $, the resulting formula is:
+\begin{equation} \label{eq:2.5} 
+\phi_{j+\frac{1}{2}} = \phi_j + \frac{1}{2}(\phi_{j+1}-\phi_{j}+\frac{\delta_m \phi_j - \delta_m \phi_{j+1}}{6}) 
+\end{equation} 
+where $\delta_m \phi_j$ is the slope in the $j$th interval and is calculated by:
+\begin{equation}
+\delta \phi_j = \frac{1}{2}(\phi_{j+1} - \phi_{j-1})
+\end{equation}
+% \begin{equation} \label{eq:2.6}
+% \delta_m \phi_j =
+%   \begin{cases}
+%     \min(|\delta \phi_j|, 2|\phi_j - \phi_{j-1}|,2|\phi_{j+1} - \phi_{j}|)\text{sgn}(\delta \phi_j)    & (\phi_{j+1}-\phi_j)(\phi_j-\phi_{j-1})>0\\
+%     0  & \text{ otherwise}
+%   \end{cases}
+% \end{equation}
+% where $\delta \phi_j = \frac{1}{2}(\phi_{j+1} - \phi_{j-1})$.  
+% \paragraph{} 
+% Godunov's theorem shows that higher than first order accurate linear schemes cannot maintain monotonicity \citep{Durran2010} and PPM uses quartic interpolation, which is fourth order accurate. Hence, there might be spurious oscillations in the numerical solutions and flux limiters/filters can significantly reduce those oscillation and preserve monotonicity. Equation \ref{eq:2.6} is a limiter to guarantee monotonicity and can result in a steeper representation of tracer profile around discontinuity, otherwise $\delta \phi_j$ should be directly used in equation \ref{eq:2.5}. Some other constraints are also implemented by \cite{Colella1984} for $\phi_{R,j}$ and $\phi_{L,j}$ to prevent the spurious oscillations. For smooth profile, $\phi_{j+\frac{1}{2}} = \phi_{R,j} = \phi_{L,j+1}$. For discontinuous profiles, some limiters are applied. One of the limiters is: 
+% \begin{eqnarray}  \label{eq:2.7}
+% \phi_{L,j} = \phi_{L,j}(1-\eta_j) +\eta_j (\phi_{j-1}+\frac{1}{2} \delta_m \phi_{j-1}) \nonumber \\
+% \phi_{R,j} = \phi_{R,j}(1-\eta_j) +\eta_j (\phi_{j+1}-\frac{1}{2} \delta_m \phi_{j+1})
+% \end{eqnarray}
+% where $\eta_j = \max(0,\min(\eta^{(1)}(\widetilde \eta_j-\eta^{(2)}),1)$.
+% \paragraph{}
+% $\widetilde \eta_j$ can be calculated by:
+% \begin{eqnarray} \label{eq:2.8}
+% \widetilde \eta_j &= -\frac{\phi_{j+2}-3\phi_{j+1}+3\phi_j-\phi_{j-1}}{6(\phi_{j+1}-\phi_{j-1})}\\
+% &\quad \text{if } -\delta^2 \phi_{j+1} \delta^2 \phi_{j-1}>0, |\phi_{j+1}-\phi_{j-1}|-\varepsilon \min(|\phi_{j+1}|,|\phi_{j-1}|)>0\\
+% &=0 \\&\quad \text{ otherwise,}
+% \end{eqnarray}
+% where $\delta^2 \phi_j = \frac{\phi_{j+1}-2\phi_{j}+\phi_{j-1}}{6\Delta x}$. The $\eta^{(1)}=20$,$\eta^{(2)}=0.05$ and $\epsilon=0.05$, which shows the level of discontinuity. These values ensure that the small jumps in discontinuity are not applied by such limiters and can maintain high order of accuracy. Because these constraints use a method with lower order of accuracy to reprensent the discontinuities, this could reduce the overall order of accuracy of high order polynomial interpolation \citep{Lauritzen2007}.
+% \paragraph{}
+% Another problem is that the polynomial interpolation could lead to unphysical estimation of left and right boundaries. Under this circumstance, other constraints should be applied \citep{Colella1984}. Without these constraints, the tracer at left boundaries and right boundaries would be much higher or lower than the real value.  The resulting $\phi_{L,j}$ and $\phi_{R,j}$ should be:
+% \begin{eqnarray} \label{eq:2.9}
+% &\phi_{R,j}\rightarrow 3\phi_j -2\phi_{L,j} &\text{if }& -\frac{(\phi_{R,j}-\phi_{L,j})^2}{6} >(\phi_{R,j} -\phi_{L,j})(\phi_j-\frac{1}{2}(\phi_{L,j}+\phi_{R,j})) \nonumber\\
+% &\phi_{L,j}\rightarrow 3\phi_j -2\phi_{R,j} &\text{if }& (\phi_{R,j} -\phi_{L,j})(\phi_j-\frac{1}{2}(\phi_{L,j}+\phi_{R,j}))>\frac{(\phi_{R,j}-\phi_{L,j})^2}{6} \\
+% &\phi_{L,j}\rightarrow \phi_j\text{, } \phi_{R,j}\rightarrow\phi_j &\text{if }& (\phi_{R,j} - \phi_j)(\phi_j-\phi_{L,j}) \leqslant 0 \nonumber
+% \end{eqnarray}
+\paragraph{}
+The flux thus can be calculated in terms of the tracer at the boundaries of each interval. In terms of different upstream directions, the mass flux at the right boundary of $j$th interval can be written as:
+\begin{eqnarray} \label{eq:2.10}
+M_{c_r,R,j} = c_r \Delta x (\phi_{R,j}-\frac{c_r}{2}(\delta \phi_j-(1-\frac{2}{3} c_r)\phi_{6,j})) & \text{ if $c_r$}\geqslant 0 \nonumber \\
+M_{c_r,R,j} = c_r \Delta x (\phi_{L,j+1}-\frac{c_r}{2}(\delta \phi_{j+1}-(1+\frac{2}{3} c_r)\phi_{6,j+1})) & \text{ if  $c_r$} < 0
+\end{eqnarray}
+\paragraph{}
+For the complete Courant number, where the integer part of Courant number $c_N$ and remnant part $c_r$ is combined, the mass flux should be calculated by the following formulas:
+\begin{eqnarray} \label{eq:2.11}
+M_{R,j} = M_{c_r,R,j} + M_{j+\frac{1}{2}}-M_{j-N+\frac{1}{2}} & \text{c}>0 &\nonumber \\
+M_{R,j} = -M_{c_r,R,j} +M_{j+N+\frac{1}{2}}- M_{j+\frac{1}{2}} & \text{c}<0 & \\
+M_{R,j} = 0 & \text{otherwise} \nonumber 
+\end{eqnarray}
+Therefore, for westerly flows, the formula for next time step $\phi^{n+1}_j$ is: 
+\begin{equation} \label{eq:2.12}
+\phi^{n+1}_j = \phi^n_j + \frac{M^n_{in,j} - M^n_{out,j}}{\Delta x} = \phi^n_j + \frac{M^n_{R,j} - M^n_{R,j+1}}{\Delta x}
+\end{equation}
+where the subscript means the inflow and outflow of each cell.
+
+\section{COSMIC Splitting}
+\label{sec:COSMIC}
+\paragraph{}
+COSMIC splitting is an operator splitting scheme, which is used so that PPM can be implemented in two dimensions. Three of the properties expected of multidimensional advection schemes are: stability, conservation and constancy preservation \citep{Lin1996}. We will see how COSMIC splitting \citep{Leonard1996} maintains these three properties.
+\begin{figure}
+\vspace{-10pt}
+\centering
+\includegraphics[scale=0.6]{YumengsGraphics/conservative_form.pdf}
+\vspace{-20pt}
+\caption{The position of each flux and the position of $\phi$, the subscript w/e/n/s denote the direction of the flux relative to the position of $\phi$ \label{fig:2.2}}
+\end{figure}
+Operator splitting can use conservative-form or advective-form operators. Use of conservative-form operator with operator splitting leads to inherently mass conservation but cannot satisfy the constancy condition. The $x$ and $y$ direction conservative-form operator can be defined:
+\begin{eqnarray}  \label{eq:2.13}
+&X_{\scriptscriptstyle C}(\phi ) = c_{w}\phi_w(\phi )-c_e\phi_e(\phi ) 
+&Y_{\scriptscriptstyle C}(\phi ) = c_{n}\phi_n(\phi )-c_s\phi_s(\phi )
+\end{eqnarray}
+where $c$ is the Courant number and the subscripts represent the direction of the boundary of each grid and w/e/n/s denote the compass direction relative to $\phi$. $\phi $ in the brackets means flux at the boundary $c\phi$ is calculated from cell average $\phi$ using the one-dimensional long time permitting PPM. As shown in figure \ref{fig:2.2}, this is an Arakawa C staggered grid. The subscript $C$ represents the conservative-form operator.
+\paragraph{}
+The conservative-form operator update of $\phi$ can thus be calculated as:
+\begin{eqnarray} \label{eq:2.14}
+&\phi^n_{\scriptscriptstyle CY} = \phi^n +Y_{\scriptscriptstyle C}(\phi^n)
+&\phi^{n+1}_{\scriptscriptstyle CYX} = \phi^n_{\scriptscriptstyle CY} +X_{\scriptscriptstyle C}(\phi^n_{\scriptscriptstyle CY})
+\end{eqnarray}
+or
+\begin{eqnarray*} 
+&\phi^n_{\scriptscriptstyle CX} = \phi^n +X_{\scriptscriptstyle C}(\phi^n) 
+&\phi^{n+1}_{\scriptscriptstyle CXY} = \phi^n_{\scriptscriptstyle CX} +Y_{\scriptscriptstyle C}(\phi^n_{\scriptscriptstyle CX})
+\end{eqnarray*}
+The conservative-form update calculates the flux at the boundary of each grid, which means it is necessary to use the velocity at boundaries.  By this means, the flux at each boundary is unique, maintaining conservation. 
+\paragraph{}
+However, this cannot satisfy constancy condition. If the initial tracer $\phi $ is homogeneous, the conservative-form $x$-direction update becomes:
+\begin{equation} \label{eq:2.15}
+\phi^{n+1}_{\scriptscriptstyle CX} = \phi^n(1 +c_{w}-c_e)
+\end{equation}
+The results destroy constancy condition, because in a 2D non-divergent velocity field, $c_{w}-c_e$ could be unequal. 
+\paragraph{}
+Advective-form operator splitting is another way to treat the advection scheme. Unlike the conservative-form, the advective-form splitting is not inherently conservative but can satisfy constancy condition. The advective-form operator can be defined as:
+\begin{eqnarray} \label{eq:2.16}
+&X_{\scriptscriptstyle A}(\phi ) = c^{cell}(\phi_w(\phi )-\phi_e(\phi )) 
+&Y_{\scriptscriptstyle A}(\phi ) = c^{cell}(\phi_n(\phi )-\phi_s(\phi ))
+\end{eqnarray}
+where $c^{cell}$ is the cell centred Courant number, or the transverse velocity and the subscript $A$ denote advective-form operator. The cell centred Courant number should be ideally the average of two faces. However, \citep{Lin1996} pointed out that this could generate spurious flux, so the transverse velocity should be chosen as the upwind velocity. If the transverse velocity is in the opposite directions at two faces, the cell centred velocity should set to zero.
+\paragraph{}
+The advective-form update is:
+\begin{eqnarray} \label{eq:2.17}
+&\phi^{n}_{\scriptscriptstyle AY} = \phi^{n} +Y_{\scriptscriptstyle A}(\phi^{n}) 
+&\phi^{n+1}_{\scriptscriptstyle AYX} = \phi^{n}_{\scriptscriptstyle AY} +X_{\scriptscriptstyle A}(\phi^{n}_{\scriptscriptstyle AY})
+\end{eqnarray}
+or
+\begin{eqnarray*}
+&\phi^{n}_{\scriptscriptstyle AX} = \phi^{n} +X_{\scriptscriptstyle A}(\phi^{n}) 
+&\phi^{n+1}_{\scriptscriptstyle AXY} = \phi^{n}_{\scriptscriptstyle AX} +Y_{\scriptscriptstyle A}(\phi^{n}_{\scriptscriptstyle AX})
+\end{eqnarray*}
+\paragraph{}
+If the initial tracer $\phi $ is unity, the advective-form update becomes:
+\begin{equation} \label{eq:2.18}
+\phi^{n+1}_{\scriptscriptstyle AX} = \phi^{n}+c^{cell}(\phi_w(\phi )-\phi_e(\phi )) = \phi^{n}
+\end{equation}
+The results maintain constancy condition. However, the use of transverse velocity cannot satisfy conservation condition. Both the conservative-form and the advective-form operator splitting  maintain stability, because they both introduce the cross term by using the intermediate $\phi^{n}_{\scriptscriptstyle AY}$ or $\phi^{n}_{\scriptscriptstyle CY}$, though they cannot both satisfy constancy and conservation \citep{Leonard1996}.
+\paragraph{}
+In order to satisfy both conservation and constancy condition, COSMIC splitting \citep{Leonard1996} combines the conservative-form and advective-form update. Thus, the COSMIC splitting can be written as:
+\begin{equation} \label{eq:2.19}
+\phi^{n+1} = \phi^n+X_{\scriptscriptstyle C}(\frac{1}{2}(\phi^n + \phi^n _{\scriptscriptstyle AY}) +Y_{\scriptscriptstyle C}(\frac{1}{2}(\phi^n + \phi^n _{\scriptscriptstyle AX})
+\end{equation}
+According to equation \ref{eq:2.19}, conservation is preserved by the outer conservative-form operator while constancy is maintained by the advective-form update. COSMIC splitting can be interpreted as the mass flux into control-volume cell. \cite{Lauritzen2007} showed that part of the mass comes from the departure cell, which is called local contribution  while there are nonlocal contributions if the Courant number is larger than one and the $\phi_{CX} \neq \phi_{AX}$.

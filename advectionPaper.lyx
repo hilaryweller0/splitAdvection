@@ -1,5 +1,5 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
 \begin_document
 \begin_header
 \textclass article
@@ -47,13 +47,13 @@
 \font_roman times
 \font_sans default
 \font_typewriter default
+\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -64,15 +64,24 @@
 \use_hyperref false
 \papersize a4paper
 \use_geometry true
-\use_amsmath 1
-\use_esint 1
-\use_mhchem 1
-\use_mathdots 1
-\cite_engine natbib_authoryear
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
+\justification true
 \use_refstyle 0
 \index Index
 \shortcut idx
@@ -231,7 +240,13 @@ Dimensionally Split Flux-Form Semi-Lagrangian (FFSL) Scheme
 \end_layout
 
 \begin_layout Standard
-Description from Yumeng (you can include a tex file)
+\begin_inset CommandInset include
+LatexCommand include
+filename "PPM.tex"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -405,7 +420,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Stencil of upwind-biased cells for interpolating onto face 
@@ -521,7 +536,116 @@ Solid Body Rotation
 \end_layout
 
 \begin_layout Standard
-Description of the test case from Yumeng...
+The solid body rotation test case is aimed to test the theoretical order
+ of accuracy of PPM with COSMIC splitting and multi-dimensional scheme because
+ it has a smooth tracer distribution and analytical solution.
+ The streamfunction of this test case is defined as: 
+\begin_inset Formula 
+\begin{equation}
+\psi(x,y,t)=A(x-x_{c})^{2}+(y-y_{c})^{2}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $(x_{c},y_{c})$
+\end_inset
+
+is the centre of the domain, and A = 8.
+ The angular velocity of this 
+\begin_inset Formula $2A\,s^{-1}$
+\end_inset
+
+.
+ The tracer is a Gaussian and the centre of the Gaussian is initially located
+ at 
+\begin_inset Formula $(x',y')$
+\end_inset
+
+, which can be calculated as:
+\begin_inset Formula 
+\begin{align*}
+x^{'}=x_{c}+r'\cos\theta_{0} & y'=y_{c}=r'sin\theta_{0}
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $(x_{c},y_{c})$
+\end_inset
+
+ is the centre of the domian, 
+\begin_inset Formula $r'=2\sqrt{30}$
+\end_inset
+
+ is the distance of the centre of the Gaussian from 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $(x_{c},y_{c})$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang british
+, and 
+\begin_inset Formula $\theta_{0}=\frac{\pi}{4}$
+\end_inset
+
+.
+ Since the radius of the Gaussian is 3 meters, the initial Gaussian distribution
+ can defined as:
+\begin_inset Formula 
+\begin{equation}
+\phi(x,y,t=0)=\exp(\frac{1}{2}(\frac{x-x'}{3}){}^{2}+(\frac{y-y'}{3})^{2})\label{eq:7}
+\end{equation}
+
+\end_inset
+
+The analytical solution of this test case is to calculate the time-dependent
+ variable 
+\begin_inset Formula $(x',y')$
+\end_inset
+
+ in terms of the angular velocity and substitute them into the initial tracer
+ distribution equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:7"
+
+\end_inset
+
+.
+ The 
+\begin_inset Formula $(x',y')=(x_{c}+r'\cos(\theta_{0}+2At),y_{c}+r'\sin(\theta_{0}+2At))$
+\end_inset
+
+.
+ Therefore, the Gaussian rotates exactly one period taking 
+\begin_inset Formula $\frac{\pi}{8}$
+\end_inset
+
+ seconds..
 \end_layout
 
 \begin_layout Standard
@@ -537,7 +661,74 @@ Deformational Flow
 \end_layout
 
 \begin_layout Standard
-Description of the test case from Yumeng...
+Unlike solid body rotation test case, in deformational flow, it is difficult
+ to resolve the analytical solution and the deformational flow test case
+ is more challenging than solid body rotation test case.
+ The velocity field of this test case is initially devised by Zerroukat
+ (2015, personal communication):
+\begin_inset Formula 
+\begin{equation}
+u(x,y,t)=u_{0}\sin(n_{x}\pi\frac{x-x_{min}}{L_{x}})\cos(n_{y}\pi\frac{y-y_{min}}{L_{y}})
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v(x,y,t)=(-\frac{u_{0}n_{x}L_{y}}{n_{y}L_{x}})\cos(n_{x}\pi\frac{x-x_{min}}{L_{x}})\sin(n_{y}\pi\frac{y-y_{min}}{L_{y}})
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $u_{0}=1.0\ensuremath{,}n_{x}=2\ensuremath{,}n_{y}=1$
+\end_inset
+
+,
+\begin_inset Formula $x_{min}$
+\end_inset
+
+ and 
+\begin_inset Formula $y_{min}$
+\end_inset
+
+ are the start point of the domain in x and y direction respectively.
+ 
+\begin_inset Formula $L_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{y}$
+\end_inset
+
+ are the length of domain in two sides respectively.
+\end_layout
+
+\begin_layout Standard
+In order to calculate the error norms and order of accuracy of the schemes
+ in this test case, the velocity field needs to be modified using the techenique
+ by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Nair2010"
+
+\end_inset
+
+, which makes the velocity field reverse the flow half way through with
+ a uniform background velocity field.
+ The resulting streamfunction of this test case is:
+\begin_inset Formula 
+\begin{equation}
+\psi(x,y,t)=-\frac{L_{x}y}{T}-\frac{u_{0}L_{y}}{n_{y}\pi}\sin(n_{x}\pi\frac{x-\frac{L_{x}t}{T}-x_{min}}{L_{x}})\sin(n_{y}\pi\frac{y-y_{min}}{L_{y}})\cos(\frac{\pi t}{T})
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -595,10 +786,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
+<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="14text%">
 <column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -1008,7 +1199,7 @@ mode
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -1058,10 +1249,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
+<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="14text%">
 <column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -1383,7 +1574,7 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -1434,7 +1625,7 @@ Insert one graph comparing PPM and multi-dimensional results here.
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence of the 
@@ -1483,7 +1674,7 @@ Discussion and Conclusions
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "numerics"
+bibfiles "numerics,reference"
 options "abbrvnat"
 
 \end_inset
