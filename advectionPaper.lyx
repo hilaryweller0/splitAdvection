@@ -14,30 +14,30 @@
 \renewcommand{\topfraction}{1}
 \renewcommand{\bottomfraction}{1}
 
-\RequirePackage{tweaklist}
-\renewcommand{\itemhook}
-{
-    \setlength{\topsep}{3pt}
-    \setlength{\parskip}{0pt}
-    \setlength{\parsep}{0pt}
-    \setlength{\partopsep}{0pt}
-    \setlength{\itemsep}{0pt}
-    \setlength{\labelwidth}{10pt}
-    \setlength{\leftmargin}{\labelwidth}
-}
+%\RequirePackage{tweaklist}
+%\renewcommand{\itemhook}
+%{
+%    \setlength{\topsep}{3pt}
+%    \setlength{\parskip}{0pt}
+%    \setlength{\parsep}{0pt}
+%    \setlength{\partopsep}{0pt}
+%    \setlength{\itemsep}{0pt}
+%    \setlength{\labelwidth}{10pt}
+%    \setlength{\leftmargin}{\labelwidth}
+%}
 
-\renewcommand{\enumhook}
-{
-    \setlength{\topsep}{3pt}
-    \setlength{\parskip}{0pt}
-    \setlength{\parsep}{0pt}
-    \setlength{\partopsep}{0pt}
-    \setlength{\itemsep}{3pt}
-    \setlength{\labelwidth}{10pt}
-    \setlength{\leftmargin}{\labelwidth}
-}
+%\renewcommand{\enumhook}
+%{
+%    \setlength{\topsep}{3pt}
+%    \setlength{\parskip}{0pt}
+%    \setlength{\parsep}{0pt}
+%    \setlength{\partopsep}{0pt}
+%    \setlength{\itemsep}{3pt}
+%    \setlength{\labelwidth}{10pt}
+%    \setlength{\leftmargin}{\labelwidth}
+%}
 
-\renewcommand{\descriptionlabel}[1]{\parbox{\leftmargin}{\raggedleft #1.~}}
+%\renewcommand{\descriptionlabel}[1]{\parbox{\leftmargin}{\raggedleft #1.~}}
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children false
