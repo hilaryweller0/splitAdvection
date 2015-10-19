@@ -14,6 +14,16 @@ vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt50CN_up/10000/Tall
 vSlice/horizontalAdvection/orography_coarse/save/cubicUpwindCPCFit_dt50CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography_fine/save/cubicUpwindCPCFit_dt12.5CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography_vfine/save/cubicUpwindCPCFit_dt6.25CN_up/10000/Tall.pdf
+
+vSlice/horizontalAdvection/highOrography/save/cubicUpwindCPCFit_dt1000N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography/save/cubicUpwindCPCFit_dt100N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography/save/cubicUpwindCPCFit_dt200N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography/save/cubicUpwindCPCFit_dt25N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography/save/cubicUpwindCPCFit_dt500N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography/save/cubicUpwindCPCFit_dt50N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography_coarse/save/cubicUpwindCPCFit_dt50N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography_fine/save/cubicUpwindCPCFit_dt12.5N_up/10000/TallTall.pdf
+vSlice/horizontalAdvection/highOrography_vfine/save/cubicUpwindCPCFit_dt6.25N_up/10000/TallTall.pdf
 )
 
 # List of files to convert from eps format to pdf
