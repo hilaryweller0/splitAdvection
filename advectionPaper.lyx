@@ -241,7 +241,7 @@ Dimensionally Split Flux-Form Semi-Lagrangian (FFSL) Scheme
 
 \begin_layout Standard
 \begin_inset CommandInset include
-LatexCommand include
+LatexCommand input
 filename "PPM.tex"
 
 \end_inset
@@ -744,7 +744,17 @@ Horizontal Advection over Orography
 \end_layout
 
 \begin_layout Standard
-Description of the test case
+The dimensionally splitting schemes are designed for orthogonal grids.
+ In order to adjust the scheme for non-orthogonal grids, a Jacobian described
+ by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Schar2002"
+
+\end_inset
+
+ should be applied in the dimensionally splitting scheme.
+ 
 \end_layout
 
 \begin_layout Standard
