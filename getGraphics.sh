@@ -24,6 +24,17 @@ vSlice/horizontalAdvection/highOrography/save/cubicUpwindCPCFit_dt50N_up/10000/T
 vSlice/horizontalAdvection/highOrography_coarse/save/cubicUpwindCPCFit_dt50N_up/10000/TallTall.pdf
 vSlice/horizontalAdvection/highOrography_fine/save/cubicUpwindCPCFit_dt12.5N_up/10000/TallTall.pdf
 vSlice/horizontalAdvection/highOrography_vfine/save/cubicUpwindCPCFit_dt6.25N_up/10000/TallTall.pdf
+
+solidBodyRotationOnPlane/l2errors.eps
+solidBodyRotationOnPlane/linferrors.eps
+solidBodyRotationOnPlane/orthogonal/100x100/Tcontours.pdf
+solidBodyRotationOnPlane/nonOrthog/100x100/Tcontours.pdf
+solidBodyRotationOnPlane/legends/Tdiff.eps
+solidBodyRotationOnPlane/nonOrthog/100x100/constant/mesh.pdf
+
+solidBodyRotationOnPlane/orthogonal/errorNorms.dat
+solidBodyRotationOnPlane/nonOrthog/errorNorms.dat
+solidBodyRotationOnPlane/Yumeng/errorNorms.dat
 )
 
 # List of files to convert from eps format to pdf

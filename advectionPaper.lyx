@@ -528,124 +528,587 @@ Solid Body Rotation
 \end_layout
 
 \begin_layout Standard
-The solid body rotation test case is aimed to test the theoretical order
- of accuracy of PPM with COSMIC splitting and multi-dimensional scheme because
- it has a smooth tracer distribution and analytical solution.
- The streamfunction of this test case is defined as: 
+The solid body rotation test case of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LLM96"
+
+\end_inset
+
+ is used to compare the accuracy of the dimensionally split and multi-dimensiona
+l schemes on orthogonal and non-orthogonal grids.
+ We define this test case on a domain 
+\begin_inset Formula $10^{4}\times10^{4}\text{ m}^{2}$
+\end_inset
+
+.
+ The velocity is defined by numerically integrating the streamfunction which
+ can be defined at grid vertices by: 
 \begin_inset Formula 
 \begin{equation}
-\psi(x,y,t)=A(x-x_{c})^{2}+(y-y_{c})^{2}
+\psi(x,y,t)=A|\mathbf{x}-\mathbf{x}_{c}|^{2}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $(x_{c},y_{c})$
+\begin_inset Formula $\mathbf{x}_{c}$
 \end_inset
 
-is the centre of the domain, and A = 8.
- The angular velocity of this 
-\begin_inset Formula $2A\, s^{-1}$
+ is the centre of the domain, and 
+\begin_inset Formula $A=5\pi/3000\text{ s}^{-1}$
 \end_inset
 
-.
- The tracer is a Gaussian and the centre of the Gaussian is initially located
- at 
-\begin_inset Formula $(x',y')$
-\end_inset
-
-, which can be calculated as:
-\begin_inset Formula 
-\begin{align*}
-x^{'}=x_{c}+r'\cos\theta_{0} & y'=y_{c}=r'sin\theta_{0}
-\end{align*}
-
-\end_inset
-
-where 
-\begin_inset Formula $(x_{c},y_{c})$
-\end_inset
-
- is the centre of the domian, 
-\begin_inset Formula $r'=2\sqrt{30}$
-\end_inset
-
- is the distance of the centre of the Gaussian from 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-\lang english
-
-\begin_inset Formula $(x_{c},y_{c})$
-\end_inset
-
-
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\strikeout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
-\lang british
-, and 
-\begin_inset Formula $\theta_{0}=\frac{\pi}{4}$
+ so that the angular velocity is 
+\begin_inset Formula $2A$
 \end_inset
 
 .
- Since the radius of the Gaussian is 3 meters, the initial Gaussian distribution
- can defined as:
+ The initial tracer distribution takes a Gaussian distribution in order
+ to ensure that all advection schemes achieve their theoretical order of
+ accuracy:
 \begin_inset Formula 
 \begin{equation}
-\phi(x,y,t=0)=\exp(\frac{1}{2}(\frac{x-x'}{3}){}^{2}+(\frac{y-y'}{3})^{2})\label{eq:7}
+\phi(\mathbf{x})=\exp\left(-\frac{1}{2}\frac{|\mathbf{x}-\mathbf{x}_{\phi}|^{2}}{r_{\phi}^{2}}\right)\label{eq:7}
 \end{equation}
 
 \end_inset
 
-The analytical solution of this test case is to calculate the time-dependent
- variable 
-\begin_inset Formula $(x',y')$
+where 
+\begin_inset Formula $\mathbf{x}_{\phi}=\mathbf{x}_{c}+r_{c\phi}\mathbf{j}$
 \end_inset
 
- in terms of the angular velocity and substitute them into the initial tracer
- distribution equation 
+ is the initial centre of the tracer distribution, 
+\begin_inset Formula $r_{c\phi}=2500\text{ m}$
+\end_inset
+
+ and 
+\begin_inset Formula $r_{\phi}=500\text{ m}$
+\end_inset
+
+.
+ The analytic solution has the same tracer distribution but with the centre
+ of the tracer at: 
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}_{\phi}=\mathbf{x}_{c}+r_{c\phi}\left(\begin{array}{c}
+\cos(\pi/2+2At)\\
+\sin(\pi/2+2At)
+\end{array}\right)
+\end{equation}
+
+\end_inset
+
+and the Gaussian rotates exactly one revolution in 
+\begin_inset Formula $600\text{ s}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Results of this test case on an orthogonal grid of 
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells with 
+\begin_inset Formula $\Delta t=1\text{ s}$
+\end_inset
+
+ are shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:7"
+reference "fig:solidBody"
+
+\end_inset
+
+ for both advection schemes.
+ The contours show the tracer value every 100 seconds and the colours show
+ the errors summed every 100 seconds.
+ 
+\color red
+Description of the results blah blah blah.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal, dimensionally split scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non-orthogonal, dimensionally split scheme
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yumeng's results here
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yumeng's results here
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal, multi-dimensional scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non-orthogonal, multi-dimensional scheme
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_Tcontours.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_Tcontours.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_legends_Tdiff.eps
+	width 90line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results of the solid body rotation test case on orthogonal and non-orthogonal
+ grids every 100 seconds for grids of 
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells and 
+\begin_inset Formula $\Delta t=1\text{ s}$
+\end_inset
+
+.
+ The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours
+ show the errors.
+ The dashed contour shows the initial conditions.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:solidBody"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The solid body rotation test case is also performed on a non-orthogonal
+ grid on a plane with non-orthogonality similar to that of a cubed-sphere
+ grid.
+ For the dimensionally split scheme this is achieved using the co-ordinate
+ transform:
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+X=x &  & Y=\begin{cases}
+y_{c}\left(1+\frac{y-f}{2y_{c}-f}\right) & \text{ for }y\ge f\\
+y_{c}\left(1+\frac{y-f}{f}\right) & \text{ for }y<f
+\end{cases}\end{array}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $y_{c}=5000\text{ m}$
+\end_inset
+
+ and 
+\begin_inset Formula $f$
+\end_inset
+
+ is the equation for a 
+\begin_inset Formula $y$
+\end_inset
+
+ position of uniform 
+\begin_inset Formula $Y$
+\end_inset
+
+ half way up the domain.
+ In order give angles of 
+\begin_inset Formula $120^{o}$
+\end_inset
+
+ in the mesh, similar to a cubed sphere, 
+\begin_inset Formula $f$
+\end_inset
+
+ is given by:
+\begin_inset Formula 
+\begin{equation}
+f=\begin{cases}
+y_{c}\left(1+\frac{1}{2\sqrt{3}}\right)-\frac{x}{\sqrt{3}} & \text{ for }x\le y_{c}\\
+y_{c}\left(1-\frac{1}{2\sqrt{3}}\right)-\frac{x-y_{c}}{\sqrt{3}} & \text{ for }x>y_{c}
+\end{cases}.
+\end{equation}
+
+\end_inset
+
+This gives the 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ coordinate locations as shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:cubedGrid"
 
 \end_inset
 
 .
- The 
-\begin_inset Formula $(x',y')=(x_{c}+r'\cos(\theta_{0}+2At),y_{c}+r'\sin(\theta_{0}+2At))$
+ The multi-dimensional scheme model uses Cartesian coordinates and a distorted
+ mesh rather than a non-orthogonal coordinate system on a Cartesian grid.
+ However this does not affect the numerical results.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_constant_mesh.pdf
+	lyxscale 80
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Grid on a plane designed to have similar angles to a cubed-sphere grid.
+ 
+\begin_inset Formula $100\times100$
+\end_inset
+
+ grid points and angles up to 
+\begin_inset Formula $120^{o}$
 \end_inset
 
 .
- Therefore, the Gaussian rotates exactly one period taking 
-\begin_inset Formula $\frac{\pi}{8}$
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:cubedGrid"
+
 \end_inset
 
- seconds..
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Description of the distorted grid
+The results of the dimensionally split and multi-dimensional schemes on
+ the non-orthognal grid are also shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBody"
+
+\end_inset
+
+.
+ 
+\color red
+Description of the results blah blah blah.
 \end_layout
 
 \begin_layout Standard
-Results of all schemes
+We also present the convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error measures for grids of 
+\begin_inset Formula $50\times50$
+\end_inset
+
+, 
+\begin_inset Formula $100\times100$
+\end_inset
+
+, 
+\begin_inset Formula $200\times200$
+\end_inset
+
+ and 
+\begin_inset Formula $400\times400$
+\end_inset
+
+ cells with time-steps scaled in order to maintain the same Courant numbers
+ (
+\begin_inset Formula $\Delta t=2,\ 1,\ 0.5,\ 0.25\text{ s}$
+\end_inset
+
+) in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBodyConverge"
+
+\end_inset
+
+.
+ 
+\color red
+Description of the results blah blah blah.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ errors
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ errors
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_l2errors.eps
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_linferrors.eps
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ errors for the solid body rotation test case on orthogonal and non-orthogonal
+ grids using multi-dimensional and dimensionally split schemes.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:solidBodyConverge"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Finally, in order to demonstrate more advantages of the dimensionally split
+ scheme, we should show results for large Courant numbers.
+ How about multiplying the time-step by 10?
 \end_layout
 
 \begin_layout Subsection
