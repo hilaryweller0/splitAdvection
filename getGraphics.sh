@@ -27,14 +27,20 @@ vSlice/horizontalAdvection/highOrography_vfine/save/cubicUpwindCPCFit_dt6.25N_up
 
 solidBodyRotationOnPlane/l2errors.eps
 solidBodyRotationOnPlane/linferrors.eps
-solidBodyRotationOnPlane/orthogonal/100x100/Tcontours.pdf
-solidBodyRotationOnPlane/nonOrthog/100x100/Tcontours.pdf
+solidBodyRotationOnPlane/orthogonal/100x100/dt_1/Tcontours.pdf
+solidBodyRotationOnPlane/nonOrthog/100x100/dt_1/Tcontours.pdf
+solidBodyRotationOnPlane/orthogonal/100x100/dt_10/TcontoursBig.pdf
+solidBodyRotationOnPlane/nonOrthog/100x100/dt_10/TcontoursBig.pdf
+solidBodyRotationOnPlane/orthogonal/400x400/dt_2.5/Tcontours.pdf
+solidBodyRotationOnPlane/nonOrthog/400x400/dt_2.5/Tcontours.pdf
 solidBodyRotationOnPlane/legends/Tdiff.eps
-solidBodyRotationOnPlane/nonOrthog/100x100/constant/mesh.pdf
+solidBodyRotationOnPlane/legends/TdiffBig_Tdiff.eps
+solidBodyRotationOnPlane/nonOrthog/100x100/analytic/constant/mesh.pdf
 
-solidBodyRotationOnPlane/orthogonal/errorNorms.dat
-solidBodyRotationOnPlane/nonOrthog/errorNorms.dat
-solidBodyRotationOnPlane/Yumeng/errorNorms.dat
+solidBodyRotationOnPlane/orthogonal/errorNorms_c1.dat
+solidBodyRotationOnPlane/orthogonal/errorNorms_c10.dat
+solidBodyRotationOnPlane/nonOrthog/errorNorms_c1.dat
+solidBodyRotationOnPlane/nonOrthog/errorNorms_c10.dat
 )
 
 # List of files to convert from eps format to pdf
@@ -45,7 +51,7 @@ for file in ${cpFiles[*]}
 do
     fileNew=`echo $file | sed 's/\//_/g'`
     fileNew=HilarysGraphics/$fileNew
-    echo $fileNew
+    #echo $fileNew
     rsync -ut $ROOTDIR/$file $fileNew
 done
 

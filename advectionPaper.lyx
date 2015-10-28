@@ -667,7 +667,14 @@ Non-orthogonal, dimensionally split scheme
 \begin_inset Text
 
 \begin_layout Plain Layout
-Yumeng's results here
+\begin_inset Graphics
+	filename YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_Tcontours.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -676,7 +683,14 @@ Yumeng's results here
 \begin_inset Text
 
 \begin_layout Plain Layout
-Yumeng's results here
+\begin_inset Graphics
+	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_Tcontours.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -708,7 +722,7 @@ Non-orthogonal, multi-dimensional scheme
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_Tcontours.pdf
+	filename HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours.pdf
 	lyxscale 50
 	width 49text%
 
@@ -724,7 +738,7 @@ Non-orthogonal, multi-dimensional scheme
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_Tcontours.pdf
+	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours.pdf
 	lyxscale 50
 	width 49text%
 
@@ -782,7 +796,7 @@ Results of the solid body rotation test case on orthogonal and non-orthogonal
 \begin_inset Formula $\Delta t=1\text{ s}$
 \end_inset
 
-.
+ giving a maximum Courant number of around 1.
  The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours
  show the errors.
  The dashed contour shows the initial conditions.
@@ -890,7 +904,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_constant_mesh.pdf
+	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_analytic_constant_mesh.pdf
 	lyxscale 80
 	width 80text%
 
@@ -948,7 +962,219 @@ Description of the results blah blah blah.
 \end_layout
 
 \begin_layout Standard
-We also present the convergence with resolution of the 
+The multi-dimensional and dimenstionally split schemes take very different
+ approaches to handling large Courant numbers.
+ The multi-dimensional scheme uses implicit time-stepping whereas the dimensiona
+lly split scheme uses a flux-form semi-Lagrangian approach, integrating
+ over a line of cells in order to calculate the flux across a face.
+ It is well known that implicit schemes suffer from phase errors for long
+ time-steps whereas the accuracy semi-Lagrangian approaches is less sensitive
+ to the time-step.
+ Therefore we present results of both schemes on orthogonal and non-orthogonal
+ grids for time-steps 10 times those used in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBody"
+
+\end_inset
+
+ (
+\begin_inset Formula $\Delta t=10\text{ s}$
+\end_inset
+
+) giving maximum Courant nubmers of around 10 using 
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBody-dt10"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal, dimensionally split scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non-orthogonal, dimensionally split scheme
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yumeng's results
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yumeng's results.
+ unstable?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal, multi-dimensional scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non-orthogonal, multi-dimensional scheme
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_10_TcontoursBig.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_10_TcontoursBig.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_legends_TdiffBig_Tdiff.eps
+	width 90line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results of the solid body rotation test case on orthogonal and non-orthogonal
+ grids every 100 seconds for grids of 
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells and 
+\begin_inset Formula $\Delta t=10\text{ s}$
+\end_inset
+
+ giving a maximum Courant number of around 10.
+ The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours
+ show the errors.
+ The dashed contour shows the initial conditions.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:solidBody-dt10"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We present the convergence with resolution of the 
 \begin_inset Formula $\ell_{2}$
 \end_inset
 
@@ -977,7 +1203,8 @@ We also present the convergence with resolution of the
 \begin_inset Formula $\Delta t=2,\ 1,\ 0.5,\ 0.25\text{ s}$
 \end_inset
 
-) in figure 
+ to achieve a maximum Courant number of 1 and 10 times these values for
+ a maximum Courant number of 10) in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:solidBodyConverge"
@@ -997,10 +1224,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
+<lyxtabular version="3" rows="4" columns="1">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
@@ -1015,6 +1242,26 @@ status open
 
 \end_inset
 </cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/solidBodyRotationOnPlane_l2errors.eps
+	lyxscale 80
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
@@ -1034,25 +1281,9 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_l2errors.eps
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
 	filename HilarysGraphics/solidBodyRotationOnPlane_linferrors.eps
-	lyxscale 50
-	width 49text%
+	lyxscale 80
+	width 80text%
 
 \end_inset
 
@@ -1101,14 +1332,6 @@ name "fig:solidBodyConverge"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-
-\color red
-Finally, in order to demonstrate more advantages of the dimensionally split
- scheme, we should show results for large Courant numbers.
- How about multiplying the time-step by 10?
 \end_layout
 
 \begin_layout Subsection
@@ -1317,7 +1540,15 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
-Yumeng's pictures in this column
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1373,6 +1604,14 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
@@ -1429,6 +1668,14 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
@@ -1485,6 +1732,14 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
@@ -1541,6 +1796,14 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt500CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
@@ -1597,6 +1860,14 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt1000CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
@@ -1786,7 +2057,18 @@ max
 \begin_inset Text
 
 \begin_layout Plain Layout
-Yumeng's pictures in this column
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_coarse_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	height 23.333text%
+	BoundingBox 0bp 0bp 449bp 270bp
+	clip
+	special valign=m
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1848,6 +2130,14 @@ max
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
@@ -1910,6 +2200,14 @@ max
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_fine_save_cubicUpwindCPCFit_dt12.5CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
@@ -1972,6 +2270,14 @@ max
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/vSlice_horizontalAdvection_orography_vfine_save_cubicUpwindCPCFit_dt6.25CN_up_10000_Tall.pdf
+	lyxscale 50
+	width 42text%
+	special valign=m
+
+\end_inset
+
 
 \end_layout
 
