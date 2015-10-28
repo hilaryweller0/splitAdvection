@@ -904,7 +904,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_analytic_constant_mesh.pdf
+	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf
 	lyxscale 80
 	width 80text%
 
@@ -919,7 +919,7 @@ status open
 \begin_layout Plain Layout
 Grid on a plane designed to have similar angles to a cubed-sphere grid.
  
-\begin_inset Formula $100\times100$
+\begin_inset Formula $50\times50$
 \end_inset
 
  grid points and angles up to 
@@ -1543,7 +1543,10 @@ mode
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -1607,7 +1610,10 @@ mode
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -1671,7 +1677,10 @@ mode
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -1735,7 +1744,10 @@ mode
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -1799,7 +1811,10 @@ mode
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt500CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -1863,7 +1878,10 @@ mode
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt1000CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -2060,9 +2078,9 @@ max
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_coarse_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
-	height 23.333text%
-	BoundingBox 0bp 0bp 449bp 270bp
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
 	clip
 	special valign=m
 
@@ -2133,7 +2151,10 @@ max
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -2203,7 +2224,10 @@ max
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_fine_save_cubicUpwindCPCFit_dt12.5CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
@@ -2273,7 +2297,10 @@ max
 \begin_inset Graphics
 	filename YumengsGraphics/vSlice_horizontalAdvection_orography_vfine_save_cubicUpwindCPCFit_dt6.25CN_up_10000_Tall.pdf
 	lyxscale 50
-	width 42text%
+	width 39text%
+	height 20text%
+	BoundingBox 0bp 0bp 449bp 255bp
+	clip
 	special valign=m
 
 \end_inset
