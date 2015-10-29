@@ -668,7 +668,7 @@ Non-orthogonal, dimensionally split scheme
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_Tcontours.pdf
+	filename YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours.pdf
 	lyxscale 50
 	width 49text%
 
@@ -684,7 +684,7 @@ Non-orthogonal, dimensionally split scheme
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_Tcontours.pdf
+	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours.pdf
 	lyxscale 50
 	width 49text%
 
@@ -1033,7 +1033,14 @@ Non-orthogonal, dimensionally split scheme
 \begin_inset Text
 
 \begin_layout Plain Layout
-Yumeng's results
+\begin_inset Graphics
+	filename YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_10_TcontoursBig.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1042,8 +1049,14 @@ Yumeng's results
 \begin_inset Text
 
 \begin_layout Plain Layout
-Yumeng's results.
- unstable?
+\begin_inset Graphics
+	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_10_TcontoursBig.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
