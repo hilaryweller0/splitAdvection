@@ -2420,19 +2420,27 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-Insert one graph comparing PPM and multi-dimensional results here.
- Perhaps results for 5000s and 10000s separate if otherwise too crowded.
- Perhaps 
-\begin_inset Formula $\ell_{2}$
+\noindent
+\align center
+\begin_inset Graphics
+	filename HilarysGraphics/orography_l2errors.eps
+	width 100text%
+
 \end_inset
 
- and 
-\begin_inset Formula $\ell_{\infty}$
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename HilarysGraphics/orography_linferrors.eps
+	width 100text%
+
 \end_inset
 
- separate.
- See data in file data/horizontalAdvectionErrorsMultiD.dat for these errors
- for the multi-d results
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -2447,8 +2455,9 @@ Convergence of the
 \begin_inset Formula $\ell_{\infty}$
 \end_inset
 
- error metrics at 5000 and 10000s after initialisation for the dimensionally
- split and multi-dimensions schemes using the results shown in figure 
+ error metrics for horizontal advection over a 3000m and a 6000m mountains
+ after 10,000s for the dimensionally split (PPM) scheme and multi-dimensional
+ MOL scheme using the results shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:horizontalAdvectionWithDx"

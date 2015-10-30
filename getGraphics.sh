@@ -36,6 +36,7 @@ solidBodyRotationOnPlane/nonOrthog/400x400/dt_2.5/Tcontours.pdf
 solidBodyRotationOnPlane/legends/Tdiff.eps
 solidBodyRotationOnPlane/legends/TdiffBig_Tdiff.eps
 solidBodyRotationOnPlane/nonOrthog/50x50/analytic/constant/mesh.pdf
+solidBodyRotationOnPlane/nonOrthog/50x50/analytic/0/UT.pdf
 )
 
 # List of files to convert from eps format to pdf
