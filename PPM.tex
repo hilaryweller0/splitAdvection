@@ -1,6 +1,6 @@
 \paragraph{}
 The dimensionally splitting scheme decribed in this paper is known as Conservative Operator Splitting for Multidimensions with Inherently Constancy (COSMIC) splitting \citep{Leonard1996} or flux-form semi-Lagrangian by \citep{Lin1996}. This dimensionally splitting scheme allows one-dimensional piecewise parabolic method (PPM) \citep{Colella1984} combined with a long time steps technique \citep{Leonard1995} to be extended to two-dimensional.
-\section{Long time-step permitting PPM} 
+\subsection{Long time-step permitting PPM} 
 \label{sec:PPM} 
 \paragraph{} 
 Both PPM and the long time steps technique use subgrid cell reconstruction. Although they are defined for varying grid spacing, we will only describe them for uniform grid interval, $\Delta x$. Long time-step permitting PPM is described on a domain with length $L$, which is divided into $n$ grid points. The position of $j$th grid is $x_j = j\Delta x$ and $j = 0, 1, 2, \cdots, n-1$ and the corresponding tracer is $\phi_j$. Subgrid cell reconstruction uses the space average mass within the $j$th grid box at time $t_n$, which is defined as: 
@@ -17,7 +17,7 @@ c\phi_{j-\frac{1}{2}} = \frac{c}{\Delta t} \int^{\Delta t}_{0} \phi (x_j - \frac
 \begin{figure}
 % \vspace{-20pt}
 \centering
-\includegraphics[scale=0.6]{YumengsGraphics/nirvana.pdf}
+\includegraphics[scale=0.4]{YumengsGraphics/nirvana.pdf}
 % \vspace{-20pt}
 \caption{The 1D long time permitting technique. The mass between $x_{j,L}$ and $x_{j-c_N-1,R}$ can be calculated using equation \ref{eq:2.3}, and the mass between $x_{j-c_N-1,R}$ and $x_{j-c}$ should be calculated using PPM \label{fig:2.1}}
 \end{figure}
@@ -93,15 +93,15 @@ Therefore, for westerly flows, the formula for next time step $\phi^{n+1}_j$ is:
 \end{equation}
 where the subscript means the inflow and outflow of each cell.
 
-\section{COSMIC Splitting}
+\subsection{COSMIC Splitting}
 \label{sec:COSMIC}
 \paragraph{}
 COSMIC splitting is an operator splitting scheme, which is used so that PPM can be implemented in two dimensions. Three of the properties expected of multidimensional advection schemes are: stability, conservation and constancy preservation \citep{Lin1996}. We will see how COSMIC splitting \citep{Leonard1996} maintains these three properties.
 \begin{figure}
 \vspace{-10pt}
 \centering
-\includegraphics[scale=0.6]{YumengsGraphics/conservative_form.pdf}
-\vspace{-20pt}
+\includegraphics[scale=0.4]{YumengsGraphics/conservative_form.pdf}
+\vspace{-10pt}
 \caption{The position of each flux and the position of $\phi$, the subscript w/e/n/s denote the direction of the flux relative to the position of $\phi$ \label{fig:2.2}}
 \end{figure}
 Operator splitting can use conservative-form or advective-form operators. Use of conservative-form operator with operator splitting leads to inherently mass conservation but cannot satisfy the constancy condition. The $x$ and $y$ direction conservative-form operator can be defined:
