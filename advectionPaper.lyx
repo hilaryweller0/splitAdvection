@@ -1420,11 +1420,29 @@ Deformational Flow
 Unlike solid body rotation test case, in deformational flow, it is difficult
  to resolve the analytical solution and the deformational flow test case
  is more challenging than solid body rotation test case.
- The velocity field of this test case is initially devised by Zerroukat
- (2015, personal communication):
+ The test case is devised by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LSPT2012"
+
+\end_inset
+
+ to set up a universal test case for advection schemes under spherical coordinat
+es, which modified the streamfunction using the techenique by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Nair2010"
+
+\end_inset
+
+.
+ The streamfunction can effectively calculate the error norms and order
+ of accuracy of the schemes in this test case by making the velocity field
+ reverse the flow half way through with a uniform background velocity field.
+ The stream function of this test case adapted to Cartesian coordinate is:
 \begin_inset Formula 
 \begin{equation}
-u(x,y,t)=u_{0}\sin(n_{x}\pi\frac{x-x_{min}}{L_{x}})\cos(n_{y}\pi\frac{y-y_{min}}{L_{y}})
+\psi=u_{0}\sin^{2}(2\pi\frac{X-L_{x}t/T}{L_{x}})\cos^{2}(\pi\frac{Y}{L_{y}})\cos(\pi\frac{t}{T})-L_{x}\frac{Y}{T}
 \end{equation}
 
 \end_inset
@@ -1433,27 +1451,11 @@ u(x,y,t)=u_{0}\sin(n_{x}\pi\frac{x-x_{min}}{L_{x}})\cos(n_{y}\pi\frac{y-y_{min}}
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-v(x,y,t)=(-\frac{u_{0}n_{x}L_{y}}{n_{y}L_{x}})\cos(n_{x}\pi\frac{x-x_{min}}{L_{x}})\sin(n_{y}\pi\frac{y-y_{min}}{L_{y}})
-\end{equation}
-
-\end_inset
-
 where 
-\begin_inset Formula $u_{0}=1.0\ensuremath{,}n_{x}=2\ensuremath{,}n_{y}=1$
+\begin_inset Formula $u_{0}=2.0$
 \end_inset
 
-,
-\begin_inset Formula $x_{min}$
-\end_inset
-
- and 
-\begin_inset Formula $y_{min}$
-\end_inset
-
- are the start point of the domain in x and y direction respectively.
- 
+, and 
 \begin_inset Formula $L_{x}$
 \end_inset
 
@@ -1462,29 +1464,43 @@ where
 \end_inset
 
  are the length of domain in two sides respectively.
+ The start point 
+\begin_inset Formula $(x_{min,}y_{min})=(0,-\frac{\pi}{2})$
+\end_inset
+
+ and end point 
+\begin_inset Formula $(x_{max},y_{max}=(2\pi,\frac{\pi}{2})$
+\end_inset
+
+ of the domain are set such that the velocity of this streamfunction is
+ scaled in radians per second.
+ 
 \end_layout
 
 \begin_layout Standard
-In order to calculate the error norms and order of accuracy of the schemes
- in this test case, the velocity field needs to be modified using the techenique
- by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Nair2010"
-
-\end_inset
-
-, which makes the velocity field reverse the flow half way through with
- a uniform background velocity field.
- The resulting streamfunction of this test case is:
+The infinitely smooth Gaussian distribution is ideal to test the theoretical
+ order of accuracy and the ability to resolve thin filaments with steep
+ gradient:
 \begin_inset Formula 
 \begin{equation}
-\psi(x,y,t)=-\frac{L_{x}y}{T}-\frac{u_{0}L_{y}}{n_{y}\pi}\sin(n_{x}\pi\frac{x-\frac{L_{x}t}{T}-x_{min}}{L_{x}})\sin(n_{y}\pi\frac{y-y_{min}}{L_{y}})\cos(\frac{\pi t}{T})
+\phi=0.95\exp(-5((x-x_{0})^{2}+(y-y_{0})^{2}))+0.95\exp(-5((x-x_{1})^{2}+(y-y_{1})^{2}))
 \end{equation}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $(x_{0},y_{0})=(\frac{5}{12}L_{x},0)$
+\end_inset
+
+ and 
+\begin_inset Formula $(x_{1},y_{1})=(\frac{7}{12}L_{x},0)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
