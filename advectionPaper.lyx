@@ -1476,13 +1476,13 @@ The Cartesian version of this test case has a domain between 0 and
  The stream function for adapted to Cartesian coordinate is:
 \begin_inset Formula 
 \begin{eqnarray}
-\psi\left(x,y,t\right) & = & u_{0}\sin^{2}(2\pi\frac{x-L_{x}t/T}{L_{x}})\cos^{2}(\pi\frac{y}{L_{y}})\cos(\pi\frac{t}{T})-L_{x}\frac{y}{T}
+\psi\left(x,y,t\right) & = & \psi_{0}\sin^{2}(2\pi\frac{x-L_{x}t/T}{L_{x}})\cos^{2}(\pi\frac{y}{L_{y}})\cos(\pi\frac{t}{T})-L_{x}\frac{y}{T}
 \end{eqnarray}
 
 \end_inset
 
 where 
-\begin_inset Formula $u_{0}=2.0\text{ ms}^{-1}$
+\begin_inset Formula $\psi_{0}=2\text{ m}^{2}\text{s}^{-1}$
 \end_inset
 
  and 
