@@ -1,5 +1,5 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
 \begin_document
 \begin_header
 \textclass article
@@ -38,7 +38,6 @@
 
 %\renewcommand{\descriptionlabel}[1]{\parbox{\leftmargin}{\raggedleft #1.~}}
 % Added by lyx2lyx
-\usepackage{amssymb}
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children false
@@ -49,13 +48,13 @@
 \font_roman times
 \font_sans default
 \font_typewriter default
+\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \default_output_format pdf5
 \output_sync 0
@@ -66,15 +65,24 @@
 \use_hyperref false
 \papersize a4paper
 \use_geometry true
-\use_amsmath 1
-\use_esint 1
-\use_mhchem 1
-\use_mathdots 1
-\cite_engine natbib_authoryear
+\use_package amsmath 1
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
+\justification true
 \use_refstyle 0
 \index Index
 \shortcut idx
@@ -413,7 +421,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Stencil of upwind-biased cells for interpolating onto face 
@@ -654,9 +662,9 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -799,7 +807,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -845,15 +853,19 @@ The solid body rotation test case is also performed on a non-orthogonal
 \begin{equation}
 \begin{array}{ccc}
 X=x &  & Y=\begin{cases}
-y_{c}\left(1+\frac{y-f}{2y_{c}-f}\right) & \text{ for }y\ge f\\
-y_{c}\left(1+\frac{y-f}{f}\right) & \text{ for }y<f
+y_{m}\left(1+\frac{y_{c}-f}{2y_{m}-f}\right) & \text{ for }y\ge f\\
+y_{m}\left(1+\frac{y_{c}-f}{f}\right) & \text{ for }y<f
 \end{cases}\end{array}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $y_{c}=5000\text{ m}$
+\begin_inset Formula $y_{c}$
+\end_inset
+
+ is the computational domain, 
+\begin_inset Formula $y_{m}=5000\text{ m}$
 \end_inset
 
  and 
@@ -881,13 +893,26 @@ where
 \begin_inset Formula 
 \begin{equation}
 f=\begin{cases}
-y_{c}\left(1+\frac{1}{2\sqrt{3}}\right)-\frac{x}{\sqrt{3}} & \text{ for }x\le y_{c}\\
-y_{c}\left(1-\frac{1}{2\sqrt{3}}\right)-\frac{x-y_{c}}{\sqrt{3}} & \text{ for }x>y_{c}
+y_{m}\left(1+\frac{1}{2\sqrt{3}}\right)-\frac{x}{\sqrt{3}} & \text{ for }x\le x_{m}\\
+y_{m}\left(1-\frac{1}{2\sqrt{3}}\right)-\frac{x-x_{m}}{\sqrt{3}} & \text{ for }x>x_{m}
 \end{cases}.
 \end{equation}
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x_{m}=5000$
+\end_inset
+
+ m.
+ 
+\end_layout
+
+\begin_layout Standard
 This gives the 
 \begin_inset Formula $x$
 \end_inset
@@ -929,7 +954,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Grid on a plane designed to have similar angles to a cubed-sphere grid.
@@ -1039,9 +1064,9 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -1184,7 +1209,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -1298,8 +1323,8 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="1">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -1372,7 +1397,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with resolution of the 
@@ -1521,7 +1546,64 @@ where
 \end_layout
 
 \begin_layout Standard
-Description of the distorted grid
+A less distorted grid is used in deformational flow test case since a distorted
+ grid used in solid body rotation test case can result in unstable numerical
+ scheme in more challenging test case.
+ Further, the grid halves the slope of the grid in solid body rotation and
+ can be defined as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+X=x &  & Y=\begin{cases}
+y_{max}\frac{y_{c}-f}{y_{max}-f} & \text{ for }y\ge f\\
+y_{min}\frac{y_{c}-f}{y_{min}-f} & \text{ for }y<f
+\end{cases}\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $y_{c}$
+\end_inset
+
+ represent the computational domain, and the 
+\begin_inset Formula $f$
+\end_inset
+
+ is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f=\begin{cases}
+y_{m}+\frac{x_{m}}{4\sqrt{3}}-\frac{x}{2\sqrt{3}} & \text{ for }x\le x_{m}\\
+y_{m}-\frac{x_{m}}{4\sqrt{3}}-\frac{x-x_{m}}{2\sqrt{3}} & \text{ for }x>x_{m}
+\end{cases}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x_{m}=\pi$
+\end_inset
+
+ is the midpoint of x-direction and 
+\begin_inset Formula $y_{m}=0$
+\end_inset
+
+ is the midpoint of y-direction.
 \end_layout
 
 \begin_layout Standard
@@ -1552,7 +1634,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with resolution of the 
@@ -1676,10 +1758,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
+<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="14text%">
 <column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2155,7 +2237,7 @@ mode
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -2228,10 +2310,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
+<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="14text%">
 <column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2597,7 +2679,7 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -2717,7 +2799,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence of the 
