@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Root directory where graphics files can be found
-ROOTDIR=/home/hilary/OpenFOAM/hilary-2.3.0/run
+ROOTDIR=/home/hilary/OpenFOAM/*/run
 
 # List of files to copy and rename
 cpFiles=(
@@ -40,7 +40,11 @@ solidBodyRotationOnPlane/nonOrthog/50x50/analytic/0/UT.pdf
 )
 
 # List of files to convert from eps format to pdf
-epsFiles=(vSlice/horizontalAdvection/orography/legends/Tall_TdiffAll.eps)
+epsFiles=(
+deformingAdvection/plots/l2errors.eps
+deformingAdvection/plots/linferrors.eps
+vSlice/horizontalAdvection/orography/legends/Tall_TdiffAll.eps
+)
 
 # Copy and rename the cpFiles
 for file in ${cpFiles[*]}

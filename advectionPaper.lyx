@@ -1528,6 +1528,63 @@ Description of the distorted grid
 Results of all schemes
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_l2errors.pdf
+	width 48line%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_linferrors.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ errors for the deformational flow on orthogonal and non-orthogonal grids
+ using multi-dimensional and dimensionally split schemes.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:deformationalConverge"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Horizontal Advection over Orography
 \end_layout
