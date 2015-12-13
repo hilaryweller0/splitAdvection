@@ -3,8 +3,19 @@
 # Root directory where graphics files can be found
 ROOTDIR=/home/hilary/OpenFOAM/*/run
 
+#List of files to convert to png
+pngFiles=(
+deformingAdvection/orthogonal/1600x800/0/T.pdf
+deformingAdvection/orthogonal/1600x800/1/T.pdf
+deformingAdvection/orthogonal/1600x800/2/T.pdf
+deformingAdvection/orthogonal/1600x800/3/T.pdf
+deformingAdvection/orthogonal/1600x800/4/T.pdf
+deformingAdvection/orthogonal/1600x800/5/T.pdf
+)
+
 # List of files to copy and rename
 cpFiles=(
+deformingAdvection/nonOrthog/120x60/0/Tmesh.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt1000CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt100CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt200CN_up/10000/Tall.pdf
@@ -43,6 +54,8 @@ solidBodyRotationOnPlane/nonOrthog/50x50/analytic/0/UT.pdf
 epsFiles=(
 deformingAdvection/plots/l2errors.eps
 deformingAdvection/plots/linferrors.eps
+deformingAdvection/legends/Tmesh_T.eps
+deformingAdvection/legends/T.eps
 vSlice/horizontalAdvection/orography/legends/Tall_TdiffAll.eps
 )
 
@@ -52,7 +65,24 @@ do
     fileNew=`echo $file | sed 's/\//_/g'`
     fileNew=HilarysGraphics/$fileNew
     #echo $fileNew
-    rsync -ut $ROOTDIR/$file $fileNew
+    rsync -utv $ROOTDIR/$file $fileNew
+done
+
+# Convert and rename the files from pdf to png
+for file in ${pngFiles[*]}
+do
+    fileNew=`echo $file | sed 's/\//_/g' | sed 's/\./p/g' | sed 's/ppdf//g'`
+    fileNew=HilarysGraphics/$fileNew.png
+    pngFile=`echo $ROOTDIR/$file | sed 's/.pdf/.png/g'`
+    
+    if [ ! -e $pngFile ] || [ `stat -c "%Y" $ROOTDIR/$file` -gt `stat -c "%Y" $pngFile` ]
+      then
+        echo converting $ROOTDIR/$file to $pngFile
+        echo quit | gs -sDEVICE=pngalpha -sPAPERSIZE=a2 -r144 -q -dNOPAUSE -sOutputFile=%stdout% -- $ROOTDIR/$file | \
+             convert -trim - $pngFile
+    fi
+
+    rsync -ut $pngFile $fileNew
 done
 
 # Convert and rename the eps files
