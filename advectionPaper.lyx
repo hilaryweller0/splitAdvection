@@ -105,11 +105,16 @@
 \begin_body
 
 \begin_layout Title
-Dimension Splitting Errors in Atmospheric Transport
+Dimension Splitting Errors in Atmospheric Transport and Long Time-Steps
 \end_layout
 
 \begin_layout Author
 Yumeng Chen, Hilary Weller and James Shaw
+\end_layout
+
+\begin_layout Standard
+Re-visit Lauritzens' tracer transport comparisons and look up Wedi/Smolarkiewiz'
+s reference on implicit advection.
 \end_layout
 
 \begin_layout Standard
@@ -171,7 +176,8 @@ key "PL07,KNK15"
 
 .
  However on non-orthongal grids, dimensionally split schemes do not account
- properly for non-orthogonality and first-order errors will inevitably occur.
+ properly for non-orthogonality and first-order errors should inevitably
+ occur.
 \end_layout
 
 \begin_layout Standard
@@ -221,25 +227,51 @@ key "IK04,LNU10,ZWS04"
  which maintain accuracy with long time-steps.
  Conservative semi-Lagrangian naturally extends to long time-steps but the
  conservative remapping is complicated and expensive, particularly on non-rectan
-gular grids.
- 
+gular grids and will not be investigated here.
 \end_layout
 
 \begin_layout Standard
 It is therefore not clear what approach should be taken for achieving long
- time-steps advecting multiple tracers on non-orthogonal grids.
+ time-steps when advecting multiple tracers on non-orthogonal grids.
  In this paper, we show the affect of the first order errors of dimensionally
  split FFSL scheme on a number of test-cases which use non-orthogonal grids
- and compare with a genuinely multi-dimensional MOL scheme.
- 
+ and compare with a genuinely multi-dimensional implicit MOL scheme using
+ large and small Courant numbers.
 \end_layout
 
 \begin_layout Section
 Transport Schemes
 \end_layout
 
+\begin_layout Standard
+We present descriptions two advection schemes suitable for long time-steps
+ (stable for Courant numbers significantly larger than one).
+ Neither scheme has monotonicity or positivity preservation.
+ The dimensionally split scheme uses the flux-form semi-Lagrangian approach
+ and COSMIC splitting whereas the multi-dimensional scheme is a method of
+ lines scheme (treating space and time independently) which uses implicit
+ time-stepping.
+ 
+\end_layout
+
 \begin_layout Subsection
 Dimensionally Split Flux-Form Semi-Lagrangian (FFSL) Scheme
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Greyedout
+status open
+
+\begin_layout Plain Layout
+My impression is that this section is much too long.
+ None of this work is new so it should be dramatically shortened by relying
+ more heavily on published papers.
+ Could you describe long time-step PPM and COSMIC in under one page?
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -257,8 +289,7 @@ Multi-dimensional Method of Lines (MOL) Scheme
 \end_layout
 
 \begin_layout Standard
-The numerical model uses a method of lines, finite volume advection scheme
- written using OpenFOAM.
+The MOL scheme uses the finite volume method and is implemented in OpenFOAM.
  This involves a cubic upwind spatial discretisation 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -401,6 +432,9 @@ reference "fig:stencil"
 \end_inset
 
 ).
+ For each face there are two possible stencils depending on the upwind direction.
+ Both of the stencils are stored and the interpolation weights for both
+ stencils are calculated.
  
 \end_layout
 
@@ -408,7 +442,7 @@ reference "fig:stencil"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -510,7 +544,7 @@ In order to reduce the matrix size for the Crank-Nicholson time-stepping,
 \end_layout
 
 \begin_layout Section
-Coordinate Systems and Grids on a Plane
+Results of Test Cases in Planar Geometry
 \end_layout
 
 \begin_layout Standard
@@ -518,12 +552,9 @@ In order to use test cases as simple as possible, without the need for incorpora
 ting spherical geometry, our computational domain consists of a periodic
  two-dimensional plane with deformations in the coordinate system (or grid)
  mimicking the kind of distortions which are produced by a cubed-sphere
- grid or by terrain following coordinates over orography.
- 
-\end_layout
-
-\begin_layout Section
-Results of Test Cases
+ grid.
+ We also use a two-dimensional vertical slice test case over orography using
+ terrain following coordinates.
 \end_layout
 
 \begin_layout Standard
@@ -554,7 +585,11 @@ l schemes on orthogonal and non-orthogonal grids.
 
 .
  The velocity is defined by numerically integrating the streamfunction which
- can be defined at grid vertices by: 
+ can be defined at grid vertices, 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+, by: 
 \begin_inset Formula 
 \begin{equation}
 \psi(x,y,t)=A|\mathbf{x}-\mathbf{x}_{c}|^{2}
@@ -610,7 +645,7 @@ where
 
 \end_inset
 
-and the Gaussian rotates exactly one revolution in 
+and the Gaussian rotates anti-clockwise exactly one revolution in 
 \begin_inset Formula $600\text{ s}$
 \end_inset
 
@@ -633,33 +668,26 @@ reference "fig:solidBody"
 
 \end_inset
 
- for both advection schemes.
+ for both advection schemes (which gives a maximum Courant number close
+ to one).
  The contours show the tracer value every 100 seconds and the colours show
  the errors summed every 100 seconds.
  On an orthogonal grid, the dimensionally split scheme outperforms the multi-dim
-ensional scheme.
- The errors nearly disappear within the first 
-\begin_inset Formula $300$
-\end_inset
-
- s, while small errors show at the centre of the Gaussian as errors gradually
- increase with time.
+ensional scheme due to the higher-order accuracy of the split scheme.
+ The split scheme on the orthogonal grid has errors smaller than the first
+ colour value in the first 300 seconds and errors gradually increase showing
+ a small phase lag near the peak of the Gaussian towards the end of the
+ simulation.
  The multi-dimensional scheme shows larger error than dimensionally split
  scheme, where the phase of the Gaussian slightly lags behind the analytical
  solution.
- The errors are a representation of the higher order of accuracy of dimensionall
-y split scheme than multi-dimensional scheme on orthogonal grids when the
- Courant number is less than one.
- 
-\color red
-Description of the results blah blah blah.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -825,6 +853,7 @@ Results of the solid body rotation test case on orthogonal and non-orthogonal
  The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours
  show the errors.
  The dashed contour shows the initial conditions.
+ The min and max text in each plot gives the minimum and maximum errors.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -907,11 +936,11 @@ where
 \end_inset
 
  m.
- 
-\end_layout
+ For a 
+\begin_inset Formula $50\times50$
+\end_inset
 
-\begin_layout Standard
-This gives the 
+ grid this gives the 
 \begin_inset Formula $x$
 \end_inset
 
@@ -937,7 +966,7 @@ reference "fig:cubedGrid"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -994,17 +1023,15 @@ reference "fig:solidBody"
 \end_inset
 
 .
- Although the dimensionally split scheme is still stable, it has much larger
- errors than multi-dimensional schemes on the non-orthogonal grid.
- The Gaussian is stretched along the wind direction using dimensionally
- split scheme because the dimensionally split scheme cannot capture the
- velocity change on the non-orthogonal grid.
- However, the multi-dimensional scheme has a similar error on the non-orthogonal
- grid to on the orthogonal grid due to the accurate representation on both
- grids.
+ The dimensionally split scheme has much larger errors on the non-orthogonal
+ grid then the orthogonal grid but it is still more accurate that the multi-dime
+nsional scheme.
+ Some oscillations are introduced at 300 seconds where the tracer goes through
+ the change in direction of the grid.
+ In contrast, the multi-dimensional scheme has a similar error on the non-orthog
+onal grid to on the orthogonal grid due to the complete representation of
+ the variation of the tracer on the grid.
  
-\color red
-Description of the results blah blah blah.
 \end_layout
 
 \begin_layout Standard
@@ -1041,23 +1068,22 @@ reference "fig:solidBody-dt10"
 
 .
  The error of multi-dimensional scheme is much larger than dimensionally
- split scheme on the orthogonal grid, even if the Courant number is larger
- than one.
+ split scheme on the orthogonal grid.
  However, the dimensionally split scheme goes unstable on the non-orthogonal
- grid, but the multi-dimensional scheme still hold the similar accuracy
- as on the orthogonal grid though the phase erro is obvious.
- The unstable solution is mainly because the dimensionally scheme cannot
- rightfully represent the inflow and outflow in each cell such that the
- CFL criteria cannot be satisfied.
- Both the results of multi-dimensional scheme and dimensionally split scheme
- with larger time-steps differ significantly from small time-steps.
+ grid when using a large Courant number whereas the multi-dimensional scheme
+ has similar accuracy as on the orthogonal grid for a large Courant number.
+ In summary, the split scheme is very accurate on an orthogonal grid but
+ has instabilities where the grid changes direction whereas the multi-dimensiona
+l scheme accuracy is not grid dependent but suffers from phase errors for
+ large Courant numbers.
+ 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -1223,6 +1249,7 @@ Results of the solid body rotation test case on orthogonal and non-orthogonal
  The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours
  show the errors.
  The dashed contour shows the initial conditions.
+ The min and max text in each plot gives the minimum and maximum errors.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -1283,39 +1310,34 @@ reference "fig:solidBodyConverge"
 
 .
  On both orthogonal and non-orthogonal grids, the multi-dimensional scheme
- has second order of convergence with small Courant numbers but first order
- convergent rate with large Courant number.
- Hence, the order of accuracy of multi-dimensional scheme is only affected
- by the Courant number.
- With large Courant number, the multi-dimensional scheme becomes less accurate
- due to large phase error.
- Different from multi-dimensional scheme, dimensionally split scheme is
- affected by both the Courant number and the orthogonality of the grids.
+ has second order of convergence once errors are low enough to avoid error
+ saturation (stable errors are bounded at around one).
+ With large Courant number, the multi-dimensional scheme is less accurate
+ due to phase errors of the implicit time-stepping.
+ The dimensionally split scheme is affected by both the Courant number and
+ the orthogonality of the grids.
  On the orthogonal grids, the dimensionally split scheme has third order
- accuracy and lowest error when the Courant number less than one, while
- it is less accurate and has only second order accuracy with a much larger
- Courant number.
+ accuracy and the lowest errors when the Courant number less than one, while
+ it is second order accurate for the larger Courant number.
  On the non-orthogonal grid, the dimensionally split scheme reduce to less
- than first order of accuracy with small Courant number while goes unstable
- with large Courant number.
- Generally, dimensionally split scheme can accurately get the numerical
- solution on orthogonal grids regardless of the Courant number, whereas
- the multi-dimensional scheme has similar behavior on both the orthogonal
- grid and the non-orthogonal grid, which is worse than the dimensionally
- scheme on orthogonal grid but much better than it on non-orthogonal grid.
- However, on the orthogonal grid with small Courant number, the multi-dimensiona
-l scheme is more accurate when finer resolution is used due to higher order
- of accuracy.
+ than first order of accuracy for the small Courant number and is unstable
+ for the large Courant number.
+\end_layout
+
+\begin_layout Standard
+In summary, the split scheme has excellent behaviour at large and small
+ Courant numbers on the orthogonal grids but is prone to first-order errors
+ and instability on teh non-orthogonal grid whereas the multi-dimensional
+ scheme is insensitive to the orthogonality, second-order accurate and suffers
+ from phase errors at large Courant numbers.
  
-\color red
-Description of the results blah blah blah.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -1429,555 +1451,6 @@ name "fig:solidBodyConverge"
 \end_layout
 
 \begin_layout Subsection
-Deformational Flow
-\end_layout
-
-\begin_layout Standard
-Unlike solid body rotation test case, in deformational flow, it is difficult
- to resolve the analytical solution and the deformational flow test case
- is more challenging than solid body rotation test case.
- The test case is devised by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "LSPT2012"
-
-\end_inset
-
- to set up a universal test case for advection schemes under spherical coordinat
-es, which modified the streamfunction using the techenique by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Nair2010"
-
-\end_inset
-
-.
- The streamfunction can effectively calculate the error norms and order
- of accuracy of the schemes in this test case by making the velocity field
- reverse the flow half way through with a uniform background velocity field.
- 
-\end_layout
-
-\begin_layout Standard
-The Cartesian version of this test case has a domain between 0 and 
-\begin_inset Formula $2\pi\text{ m}$
-\end_inset
-
- in the 
-\begin_inset Formula $x$
-\end_inset
-
- direction (
-\begin_inset Formula $L_{x}=2\pi\text{ m}$
-\end_inset
-
-) and between 
-\begin_inset Formula $-\frac{\pi}{2}\text{ m}$
-\end_inset
-
- and 
-\begin_inset Formula $\frac{\pi}{2}\text{ m}$
-\end_inset
-
- in the 
-\begin_inset Formula $y$
-\end_inset
-
- direction (
-\begin_inset Formula $L_{y}=\pi\text{ m}$
-\end_inset
-
-) with periodic boundary conditions in the 
-\begin_inset Formula $x$
-\end_inset
-
- direction and zero gradient boundary conditions in the 
-\begin_inset Formula $y$
-\end_inset
-
- direction.
- The stream function for adapted to Cartesian coordinate is:
-\begin_inset Formula 
-\begin{eqnarray}
-\psi\left(x,y,t\right) & = & \frac{\hat{\psi}}{T}\left(\frac{L_{x}}{2\pi}\right)^{2}\sin^{2}\left(2\pi\left(\frac{x}{L_{x}}-\frac{t}{T}\right)\right)\cos^{2}\left(\pi\frac{y}{L_{y}}\right)\cos\left(\pi\frac{t}{T}\right)-L_{x}\frac{y}{T}
-\end{eqnarray}
-
-\end_inset
-
-where 
-\begin_inset Formula $\hat{\psi}=10$
-\end_inset
-
- and 
-\begin_inset Formula $T=5\text{ s}$
-\end_inset
-
- is the time for one complete revolution of the periodic domain for the
- solid body rotation part of the flow.
- In order to test the order of accuracy of the advection schemes, we use
- the infinitely smooth Gaussian distribution for the initial tracer concentratio
-n:
-\begin_inset Formula 
-\begin{equation}
-\phi=0.95\exp-\frac{|\mathbf{x}-\mathbf{x}_{0}|^{2}}{A}+0.95\exp-\frac{|\mathbf{x}-\mathbf{x}_{1}|^{2}}{A}
-\end{equation}
-
-\end_inset
-
-where 
-\begin_inset Formula $\mathbf{x}^{T}=(x,y)$
-\end_inset
-
-, 
-\begin_inset Formula $\mathbf{x}_{0}^{T}=(\frac{5}{12}L_{x},0)$
-\end_inset
-
-, 
-\begin_inset Formula $\mathbf{x}_{1}^{T}=(\frac{7}{12}L_{x},0)$
-\end_inset
-
- and 
-\begin_inset Formula $A=\frac{1}{5}\text{ m}^{2}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-A less distorted grid is used in deformational flow test case since a distorted
- grid used in solid body rotation test case can result in unstable numerical
- scheme in more challenging test case.
- Further, the grid halves the slope of the grid in solid body rotation and
- can be defined as follows:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\begin{array}{ccc}
-X=x &  & Y=\begin{cases}
-y_{max}\frac{y_{c}-f}{y_{max}-f} & \text{ for }y\ge f\\
-y_{min}\frac{y_{c}-f}{y_{min}-f} & \text{ for }y<f
-\end{cases}\end{array}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $y_{c}$
-\end_inset
-
- represent the computational domain, and the 
-\begin_inset Formula $f$
-\end_inset
-
- is:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-f=\begin{cases}
-y_{m}+\frac{x_{m}}{4\sqrt{3}}-\frac{x}{2\sqrt{3}} & \text{ for }x\le x_{m}\\
-y_{m}-\frac{x_{m}}{4\sqrt{3}}-\frac{x-x_{m}}{2\sqrt{3}} & \text{ for }x>x_{m}
-\end{cases}.
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $x_{m}=\pi$
-\end_inset
-
- is the midpoint of x-direction and 
-\begin_inset Formula $y_{m}=0$
-\end_inset
-
- is the midpoint of y-direction.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_nonOrthog_120x60_0_Tmesh.pdf
-	width 100text%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_legends_Tmesh_T.pdf
-	width 100text%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-The non-orthognal grid/co-ordinate system for the deformational flow with
- 
-\begin_inset Formula $120\times60$
-\end_inset
-
- cells and the initial tracer conditions.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:deformGrid"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=0$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_0_T.png
-	lyxscale 25
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_1_T.png
-	lyxscale 25
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=2$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=3$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_2_T.png
-	lyxscale 25
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_3_T.png
-	lyxscale 25
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=4$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t=5$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_4_T.png
-	lyxscale 25
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_5_T.png
-	lyxscale 25
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_legends_T.pdf
-	width 98text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Results of the deformational flow test case after 0, 1, 2, 3, 4 and 5 seconds.
- Contour intervals every 0.1 at ...,-0.05, 0.05, 0.15, 0.25,...
- The results shown use the multi-dimensional scheme on an orthogonal grid
- of 
-\begin_inset Formula $1600\times800$
-\end_inset
-
- cells.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:deformResults"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_plots_l2errors.pdf
-	width 48line%
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_plots_linferrors.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Convergence with resolution of the 
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- and 
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- errors for the deformational flow on orthogonal and non-orthogonal grids
- using multi-dimensional and dimensionally split schemes.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:deformationalConverge"
-
-\end_inset
-
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
 Horizontal Advection over Orography
 \end_layout
 
@@ -2063,7 +1536,7 @@ reference "fig:horizontalAdvectionWithDt"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -2615,7 +2088,7 @@ onal scheme is less diffusive and shows smaller error than dimensionally
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -3082,7 +2555,7 @@ m, the multi-dimensional scheme outperforms the dimensionally split scheme
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -3140,6 +2613,2072 @@ name "fig:horizontalAdvectConverge"
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Deformational Flow
+\end_layout
+
+\begin_layout Standard
+In deformational flow, there is no analytical solution and therefore we
+ follow the approach of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Nair2010,LSPT12"
+
+\end_inset
+
+ and define an evolving velocity field that reverses direction half way
+ through the simulation, taking the tracer back to the initial conditions.
+ Error norms can then be calculated by comparing the final and initial tracer
+ fields.
+ The deformational velocity field is added to a fixed solid body rotation
+ that does not reverse so as to avoid error cancellation between the forwards
+ and backwards periods.
+ 
+\end_layout
+
+\begin_layout Standard
+We define a Cartesian version of the deformational, non-divergent test case
+ of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LSPT2012"
+
+\end_inset
+
+ with a domain between 0 and 
+\begin_inset Formula $2\pi$
+\end_inset
+
+ in the 
+\begin_inset Formula $x$
+\end_inset
+
+ direction (
+\begin_inset Formula $L_{x}=2\pi$
+\end_inset
+
+) and between 
+\begin_inset Formula $-\frac{\pi}{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{\pi}{2}$
+\end_inset
+
+ in the 
+\begin_inset Formula $y$
+\end_inset
+
+ direction (
+\begin_inset Formula $L_{y}=\pi$
+\end_inset
+
+) with periodic boundary conditions in the 
+\begin_inset Formula $x$
+\end_inset
+
+ direction and zero gradient, zero flow boundary conditions in the 
+\begin_inset Formula $y$
+\end_inset
+
+ direction.
+ The stream function adapted to Cartesian coordinate is:
+\begin_inset Formula 
+\begin{eqnarray}
+\psi\left(x,y,t\right) & = & \frac{\hat{\psi}}{T}\left(\frac{L_{x}}{2\pi}\right)^{2}\sin^{2}\left(2\pi\left(\frac{x}{L_{x}}-\frac{t}{T}\right)\right)\cos^{2}\left(\pi\frac{y}{L_{y}}\right)\cos\left(\pi\frac{t}{T}\right)-L_{x}\frac{y}{T}
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula $\hat{\psi}=10$
+\end_inset
+
+ and 
+\begin_inset Formula $T=5$
+\end_inset
+
+ is the time for one complete revolution of the periodic domain for the
+ solid body rotation part of the flow.
+ In order to test the order of accuracy of the advection schemes, we use
+ the infinitely smooth Gaussian distribution for the initial tracer concentratio
+n:
+\begin_inset Formula 
+\begin{equation}
+\phi=0.95\exp-\frac{|\mathbf{x}-\mathbf{x}_{0}|^{2}}{A}+0.95\exp-\frac{|\mathbf{x}-\mathbf{x}_{1}|^{2}}{A}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{x}^{T}=(x,y)$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{x}_{0}^{T}=(\frac{5}{12}L_{x},0)$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{x}_{1}^{T}=(\frac{7}{12}L_{x},0)$
+\end_inset
+
+ and 
+\begin_inset Formula $A=\frac{1}{5}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A less distorted grid is used in deformational flow test case due to instability
+ of the dimensionally split scheme on a more distorted grid.
+ The grid is defined by the co-ordinate transform:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+X=x &  & Y=\begin{cases}
+y_{max}\frac{y_{c}-f}{y_{max}-f} & \text{ for }y\ge f\\
+y_{min}\frac{y_{c}-f}{y_{min}-f} & \text{ for }y<f
+\end{cases}\end{array}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $y_{c}$
+\end_inset
+
+ represent the computational domain, and the 
+\begin_inset Formula $f$
+\end_inset
+
+ is:
+\begin_inset Formula 
+\begin{equation}
+f=\begin{cases}
+y_{m}+\frac{x_{m}}{4\sqrt{3}}-\frac{x}{2\sqrt{3}} & \text{ for }x\le x_{m}\\
+y_{m}-\frac{x_{m}}{4\sqrt{3}}-\frac{x-x_{m}}{2\sqrt{3}} & \text{ for }x>x_{m}
+\end{cases}.
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $x_{m}=\pi$
+\end_inset
+
+ is the midpoint of x-direction and 
+\begin_inset Formula $y_{m}=0$
+\end_inset
+
+ is the midpoint of y-direction.
+ The initial conditions and a grid with distortion defined by this co-ordinate
+ transform is shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformGrid"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_nonOrthog_120x60_0_Tmesh.pdf
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_legends_Tmesh_T.pdf
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+The non-orthognal grid/co-ordinate system for the deformational flow with
+ 
+\begin_inset Formula $120\times60$
+\end_inset
+
+ cells and the initial tracer conditions.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:deformGrid"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The tracer concentrations at the initial time and after 1, 2, 3, 4 and 5
+ time units are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformResults"
+
+\end_inset
+
+ using the multi-dimensional scheme on an orthogonal grid of 
+\begin_inset Formula $1600\times800$
+\end_inset
+
+ cells, a time-step of 0.000625 units (ie 8000 time-steps to reach 5 time
+ units) which gives a maximum (initial) Courant number of 0.61.
+ For this second-order scheme, high resolution is needed to maintain the
+ tracer filaments with sufficient accuracy so that they return to a shape
+ close to the original after 5 time units.
+ Due to the smooth shape of the initial tracer, negative tracer values are
+ not generated except along the zero normal flow boundaries at the top and
+ bottom.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_0_T.png
+	lyxscale 25
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_1_T.png
+	lyxscale 25
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_2_T.png
+	lyxscale 25
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_3_T.png
+	lyxscale 25
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_4_T.png
+	lyxscale 25
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_5_T.png
+	lyxscale 25
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_legends_T.pdf
+	width 98text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results of the deformational flow test case after 0, 1, 2, 3, 4 and 5 time
+ units.
+ Contour intervals every 0.1 at ...,-0.05, 0.05, 0.15, 0.25,...
+ The results shown use the multi-dimensional scheme on an orthogonal grid
+ of 
+\begin_inset Formula $1600\times800$
+\end_inset
+
+ cells.
+ Contours every 0.05 with the zero contour dotted.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:deformResults"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All of the resolutions used, time-steps, Courant numbers and final 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error norms are shown in table ref.
+ Convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error norms at the final time are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformationalConverge"
+
+\end_inset
+
+.
+ All of the schemes give first-order convergence with resolution at coarse
+ resolution due to error saturation (if the scheme is stable, errors are
+ bounded above by about one).
+ At higher resolution, the split scheme on the orthogonal grid converges
+ with nearly third-order accuracy whereas the multi-dimensional scheme approache
+s second-order, independent of the grid type.
+ The split scheme on the non-orthogonal grid is never better than first-order
+ accurate.
+ 
+\end_layout
+
+\begin_layout Standard
+More simulations we should consider
+\end_layout
+
+\begin_layout Itemize
+Hilary - orthogonal grid at 
+\begin_inset Formula $1920\times960$
+\end_inset
+
+ to remove inconsistency
+\end_layout
+
+\begin_layout Itemize
+Hilary - lowest resolutions
+\end_layout
+
+\begin_layout Itemize
+Yumeng - what happens on the non-orthogonal grid at higher resolution?
+\end_layout
+
+\begin_layout Itemize
+Both - what about large Courant numbers
+\end_layout
+
+\begin_layout Itemize
+Should we consider a more deformed grid but a W shape rather than a ^ shape
+ to be more similar to a cubed sphere.
+ So there would be 4 changes of direction rather than 2 in the x direction.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="20" columns="7">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Resolution
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time-step
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Maximum 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Courant no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $60\times30$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4107
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4827
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4783
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4835
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $120\times60$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.74
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.36997
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.429377
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.91
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.402138
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.483568
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2117
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2970
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2849
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3728
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $240\times120$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.74
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.190104
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.23648
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.91
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.208187
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.278428
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0640
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1163
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1474
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2572
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $480\times240$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0025
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.74
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.072081
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.122904
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0025
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.91
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0796077
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.123757
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0025
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0119
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0251
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0025
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0801
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1833
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $960\times480$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00125
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.74
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0207399
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0405862
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00125
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.91
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0230702
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0416127
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1600\times800$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Orthogonal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.000625
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.61
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00746314
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0147578
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1920\times960$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.000625
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.91
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00595122
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0114364
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Resolutions used and final error norms for the deformational flow test case
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:deformRes"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_l2errors.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_linferrors.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ errors for the deformational flow on orthogonal and non-orthogonal grids
+ using multi-dimensional and dimensionally split schemes.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:deformationalConverge"
+
+\end_inset
+
+ 
 \end_layout
 
 \end_inset
