@@ -9,7 +9,7 @@
 \usepackage[export]{adjustbox}
 
 \renewcommand{\floatpagefraction}{0.95}
-\renewcommand{\textfraction}{0}
+\renewcommand{\textfraction}{0.1}
 \renewcommand{\topfraction}{1}
 \renewcommand{\bottomfraction}{1}
 
@@ -286,6 +286,13 @@ filename "PPM.tex"
 
 \begin_layout Subsection
 Multi-dimensional Method of Lines (MOL) Scheme
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:MMmolscheme"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -538,6 +545,13 @@ In order to reduce the matrix size for the Crank-Nicholson time-stepping,
 \frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{n+1}+\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.
 \end{eqnarray}
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -1450,86 +1464,160 @@ name "fig:solidBodyConverge"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Horizontal Advection over Orography
 \end_layout
 
 \begin_layout Standard
-The dimensionally splitting schemes are designed for orthogonal grids.
- In order to adjust the scheme for non-orthogonal grids, a Jacobian described
- by 
+Non-orthogonal grids are usually necessary for representing orography and
+ so this can be a challenge for dimensionally split schemes, although dimensiona
+lly split schemes are very commonly used in this context 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg."
+key "LUJ+14"
+
+\end_inset
+
+.
+ We present results of the 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Schar2002"
 
 \end_inset
 
- should be applied in the dimensionally splitting scheme.
- 
+ horizontal advection over orography test case for a range of resolutions
+ and Courant numbers for the dimensionally split and multi-dimensional schemes.
 \end_layout
 
 \begin_layout Standard
-Horizontal advection over orography 
+All simulations use basic terrain following co-ordinates 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "SLF+02"
+before "BTF,"
+key "GCS75"
 
 \end_inset
 
- using a basic terrain following (BTF) grid (with mesh layers at the heights
- of the BTF coordinates.
- Numerical solution of the advection equation
+:
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{u}\phi=0
+\begin{array}{ccc}
+X=x &  & Z=H\frac{z-h(x)}{H-h(x)}\end{array}
 \end{equation}
 
 \end_inset
 
-for 
-\begin_inset Formula $\phi$
+where 
+\begin_inset Formula $H$
 \end_inset
 
- where 
-\begin_inset Formula $\mathbf{u}$
+ is the domain height and 
+\begin_inset Formula $h$
 \end_inset
 
- is the divergence free velocity prescribed from a streamfunction.
- 
-\end_layout
+ is the terrain height.
+ The test case uses a domain of width 300
+\begin_inset space \space{}
+\end_inset
 
-\begin_layout Standard
-The properties of multi-dimensional scheme and dimensionally split scheme
- not only rely on the spatial resolution, but also the temporal resolution.
- The sensitivity of dimensionally split scheme and multi-dimensional scheme
- to the temporal resolution with the same spatial resolution can give an
- insight of the differences between these schemes, which is shown in figure
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:horizontalAdvectionWithDt"
+km, height, 
+\begin_inset Formula $H=25\text{ km}$
+\end_inset
 
+ and a mountain range defined by
+\begin_inset Formula 
+\begin{equation}
+h=\begin{cases}
+h_{0}\cos^{2}\frac{\pi x}{\lambda}\cos^{2}\frac{\pi x}{2a} & \text{ for }|x|\le a\\
+0 & \text{ otherwise}
+\end{cases}
+\end{equation}
+
+\end_inset
+
+with the maximum mountain height, 
+\begin_inset Formula $h_{0}=3\text{ km}$
+\end_inset
+
+, 
+\begin_inset Formula $a=25\text{ km}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda=8\text{ km}$
 \end_inset
 
 .
- Compared with multi-dimensional scheme, the dimensionally split scheme
- shows smaller error at final time when 
-\begin_inset Formula $\Delta t$
+ The wind is specified from a streamfunction defined at vertices so that
+ the wind field applied is discretely divergence free.
+ The streamfunction at vertices is calculated analytically from the wind
+ profile:
+\begin_inset Formula 
+\begin{equation}
+u(z)=u_{0}\begin{cases}
+1 & \text{ for }z_{2}\le z\\
+\sin^{2}\left(\frac{\pi}{2}\frac{z-z_{1}}{z_{2}-z_{1}}\right) & \text{ for }z_{1}<z\le z_{2}\\
+0 & \text{ for }z<z_{1}
+\end{cases}
+\end{equation}
+
 \end_inset
 
- is less than 100, where the deformational Courant number is less than one.
- It also can be seen that the shape of the tracer is distorted more severely
- in the dimensionally split scheme than the multi-dimensional scheme, though
- the error does not get larger, when t = 5000 s at which time the tracer
- advected over the top of the mountain with highest non-orthogonality.
- This exposes the shortcomings of dimensionally split scheme.
- With time-steps larger than 100 s, where the deformational Courant number
- starts to get larger than one, the dimensionally split scheme performs
- much worse than multi-dimensional scheme and eventually become unstable.
- Although suffering severe phase error due to its implicit time-stepping,
- the multi-dimensional scheme is still stable.
- Hence, the dimensionally split scheme is more accurate than multi-dimensional
- scheme until the deformational Courant number become larger than one.
+with 
+\begin_inset Formula $u_{0}=10\text{ ms}^{-1}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{1}=4\text{ km}$
+\end_inset
+
+ and 
+\begin_inset Formula $z_{2}=5\text{ km}$
+\end_inset
+
+.
+ The initial tracer position is given by:
+\begin_inset Formula 
+\begin{equation}
+\phi=\begin{cases}
+\cos^{2}\frac{\pi r}{2} & \text{ for }r\le1\\
+0 & \text{ otherwise}
+\end{cases}\text{ with }r=\sqrt{\left(\frac{x-x_{0}}{A_{x}}\right)^{2}+\left(\frac{z-z_{0}}{A_{z}}\right)^{2}}
+\end{equation}
+
+\end_inset
+
+with initial tracer centre, 
+\begin_inset Formula $(x_{0},z_{0})=(-50\text{ km},\ 9\text{ km})$
+\end_inset
+
+ and halfwidths 
+\begin_inset Formula $A_{x}=25\text{ km}$
+\end_inset
+
+, 
+\begin_inset Formula $A_{z}=9\text{ km}$
+\end_inset
+
+.
+ At time 
+\begin_inset Formula $t=5000\text{ s}$
+\end_inset
+
+ the tracer is above the mountain and the simulation finishes at 
+\begin_inset Formula $t=10,000\text{ s}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1598,7 +1686,7 @@ mode
 \begin_inset Formula $c$
 \end_inset
 
- =0.2
+ =0.25
 \end_layout
 
 \end_inset
@@ -1665,7 +1753,7 @@ mode
 \begin_inset Formula $c$
 \end_inset
 
- =0.4
+ =0.5
 \end_layout
 
 \end_inset
@@ -1732,7 +1820,7 @@ mode
 \begin_inset Formula $c$
 \end_inset
 
- =0.8
+ =1
 \end_layout
 
 \end_inset
@@ -1799,7 +1887,7 @@ mode
 \begin_inset Formula $c$
 \end_inset
 
- =1.6
+ =2
 \end_layout
 
 \end_inset
@@ -1866,7 +1954,7 @@ mode
 \begin_inset Formula $c$
 \end_inset
 
- =4
+ =5
 \end_layout
 
 \end_inset
@@ -1875,18 +1963,7 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt500CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
-	clip
-	special valign=m
-
-\end_inset
-
-
+unstable
 \end_layout
 
 \end_inset
@@ -1933,7 +2010,7 @@ mode
 \begin_inset Formula $c$
 \end_inset
 
- =8
+ =10
 \end_layout
 
 \end_inset
@@ -1942,18 +2019,7 @@ mode
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt1000CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
-	clip
-	special valign=m
-
-\end_inset
-
-
+unstable
 \end_layout
 
 \end_inset
@@ -2062,25 +2128,81 @@ name "fig:horizontalAdvectionWithDt"
 \end_layout
 
 \begin_layout Standard
-Dimensionally split scheme has first order error on non-orthogonal grids
- while multi-dimensional scheme can preserve its order of accuracy on various
- grids.
- The convergence rate of these two schemes on BTF, which is widely used
- in operational weather forecaseting models, is of interest.
- The results of these two schemes with the same mode Courant number of 0.2
- is shown in figure 
+The tracer advection over orography is shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:horizontalAdvectionWithDx"
+reference "fig:horizontalAdvectionWithDt"
 
 \end_inset
 
-.
- The dimensionally split scheme is more distorted than the multi-dimensonal
- scheme.
- With finer resolution, both schemes get better results, while the multi-dimensi
-onal scheme is less diffusive and shows smaller error than dimensionally
- scheme.
+ for the split and multi-dimensional schemes at a resolutiohn of 
+\begin_inset Formula $\Delta x=1\text{ km}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta z=500\text{ m}$
+\end_inset
+
+ and for a range of Courant numbers.
+ The mode Courant number is defined as 
+\begin_inset Formula $u_{0}\Delta t/\Delta x$
+\end_inset
+
+ and ranges from 0.25 to 10.
+ The maximum Courant number is the maximum of the multi-dimensional Courant
+ number which is defined for cell with faces 
+\begin_inset Formula $f$
+\end_inset
+
+ as:
+\begin_inset Formula 
+\begin{equation}
+c=\frac{1}{2V}\sum_{f}|\mathbf{u}_{f}\cdot\mathbf{S}_{f}|\Delta t
+\end{equation}
+
+\end_inset
+
+(see section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:MMmolscheme"
+
+\end_inset
+
+ for definitions of variables).
+ The time-step restriction for the split scheme is thought to be based on
+ the deformational Courant number:
+\begin_inset Formula 
+\begin{equation}
+?
+\end{equation}
+
+\end_inset
+
+The contours in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:horizontalAdvectionWithDt"
+
+\end_inset
+
+ show the tracer values at 0, 
+\begin_inset Formula $5000\text{ s}$
+\end_inset
+
+ and 
+\begin_inset Formula $10,000\text{ s}$
+\end_inset
+
+ after initialisation and the colours show the errors from the analytic
+ solution.
+ For mode Courant numbers less than one (maximum Courant number up to 3),
+ both schemes give accurate results with the dimensionally split scheme
+ tending to give oscillations, the multi-dimensional scheme producing diffusion
+ and overall the split scheme is a little more accurate.
+ For larger Courant numbers, the split scheme is unstable while the multi-dimens
+ional scheme produces large phases errors due to the errors associated with
+ implicit time-stepping.
  
 \end_layout
 
@@ -2468,7 +2590,7 @@ max
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
  orography and errors in colour.
  Different plots use different spatial and temporal resolutions but they
- use the same horizontal (mode) Courant number of 0.2.
+ use the same horizontal (mode) Courant number of 0.25.
  The maximum Courant number is dependent on the resolution of the orography.
  
 \begin_inset CommandInset label
@@ -2491,90 +2613,115 @@ name "fig:horizontalAdvectionWithDx"
 \end_layout
 
 \begin_layout Standard
-The convergence rate with resolution of mountain of both 3000m and 6000m
- using 
-\begin_inset Formula $\ell_{2}$
+We examine the convergence with spatial resolution in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:horizontalAdvectionWithDx"
+
 \end_inset
 
- and 
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error norm measured by grids of 
-\begin_inset Formula $150\times25$
-\end_inset
-
-, 
-\begin_inset Formula $300\times50$
-\end_inset
-
-, 
-\begin_inset Formula $600\times100$
-\end_inset
-
-, 
-\begin_inset Formula $1200\times200$
-\end_inset
-
- and 
-\begin_inset Formula $1500\times250$
-\end_inset
-
- cells with time-steps scaled in order to maintain the same mode Courant
- numbers of 
-\begin_inset Formula $2.0$
-\end_inset
-
- (
-\begin_inset Formula $\Delta t=50,\ 25,\ 12.5,\ 6.25,\ 5.0\text{ s}$
-\end_inset
-
- ) in figure 
+ which shows contours and errors for various spatial resolutions and in
+ figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:horizontalAdvectConverge"
 
 \end_inset
 
-.
- Under coarse resolution, the dimensionally split scheme and multi-dimensional
- scheme has similar accuracy and convergence rate, because the non-orthogonality
- is not the dominating error on coarse resolution.
- With finer resolution, the order of convergence rate of dimensionally split
- reduce to first order, whereas the multi-dimensional scheme is still second
- order accurate.
- As the horizontal resolution less than 
-\begin_inset Formula $250$
+ which shows error norms as a function of resolution.
+ These simulaitons all use a maximum Courant number less than one and a
+ mode Courant number of 0.25.
+ Both schemes show large errors at the coarsest resolution in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:horizontalAdvectionWithDx"
+
 \end_inset
 
-m, the multi-dimensional scheme outperforms the dimensionally split scheme
- due to the ability to resolve the non-orthogonal grid.
+ with the split scheme producing oscillations above the mountains and both
+ schemes diffusing the tracer in the 
+\begin_inset Formula $z$
+\end_inset
+
+ direction.
+ Both schemes give similar accuracy until the highest resolution, where
+ the multi-dimensional scheme is more accurate.
+ 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
 \align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename HilarysGraphics/orography_l2errors.eps
-	width 100text%
+	width 49text%
 
 \end_inset
 
 
 \end_layout
 
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
 \begin_layout Plain Layout
-\noindent
-\align center
 \begin_inset Graphics
 	filename HilarysGraphics/orography_linferrors.eps
-	width 100text%
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
@@ -2602,7 +2749,7 @@ reference "fig:horizontalAdvectionWithDx"
 
 \end_inset
 
-, all using a horizontal Courant number of 0.2.
+, all using a horizontal Courant number of 0.25.
  Lines also show theoretical first- and second-order convergence are also
  shown.
  
@@ -2620,6 +2767,57 @@ name "fig:horizontalAdvectConverge"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error norms are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:horizontalAdvectConverge"
+
+\end_inset
+
+ with all simulations using a mode Courant number of 0.25.
+ As well as the standard setup, results are shown for a setup with a higher
+ mountain in order to see the first-order behaviour of the split scheme
+ at lower resolution.
+ The higher mountain uses 
+\begin_inset Formula $h_{0}=6\text{ km}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{0}=12\text{ km}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{1}=7\text{ km}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{2}=8\text{ km}$
+\end_inset
+
+.
+ The multi-dimensional scheme converges with second-order accuracy for all
+ resolutions whereas the split scheme reduces to first-order at high resolution
+ and, for the higher mountain, appears to be converging with close to first-orde
+r accuracy at all resolutions.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -4584,7 +4782,7 @@ name "tab:deformRes"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -4691,8 +4889,22 @@ name "fig:deformationalConverge"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Discussion and Conclusions
+\end_layout
+
+\begin_layout Standard
+Conjecture: the split scheme can achieve convergence with resolution better
+ than first order on non-orthogonal co-ordinate systems if the errors due
+ to the dimension splitting is not the dominant source of error.
+ 
 \end_layout
 
 \begin_layout Standard
