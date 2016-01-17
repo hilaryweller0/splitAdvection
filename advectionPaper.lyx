@@ -150,9 +150,9 @@ key "LR96,LLM96,BS99,PL07,KNK15"
 \end_inset
 
 .
- Inherent conservation and accurate long time steps can also be achieved
- without remapping by using the flux form semi-Lagrangian (FFSL or forward
- in time) technique 
+ Inherent conservation and accurate long time steps can be achieved without
+ remapping by using the flux form semi-Lagrangian (FFSL or forward in time)
+ technique 
 \begin_inset CommandInset citation
 LatexCommand citep
 after "and EN14"
@@ -174,8 +174,8 @@ key "LLM96"
 
  which combines advective form and flux form updates in each direction in
  order to eliminate conservation and constancy preservation errors.
- Dimensionally split schemes have even found to give good accuracy on non-orthog
-onal grids such as the cubed sphere 
+ Dimensionally split schemes have even been found to give good accuracy
+ on non-orthogonal grids such as the cubed sphere 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "PL07,KNK15"
@@ -183,9 +183,17 @@ key "PL07,KNK15"
 \end_inset
 
 .
- However on non-orthongal grids, dimensionally split schemes do not account
- properly for non-orthogonality and first-order errors should inevitably
- occur.
+ On non-orthongal grids, dimensionally split schemes do not account properly
+ for non-orthogonality and first-order errors should inevitably occur, although
+ accuracy between second and fourth was found in practice on a range of
+ test cases on the cubed sphere by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "KNK15"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -194,7 +202,7 @@ First-order errors on non-orthogonal grids can be eliminated by using genuinely
  These can be either FFSL 
 \begin_inset CommandInset citation
 LatexCommand citep
-before "eg."
+before "or swept area, eg."
 key "Las02,LR05b,Miu07b,TCD14"
 
 \end_inset
@@ -203,7 +211,7 @@ key "Las02,LR05b,Miu07b,TCD14"
 \begin_inset CommandInset citation
 LatexCommand citep
 before "MOL, discretising space and time separetely, eg."
-key "WWF09,SG11,WS14"
+key "WWF09,SG11,WS14,KNK15"
 
 \end_inset
 
@@ -215,7 +223,7 @@ key "IK04,LNU10,ZWS04"
 \end_inset
 
 .
- However the FFSL and MOL multi-dimensional schemes have not been extended
+ The FFSL and MOL multi-dimensional schemes have not previously been extended
  to work with Courant numbers significantly larger than one.
  FFSL multi-dimensional schemes could be extended to handle large time-steps
  by integrating the upstream swept volume over a large upstream volume,
@@ -236,6 +244,16 @@ key "IK04,LNU10,ZWS04"
  Conservative semi-Lagrangian naturally extends to long time-steps but the
  conservative remapping is complicated and expensive, particularly on non-rectan
 gular grids and will not be investigated here.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LUJ+14"
+
+\end_inset
+
+ described how the FFSL technique with a long time-step can be made equivalent
+ to the conservative semi-Lagrangian technique although the semi-Lagrangian
+ technique is less computationally expensive.
 \end_layout
 
 \begin_layout Standard
@@ -318,7 +336,7 @@ key "WS14"
  as face average values so the method is formally limited to 2nd order in
  space.
  The finite volume advection scheme using Gauss's divergence theorem to
- approximate the divergece term of the advection equation:
+ approximate the divergence term of the advection equation:
 \begin_inset Formula 
 \begin{equation}
 \nabla\cdot\mathbf{u}\phi=\frac{1}{V}\sum_{f\in c}\phi_{f}\mathbf{u}_{f}\cdot\mathbf{S}_{f}
@@ -540,9 +558,10 @@ where
 \end_layout
 
 \begin_layout Standard
-In order to reduce the matrix size for the Crank-Nicholson time-stepping,
- a first-order upwind spatial discretisation is used for the implicit solution
- and the higher-order contribution is a deferred correction.
+In order to reduce the matrix size for the Crank-Nicholson time-stepping
+ and improve the matrix conditioning, a first-order upwind spatial discretisatio
+n is used for the implicit solution and the higher-order contribution is
+ a deferred correction.
  This means that two implicit solves are used per time-step so that the
  higher-order terms are solved to second-order in time.
  Consequently, assuming that the velocity field and mesh are constant in
@@ -576,7 +595,7 @@ ting spherical geometry, our computational domain consists of a periodic
  mimicking the kind of distortions which are produced by a cubed-sphere
  grid.
  We also use a two-dimensional vertical slice test case over orography using
- terrain following coordinates.
+ terrain following coordinates (or terrain following grids).
 \end_layout
 
 \begin_layout Standard
@@ -694,8 +713,9 @@ reference "fig:solidBody"
  to one).
  The contours show the tracer value every 100 seconds and the colours show
  the errors summed every 100 seconds.
- On an orthogonal grid, the dimensionally split scheme outperforms the multi-dim
-ensional scheme due to the higher-order accuracy of the split scheme.
+ On the orthogonal grid, the dimensionally split scheme outperforms the
+ multi-dimensional scheme due to the higher-order accuracy of the split
+ scheme.
  The split scheme on the orthogonal grid has errors smaller than the first
  colour value in the first 300 seconds and errors gradually increase showing
  a small phase lag near the peak of the Gaussian towards the end of the
@@ -906,18 +926,14 @@ The solid body rotation test case is also performed on a non-orthogonal
 \begin{equation}
 \begin{array}{ccc}
 X=x &  & Y=\begin{cases}
-y_{m}\left(1+\frac{y_{c}-f}{2y_{m}-f}\right) & \text{ for }y\ge f\\
-y_{m}\left(1+\frac{y_{c}-f}{f}\right) & \text{ for }y<f
+y_{m}\left(1+\frac{y-f}{2y_{m}-f}\right) & \text{ for }y\ge f\\
+y_{m}\left(1+\frac{y-f}{f}\right) & \text{ for }y<f
 \end{cases}\end{array}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $y_{c}$
-\end_inset
-
- is the computational domain, 
 \begin_inset Formula $y_{m}=5000\text{ m}$
 \end_inset
 
@@ -1349,7 +1365,7 @@ reference "fig:solidBodyConverge"
 \begin_layout Standard
 In summary, the split scheme has excellent behaviour at large and small
  Courant numbers on the orthogonal grids but is prone to first-order errors
- and instability on teh non-orthogonal grid whereas the multi-dimensional
+ and instability on the non-orthogonal grid whereas the multi-dimensional
  scheme is insensitive to the orthogonality, second-order accurate and suffers
  from phase errors at large Courant numbers.
  
@@ -1485,12 +1501,12 @@ Horizontal Advection over Orography
 
 \begin_layout Standard
 Non-orthogonal grids are usually necessary for representing orography and
- so this can be a challenge for dimensionally split schemes, although dimensiona
-lly split schemes are very commonly used in this context 
+ so this might be a challenge for dimensionally split schemes.
+ Horizontal-vertical split schemes are commonly used in this context 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg."
-key "LUJ+14"
+key "DEE+12,WGZ+13"
 
 \end_inset
 
@@ -1690,11 +1706,18 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-mode 
+horiz 
 \begin_inset Formula $c$
 \end_inset
 
  =0.25
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{d}=0.22$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1757,11 +1780,18 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-mode 
+horiz 
 \begin_inset Formula $c$
 \end_inset
 
  =0.5
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{d}=0.44$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1824,11 +1854,18 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-mode 
+horiz 
 \begin_inset Formula $c$
 \end_inset
 
  =1
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{d}=0.87$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1891,11 +1928,18 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-mode 
+horiz 
 \begin_inset Formula $c$
 \end_inset
 
  =2
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{d}=1.75$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1958,11 +2002,18 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-mode 
+horiz 
 \begin_inset Formula $c$
 \end_inset
 
  =5
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{d}=4.4$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2014,11 +2065,18 @@ max
 \end_layout
 
 \begin_layout Plain Layout
-mode 
+horiz 
 \begin_inset Formula $c$
 \end_inset
 
  =10
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{d}=8.7$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2109,13 +2167,16 @@ km,
 \end_inset
 
 m.
- Maximum and mode Courant numbers, 
+ Maximum Courant numbers, horizontal Courant number, 
 \begin_inset Formula $c$
 \end_inset
 
-, given above figures.
- The mode Courant number is defined to be the Courant number without the
- presence of orography 
+, and maximum deformational Courant number, 
+\begin_inset Formula $c_{d}$
+\end_inset
+
+ also given.
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:horizontalAdvectionWithDt"
@@ -2152,7 +2213,7 @@ reference "fig:horizontalAdvectionWithDt"
 \end_inset
 
  and for a range of Courant numbers.
- The mode Courant number is defined as 
+ The horizontal Courant number is defined as 
 \begin_inset Formula $u_{0}\Delta t/\Delta x$
 \end_inset
 
@@ -2178,16 +2239,36 @@ reference "sub:MMmolscheme"
 \end_inset
 
  for definitions of variables).
- The time-step restriction for the split scheme is thought to be based on
- the deformational Courant number:
+ The time-step restriction for the split scheme is likely based on the deformati
+onal Courant number, 
+\begin_inset Formula $c_{d}$
+\end_inset
+
+, .
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "PS84"
+
+\end_inset
+
+ define the time-step restriction to be:
 \begin_inset Formula 
 \begin{equation}
-?
+c_{d}=\Delta t\ \max\left(\biggl|\frac{\partial u}{\partial x}\biggr|,\biggl|\frac{\partial u}{\partial y}\biggr|,\biggl|\frac{\partial u}{\partial z}\biggr|,\biggl|\frac{\partial v}{\partial x}\biggr|,\biggl|\frac{\partial v}{\partial y}\biggr|,\biggl|\frac{\partial v}{\partial z}\biggr|,\biggl|\frac{\partial w}{\partial x}\biggr|,\biggl|\frac{\partial w}{\partial y}\biggr|,\biggl|\frac{\partial w}{\partial z}\biggr|\right)<1.
 \end{equation}
 
 \end_inset
 
-The contours in figure 
+The maximum deformational Courant number is also given in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:horizontalAdvectionWithDt"
+
+\end_inset
+
+.
+ The contours in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:horizontalAdvectionWithDt"
@@ -2204,13 +2285,14 @@ reference "fig:horizontalAdvectionWithDt"
 
  after initialisation and the colours show the errors from the analytic
  solution.
- For mode Courant numbers less than one (maximum Courant number up to 3),
- both schemes give accurate results with the dimensionally split scheme
- tending to give oscillations, the multi-dimensional scheme producing diffusion
- and overall the split scheme is a little more accurate.
- For larger Courant numbers, the split scheme is unstable while the multi-dimens
-ional scheme produces large phases errors due to the errors associated with
- implicit time-stepping.
+ For horizontal Courant numbers less than one (maximum Courant number up
+ to 3), both schemes give accurate results with the dimensionally split
+ scheme tending to give oscillations, the multi-dimensional scheme producing
+ diffusion and overall the split scheme is a little more accurate.
+ For larger Courant numbers, when the deformatinal Courant number is greater
+ than one, the split scheme is unstable while the multi-dimensional scheme
+ produces large phases errors due to the errors associated with implicit
+ time-stepping.
  
 \end_layout
 
@@ -2598,7 +2680,7 @@ max
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
  orography and errors in colour.
  Different plots use different spatial and temporal resolutions but they
- use the same horizontal (mode) Courant number of 0.25.
+ use the same horizontal  Courant number of 0.25.
  The maximum Courant number is dependent on the resolution of the orography.
  
 \begin_inset CommandInset label
@@ -2637,8 +2719,9 @@ reference "fig:horizontalAdvectConverge"
 \end_inset
 
  which shows error norms as a function of resolution.
- These simulaitons all use a maximum Courant number less than one and a
- mode Courant number of 0.25.
+ These simulations all use a maximum Courant number less than one, a horizontal
+ Courant number of 0.25 and a maximum deformational Courant number of about
+ 0.2.
  Both schemes show large errors at the coarsest resolution in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2661,7 +2744,7 @@ reference "fig:horizontalAdvectionWithDx"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -2796,7 +2879,7 @@ reference "fig:horizontalAdvectConverge"
 
 \end_inset
 
- with all simulations using a mode Courant number of 0.25.
+ with all simulations using a horizontal Courant number of 0.25.
  As well as the standard setup, results are shown for a setup with a higher
  mountain in order to see the first-order behaviour of the split scheme
  at lower resolution.
@@ -2819,8 +2902,8 @@ reference "fig:horizontalAdvectConverge"
 .
  The multi-dimensional scheme converges with second-order accuracy for all
  resolutions whereas the split scheme reduces to first-order at high resolution
- and, for the higher mountain, appears to be converging with close to first-orde
-r accuracy at all resolutions.
+ and, for the higher mountain, appears to be converging with less than first-ord
+er accuracy at all resolutions.
  
 \end_layout
 
@@ -2948,8 +3031,8 @@ where
 \end_layout
 
 \begin_layout Standard
-A less distorted grid is used in deformational flow test case due to instability
- of the dimensionally split scheme on a more distorted grid.
+A less distorted grid is used in the deformational flow test case due to
+ instability of the dimensionally split scheme on a more distorted grid.
  The grid is defined by the co-ordinate transform:
 \end_layout
 
@@ -2958,18 +3041,14 @@ A less distorted grid is used in deformational flow test case due to instability
 \begin{equation}
 \begin{array}{ccc}
 X=x &  & Y=\begin{cases}
-y_{max}\frac{y_{c}-f}{y_{max}-f} & \text{ for }y\ge f\\
-y_{min}\frac{y_{c}-f}{y_{min}-f} & \text{ for }y<f
+L_{y}\frac{y-f}{L_{y}-2f} & \text{ for }y\ge f\\
+L_{y}\frac{y-f}{L_{y}+2f} & \text{ for }y<f
 \end{cases}\end{array}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $y_{c}$
-\end_inset
-
- represent the computational domain, and the 
 \begin_inset Formula $f$
 \end_inset
 
