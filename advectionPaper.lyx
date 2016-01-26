@@ -956,7 +956,7 @@ where
 \begin{equation}
 f=\begin{cases}
 y_{m}\left(1+\frac{1}{2\sqrt{3}}\right)-\frac{x}{\sqrt{3}} & \text{ for }x\le x_{m}\\
-y_{m}\left(1-\frac{1}{2\sqrt{3}}\right)-\frac{x-x_{m}}{\sqrt{3}} & \text{ for }x>x_{m}
+y_{m}\left(1-\frac{1}{2\sqrt{3}}\right)+\frac{x-x_{m}}{\sqrt{3}} & \text{ for }x>x_{m}
 \end{cases}.
 \end{equation}
 
@@ -3050,25 +3050,16 @@ where
 
  is:
 \begin_inset Formula 
-\begin{equation}
+\[
 f=\begin{cases}
-y_{m}+\frac{x_{m}}{4\sqrt{3}}-\frac{|x|}{2\sqrt{3}} & \text{ for }|x|\le x_{m}\\
-y_{m}-\frac{x_{m}}{4\sqrt{3}}-\frac{|x|-x_{m}}{2\sqrt{3}} & \text{ for }|x|>x_{m}
+\frac{1}{\sqrt{3}}\left(\frac{\pi}{4}-|x|\right) & \text{ for }|x|\le\frac{\pi}{2}\\
+-\frac{1}{\sqrt{3}}\left(\frac{3\pi}{4}+|x|\right) & \text{ for }|x|>\frac{\pi}{2}
 \end{cases}.
-\end{equation}
+\]
 
 \end_inset
 
-where 
-\begin_inset Formula $x_{m}=\pi/2$
-\end_inset
-
- and 
-\begin_inset Formula $y_{m}=0$
-\end_inset
-
- is the midpoint of y-direction.
- The initial conditions and a grid with distortion defined by this co-ordinate
+The initial conditions and a grid with distortion defined by this co-ordinate
  transform is shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
