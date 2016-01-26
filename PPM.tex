@@ -14,7 +14,13 @@ where $x_{j-\frac{1}{2}}$ is the midpoint between $x_{j-1}$ and $x_{j}$ and is a
 \caption{The 1D long time permitting technique. The mass between $x_{j,L}$ and $x_{j-c_N-1,R}$ can be calculated using equation \ref{eq:2.3}, and the mass between $x_{j-c_N-1,R}$ and $x_{j-c}$ should be calculated using PPM \label{fig:2.1}}
 \end{figure}
 
-The long time step permitting technique is illustrated in figure \ref{fig:2.1}. Similar to semi-Lagrangian, the long time step permitting feature is achieved by tracing back to the departure point and the time step is restricted by the deformational Courant number $c_d$. The deformational Courant number is $\Delta t \max(|u_x|,|u_y|,|v_x|,|v_x|)$ \citep{PS84} and the sufficient condition for the stability is $c_d \leq 1$. \cite{Leonard1995} shows that the flux at the left boundary $x_{j-\frac{1}{2}}$ can be obtained using the average mass between $x_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}}-c\Delta x$.
+The long time step permitting technique is illustrated in figure \ref{fig:2.1}. Similar to semi-Lagrangian, the long time step permitting feature is achieved by tracing back to the departure point and the time step is restricted by the deformational Courant number $c_d$. The deformational Courant number is:
+\begin{equation}
+\Delta t \max
+\left(\biggl|\frac{\partial u}{\partial x}\biggr|,\biggl|\frac{\partial u}{\partial y}\biggr|,\biggl|\frac{\partial u}{\partial z}\biggr|,\biggl|\frac{\partial v}{\partial x}\biggr|,\biggl|\frac{\partial v}{\partial y}\biggr|,\biggl|\frac{\partial v}{\partial z}\biggr|,\biggl|\frac{\partial w}{\partial x}\biggr|,\biggl|\frac{\partial w}{\partial y}\biggr|,\biggl|\frac{\partial w}{\partial z}\biggr|\right)
+\label{eq:cd}
+\end{equation}
+\citep{PS84} and the sufficient condition for the stability is $c_d \leq 1$. \cite{Leonard1995} shows that the flux at the left boundary $x_{j-\frac{1}{2}}$ can be obtained using the average mass between $x_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}}-c\Delta x$.
 
 It is convinient to divide the Courant number, $c$, into integer part, $c_N$, and decimal part (or remnant Courant number), $c_r$ \citep{Leonard1995}. In this way, the CFL restriction is removed, because the remnant Courant number is always less than one. The flux equation becomes:
 \begin{eqnarray} \label{eq:2.2}

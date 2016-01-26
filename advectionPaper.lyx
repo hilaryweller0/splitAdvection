@@ -2232,28 +2232,20 @@ reference "sub:MMmolscheme"
 \end_inset
 
  for definitions of variables).
- The time-step restriction for the split scheme is likely based on the deformati
-onal Courant number, 
-\begin_inset Formula $c_{d}$
+ The time-step restriction for the split scheme is based on the deformational
+ Courant number, 
+\begin_inset Formula $c_{d}\le1$
 \end_inset
 
-, .
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "PS84"
-
-\end_inset
-
- define the time-step restriction to be:
-\begin_inset Formula 
-\begin{equation}
-c_{d}=\Delta t\ \max\left(\biggl|\frac{\partial u}{\partial x}\biggr|,\biggl|\frac{\partial u}{\partial y}\biggr|,\biggl|\frac{\partial u}{\partial z}\biggr|,\biggl|\frac{\partial v}{\partial x}\biggr|,\biggl|\frac{\partial v}{\partial y}\biggr|,\biggl|\frac{\partial v}{\partial z}\biggr|,\biggl|\frac{\partial w}{\partial x}\biggr|,\biggl|\frac{\partial w}{\partial y}\biggr|,\biggl|\frac{\partial w}{\partial z}\biggr|\right)<1.
-\end{equation}
+, (eqn 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:cd"
 
 \end_inset
 
-The maximum deformational Courant number is also given in figure 
+).
+ The maximum deformational Courant number is also given in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:horizontalAdvectionWithDt"
