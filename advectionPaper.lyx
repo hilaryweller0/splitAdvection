@@ -963,7 +963,7 @@ where
 \begin{equation}
 f=\begin{cases}
 y_{m}\left(1+\frac{1}{2\sqrt{3}}\right)-\frac{x}{\sqrt{3}} & \text{ for }x\le x_{m}\\
-y_{m}\left(1-\frac{1}{2\sqrt{3}}\right)-\frac{x-x_{m}}{\sqrt{3}} & \text{ for }x>x_{m}
+y_{m}\left(1-\frac{1}{2\sqrt{3}}\right)+\frac{x-x_{m}}{\sqrt{3}} & \text{ for }x>x_{m}
 \end{cases}.
 \end{equation}
 
@@ -3054,12 +3054,14 @@ where
 
  is:
 \begin_inset Formula 
-\begin{equation}
+\[
 f=\begin{cases}
-y_{m}+\frac{x_{m}}{4\sqrt{3}}-\frac{x}{2\sqrt{3}} & \text{ for }x\le x_{m}\\
-y_{m}-\frac{x_{m}}{4\sqrt{3}}-\frac{x-x_{m}}{2\sqrt{3}} & \text{ for }x>x_{m}
+y_{m}+\frac{x_{m}}{4\sqrt{3}}-\frac{x}{\sqrt{3}} & \text{ for }x\le0.5x_{m}\\
+y_{m}-\frac{x_{m}}{4\sqrt{3}}+\frac{x-0.5x_{m}}{\sqrt{3}} & \text{ for }0.5x_{m}<x\le x_{m}\\
+y_{m}+\frac{x_{m}}{4\sqrt{3}}-\frac{x-x_{m}}{\sqrt{3}} & \text{ for }x_{m}<x\le1.5x_{m}\\
+y_{m}-\frac{x_{m}}{4\sqrt{3}}+\frac{x-1.5*x_{m}}{\sqrt{3}} & \text{ for }x>1.5x_{m}
 \end{cases}.
-\end{equation}
+\]
 
 \end_inset
 

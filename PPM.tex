@@ -1,4 +1,4 @@
-The dimensionally split scheme decribed in this paper is known as Conservative Operator Splitting for Multidimensions with Inherently Constancy (COSMIC) splitting \citep{Leonard1996} or flux-form semi-Lagrangian \citep{Lin1996}. This dimension splitting scheme allows one-dimensional piecewise parabolic method (PPM) \citep{Colella1984} combined with a long time steps technique \citep{Leonard1995} to be extended to two-dimensions.
+The dimensionally split scheme described in this paper is known as Conservative Operator Splitting for Multidimensions with Inherently Constancy (COSMIC) splitting \citep{Leonard1996} or flux-form semi-Lagrangian \citep{Lin1996}. This dimension splitting scheme allows one-dimensional piecewise parabolic method (PPM) \citep{Colella1984} combined with a long time steps technique \citep{Leonard1995} to be extended to two-dimensions.
 \subsubsection{Long time-step permitting PPM} 
 \label{sec:PPM}
 Both PPM and the long time steps technique use subgrid cell reconstruction. Although they are defined for varying grid spacing, we will only describe them for uniform grid interval, $\Delta x$. The scheme is described on a domain with length $L$, which is divided into $n$ grid points. The position of $j$th grid is $x_j = j\Delta x$ and $j = 0, 1, 2, \cdots, n-1$ and the corresponding tracer is $\phi_j$. Subgrid cell reconstruction uses the space average mass within the $j$th grid box at time $t_n$, which is defined as: 
@@ -14,7 +14,7 @@ where $x_{j-\frac{1}{2}}$ is the midpoint between $x_{j-1}$ and $x_{j}$ and is a
 \caption{The 1D long time permitting technique. The mass between $x_{j,L}$ and $x_{j-c_N-1,R}$ can be calculated using equation \ref{eq:2.3}, and the mass between $x_{j-c_N-1,R}$ and $x_{j-c}$ should be calculated using PPM \label{fig:2.1}}
 \end{figure}
 
-The long time step permitting technique is illustrated in figure \ref{fig:2.1}. Similar to semi-Lagrangian, the long time step permitting feature is achieved by tracing back to the departure point and the time step is restricted by the deformational Courant number $c_d$. \cite{Leonard1995} shows that the flux at the left boundary $x_{j-\frac{1}{2}}$ can be obtained using the average mass between $x_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}}-c\Delta x$.
+The long time step permitting technique is illustrated in figure \ref{fig:2.1}. Similar to semi-Lagrangian, the long time step permitting feature is achieved by tracing back to the departure point and the time step is restricted by the deformational Courant number $c_d$. The deformational Courant number is $\Delta t \max(|u_x|,|u_y|,|v_x|,|v_x|)$ \citep{PS84} and the sufficient condition for the stability is $c_d \leq 1$. \cite{Leonard1995} shows that the flux at the left boundary $x_{j-\frac{1}{2}}$ can be obtained using the average mass between $x_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}}-c\Delta x$.
 
 It is convinient to divide the Courant number, $c$, into integer part, $c_N$, and decimal part (or remnant Courant number), $c_r$ \citep{Leonard1995}. In this way, the CFL restriction is removed, because the remnant Courant number is always less than one. The flux equation becomes:
 \begin{eqnarray} \label{eq:2.2}
@@ -45,7 +45,7 @@ COSMIC splitting is an operator splitting scheme, which is used so that PPM can 
 \vspace{-10pt}
 \caption{The position of each flux and the position of $\phi$, the subscript w/e/n/s denote the direction of the flux relative to the position of $\phi$ \label{fig:2.2}}
 \end{figure}
-Operator splitting can use conservative-form or advective-form operators. Use of conservative-form operator with operator splitting leads to inherently mass conservation but cannot satisfy the constancy condition \citep{Leonard1996}. The conservative-form operator in $x$ and $y$ direction is:
+Operator splitting can use conservative-form or advective-form operators. Use of conservative-form operator with operator splitting leads to inherently mass conservation but cannot satisfy the constancy condition after several iteration \citep{Leonard1996}. The conservative-form operator in $x$ and $y$ direction is:
 \begin{eqnarray}  \label{eq:2.13}
 &X_{\scriptscriptstyle C}(\phi ) = c_{w}\phi_w(\phi )-c_e\phi_e(\phi ) 
 &Y_{\scriptscriptstyle C}(\phi ) = c_{n}\phi_n(\phi )-c_s\phi_s(\phi )
