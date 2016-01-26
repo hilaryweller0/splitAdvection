@@ -15,7 +15,7 @@ deformingAdvection/orthogonal/1600x800/5/T.pdf
 
 # List of files to copy and rename
 cpFiles=(
-deformingAdvection/nonOrthog/120x60/0/Tmesh.pdf
+deformingAdvection/nonOrthogW/120x60/0/Tmesh.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt1000CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt100CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt200CN_up/10000/Tall.pdf
