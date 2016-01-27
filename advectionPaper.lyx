@@ -3045,7 +3045,7 @@ where
 \[
 f=\begin{cases}
 \frac{1}{\sqrt{3}}\left(\frac{\pi}{4}-|x|\right) & \text{ for }|x|\le\frac{\pi}{2}\\
--\frac{1}{\sqrt{3}}\left(\frac{3\pi}{4}+|x|\right) & \text{ for }|x|>\frac{\pi}{2}
+\frac{1}{\sqrt{3}}\left(|x|-\frac{3\pi}{4}\right) & \text{ for }|x|>\frac{\pi}{2}
 \end{cases}.
 \]
 
