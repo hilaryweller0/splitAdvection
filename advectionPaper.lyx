@@ -277,20 +277,22 @@ We present descriptions two advection schemes suitable for long time-steps
 Dimensionally Split Flux-Form Semi-Lagrangian (FFSL) Scheme
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Plain Layout
-My impression is that this section is much too long.
- None of this work is new so it should be dramatically shortened by relying
- more heavily on published papers.
- Could you describe long time-step PPM and COSMIC in under one page?
+\begin_layout Subsubsection*
+Hilary's version - is this correct?
 \end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "PPM_Hilary.tex"
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection*
+Yumeng's version
 \end_layout
 
 \begin_layout Standard
@@ -3186,7 +3188,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_0_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_c1_960x480_0_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3202,7 +3204,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_1_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_c1_960x480_1_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3246,7 +3248,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_2_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_c1_960x480_2_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3262,7 +3264,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_3_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_c1_960x480_3_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3306,7 +3308,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_4_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_c1_960x480_4_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3322,7 +3324,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_5_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_c1_960x480_5_T.png
 	lyxscale 25
 	width 49text%
 

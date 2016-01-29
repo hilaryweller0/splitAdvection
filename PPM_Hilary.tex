@@ -1,0 +1,40 @@
+The one-dimensional scheme that we use is the piecewise parabolic method (PPM) \citep{Colella1984} without any monotonicity constraints combined with a long time steps technique \citep{Leonard1995}. This is extended to two-dimensions using COSMIC splitting \citep{Leonard1996} (Conservative Operator Splitting for Multidimensions with Inherently Constancy). PPM with a long time-step is a one-dimensional flux-form semi-Lagrangian scheme \citep{Lin1996}.
+
+\subsubsection{Long time-step permitting PPM} 
+\label{sec:PPM}
+
+Both PPM and the long time steps technique use subgrid cell reconstruction. Although
+\cite{Colella1984} defined PPM for varying grid spacing, we will define PPM and the long times-step technique for a uniform grid interval, $\Delta x$. The dependent variable, $\phi_j$, is the mean value of $\phi$ for each cell with centre at $x_j = j\Delta x$ for $j = 0, 1, 2, \cdots$. Consequently the mass in each cell is:
+\[
+M_j = \phi_j \Delta x.
+\]
+The PPM method entails finding a polynomial, $\phi(x)$, for each cell such that:
+\[
+\phi_j = \frac{1}{\Delta x} \int_{j-1/2}^{j+1/2} \phi(x) dx
+\]
+and then integrating this polynomial along the distance travlled in each time-step upwind of each cell boundary, $x_{j\pm 1/2}$. The polynomial is defined as:
+\[
+\phi(x) = \phi_{j-1/2}
+        + \xi \biggl(\phi_{j+1/2} - \phi_{j-1/2}
+                + (1-\xi)6\bigl(\phi_j - \frac{1}{2}(\phi_{j-1/2} + \phi_{j+1/2})\bigr)
+              \biggr)
+\]
+where $\xi=(x-x_{j-1/2})/\Delta x$ and the value of $\phi$ at the cell boundaries are given by:
+\[
+\phi_{j+1/2} = \phi_j + \frac{1}{2}(\phi_{j+1} - \phi_j)
+\biggl(
+     1-\frac{1}{12}(\phi_{j+1} - \phi_{j-1})
+\biggr)
+\]
+
+In order to cope with long time-steps, we follow \cite{Leonard1995} and divide the Courant number into an integer part, $c_N$, and a remainder, $c_r$. Then the flux through boundary $j-1/2$ between times $n\Delta t$ and $(n+1)\Delta t$ is given by:
+\[
+c \phi_{j-1/2}^{(n+1/2)} = M_{j-1/2} - M_{j-c_N-1/2} + \frac{1}{\Delta x}
+\int_{x_j-\Delta x/2 - c_r \Delta x}^{x_j - \Delta x/2}
+\phi(x) dx
+\]
+where $M_{j-1/2}$ is the cumulative mass from teh start point to position $x_{j-1/2}$:
+\[
+M_{j-1/2} - \sum_{k<j} \Delta x \phi_k.
+\]
+

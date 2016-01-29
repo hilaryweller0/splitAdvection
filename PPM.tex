@@ -1,11 +1,13 @@
-The dimensionally split scheme described in this paper is known as Conservative Operator Splitting for Multidimensions with Inherently Constancy (COSMIC) splitting \citep{Leonard1996} or flux-form semi-Lagrangian \citep{Lin1996}. This dimension splitting scheme allows one-dimensional piecewise parabolic method (PPM) \citep{Colella1984} combined with a long time steps technique \citep{Leonard1995} to be extended to two-dimensions.
+The one-dimensional scheme that we use is the piecewise parabolic method (PPM) \citep{Colella1984} combined with a long time steps technique \citep{Leonard1995}. This is extended to two-dimensions using COSMIC splitting \citep{Leonard1996} (Conservative Operator Splitting for Multidimensions with Inherently Constancy). PPM with a long time-step is a one-dimensional flux-form semi-Lagrangian scheme \citep{Lin1996}.
+
 \subsubsection{Long time-step permitting PPM} 
 \label{sec:PPM}
-Both PPM and the long time steps technique use subgrid cell reconstruction. Although they are defined for varying grid spacing, we will only describe them for uniform grid interval, $\Delta x$. The scheme is described on a domain with length $L$, which is divided into $n$ grid points. The position of $j$th grid is $x_j = j\Delta x$ and $j = 0, 1, 2, \cdots, n-1$ and the corresponding tracer is $\phi_j$. Subgrid cell reconstruction uses the space average mass within the $j$th grid box at time $t_n$, which is defined as: 
+
+Both PPM and the long time steps technique use subgrid cell reconstruction. Although they are defined for varying grid spacing, we will only describe them for uniform grid interval, $\Delta x$. We define the position of $j$th grid cell centre to be $x_j = j\Delta x$ and $j = 0, 1, 2, \cdots$ and the corresponding tracer value to be $\phi_j$. Subgrid cell reconstruction uses the space average mass within the $j$th grid box which is defined as: 
 \begin{equation} \label{eq:2.1} 
-\phi^n_j = \frac{1}{\Delta x} \int^{x_{j+\frac{1}{2}}}_{x_{j-\frac{1}{2}}} \phi (x,t)dx
+\phi_j = \frac{1}{\Delta x} \int^{x_{j+\frac{1}{2}}}_{x_{j-\frac{1}{2}}} \phi (x,t)dx
 \end{equation}
-where $x_{j-\frac{1}{2}}$ is the midpoint between $x_{j-1}$ and $x_{j}$ and is also the boundary of each grid point. Thus, $x_{j-\frac{1}{2}} = x_j - \frac{\Delta x}{2}$.
+where $x_{j-\frac{1}{2}}$ is the midpoint between $x_{j-1}$ and $x_{j}$ and is also the boundary of each grid box ($x_{j-\frac{1}{2}} = x_j - \frac{\Delta x}{2}$).
 \begin{figure}
 % \vspace{-20pt}
 \centering
@@ -14,19 +16,22 @@ where $x_{j-\frac{1}{2}}$ is the midpoint between $x_{j-1}$ and $x_{j}$ and is a
 \caption{The 1D long time permitting technique. The mass between $x_{j,L}$ and $x_{j-c_N-1,R}$ can be calculated using equation \ref{eq:2.3}, and the mass between $x_{j-c_N-1,R}$ and $x_{j-c}$ should be calculated using PPM \label{fig:2.1}}
 \end{figure}
 
-The long time step permitting technique is illustrated in figure \ref{fig:2.1}. Similar to semi-Lagrangian, the long time step permitting feature is achieved by tracing back to the departure point and the time step is restricted by the deformational Courant number $c_d$. The deformational Courant number is:
+The long time step permitting technique is illustrated in figure \ref{fig:2.1}. Similar to semi-Lagrangian, the long time step permitting feature is achieved by tracing back to the departure point in one dimension. The time step is restricted by the deformational Courant number $c_d$:
 \begin{equation}
+c_d=
 \Delta t \max
 \left(\biggl|\frac{\partial u}{\partial x}\biggr|,\biggl|\frac{\partial u}{\partial y}\biggr|,\biggl|\frac{\partial u}{\partial z}\biggr|,\biggl|\frac{\partial v}{\partial x}\biggr|,\biggl|\frac{\partial v}{\partial y}\biggr|,\biggl|\frac{\partial v}{\partial z}\biggr|,\biggl|\frac{\partial w}{\partial x}\biggr|,\biggl|\frac{\partial w}{\partial y}\biggr|,\biggl|\frac{\partial w}{\partial z}\biggr|\right)
 \label{eq:cd}
 \end{equation}
-\citep{PS84} and the sufficient condition for the stability is $c_d \leq 1$. \cite{Leonard1995} shows that the flux at the left boundary $x_{j-\frac{1}{2}}$ can be obtained using the average mass between $x_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}}-c\Delta x$.
+\citep{PS84} and the stability criterion is $c_d \leq 1$.
 
-It is convinient to divide the Courant number, $c$, into integer part, $c_N$, and decimal part (or remnant Courant number), $c_r$ \citep{Leonard1995}. In this way, the CFL restriction is removed, because the remnant Courant number is always less than one. The flux equation becomes:
+\cite{Leonard1995} showed that the flux at the left boundary $x_{j-\frac{1}{2}}$ can be obtained using the average mass between $x_{j-\frac{1}{2}}$ and $x_{j-\frac{1}{2}}-c\Delta x$.
+
+It is convenient to divide the Courant number, $c$, into integer part, $c_N$, and decimal part (or remnant Courant number), $c_r$ \citep{Leonard1995}. In this way, the CFL restriction is removed, because the remnant Courant number is always less than one. The flux equation becomes:
 \begin{eqnarray} \label{eq:2.2}
-c\cdot \Delta x \phi_{j-\frac{1}{2}} = M_{c_r,R,j-1} + M_{j-\frac{1}{2}}-M_{j-c_N-\frac{1}{2}} & \text{c}>0 &\nonumber \\
-c\cdot \Delta x \phi_{j-\frac{1}{2}} = -M_{c_r,R,j-1} +M_{j+c_N-\frac{1}{2}}- M_{j-\frac{1}{2}} & \text{c}<0 & \\
-c\cdot \Delta x \phi_{j-\frac{1}{2}} = 0 & \text{otherwise} \nonumber 
+c \Delta x \phi_{j-\frac{1}{2}} = M_{c_r,R,j-1} + M_{j-\frac{1}{2}}-M_{j-c_N-\frac{1}{2}} & \text{c}>0 &\nonumber \\
+c \Delta x \phi_{j-\frac{1}{2}} = -M_{c_r,R,j-1} +M_{j+c_N-\frac{1}{2}}- M_{j-\frac{1}{2}} & \text{c}<0 & \\
+c \Delta x \phi_{j-\frac{1}{2}} = 0 & \text{otherwise} \nonumber 
 \end{eqnarray}
 where $M_{j-\frac{1}{2}}$ is the cumulative mass from the start point to the $j$th left zone edges defined as \citep{Colella1984}:
 \begin{equation} \label{eq:2.3}
