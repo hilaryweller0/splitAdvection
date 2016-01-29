@@ -3071,7 +3071,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_nonOrthogW_120x60_0_Tmesh.pdf
+	filename HilarysGraphics/deformingAdvection_nonOrthogW_c1_120x60_0_Tmesh.pdf
 	width 100text%
 
 \end_inset
@@ -3473,7 +3473,7 @@ Should we consider a more deformed grid but a W shape rather than a ^ shape
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -4848,7 +4848,192 @@ name "tab:deformRes"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ error, 
+\begin_inset Formula $c\le1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error, 
+\begin_inset Formula $c\le1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_l2errors_c1.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_linferrors_c1.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ error, 
+\begin_inset Formula $c\le10$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error, 
+\begin_inset Formula $c\le10$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_l2errors_c10.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename HilarysGraphics/deformingAdvection_plots_linferrors_c10.pdf
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ errors for the deformational flow on orthogonal and non-orthogonal grids
+ using multi-dimensional and dimensionally split schemes.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:deformationalConverge"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -4888,7 +5073,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_plots_l2errors.pdf
+	filename HilarysGraphics/deformingAdvection_plots_l2errors_dt.pdf
 	width 48line%
 
 \end_inset
@@ -4903,7 +5088,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_plots_linferrors.pdf
+	filename HilarysGraphics/deformingAdvection_plots_linferrors_dt.pdf
 	width 48line%
 
 \end_inset
@@ -4925,7 +5110,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Convergence with resolution of the 
+Variation of 
 \begin_inset Formula $\ell_{2}$
 \end_inset
 
@@ -4933,12 +5118,16 @@ Convergence with resolution of the
 \begin_inset Formula $\ell_{\infty}$
 \end_inset
 
- errors for the deformational flow on orthogonal and non-orthogonal grids
- using multi-dimensional and dimensionally split schemes.
+ errors with time-step for the deformational flow on orthogonal and non-orthogon
+al grids of 
+\begin_inset Formula $120\times60$
+\end_inset
+
+ cells using multi-dimensional and dimensionally split schemes.
  
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:deformationalConverge"
+name "fig:deformational_dt"
 
 \end_inset
 

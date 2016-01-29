@@ -5,17 +5,17 @@ ROOTDIR=/home/hilary/OpenFOAM/*/run
 
 #List of files to convert to png
 pngFiles=(
-deformingAdvection/orthogonal/1600x800/0/T.pdf
-deformingAdvection/orthogonal/1600x800/1/T.pdf
-deformingAdvection/orthogonal/1600x800/2/T.pdf
-deformingAdvection/orthogonal/1600x800/3/T.pdf
-deformingAdvection/orthogonal/1600x800/4/T.pdf
-deformingAdvection/orthogonal/1600x800/5/T.pdf
+deformingAdvection/orthogonal_c1/1600x800/0/T.pdf
+deformingAdvection/orthogonal_c1/1600x800/1/T.pdf
+deformingAdvection/orthogonal_c1/1600x800/2/T.pdf
+deformingAdvection/orthogonal_c1/1600x800/3/T.pdf
+deformingAdvection/orthogonal_c1/1600x800/4/T.pdf
+deformingAdvection/orthogonal_c1/1600x800/5/T.pdf
 )
 
 # List of files to copy and rename
 cpFiles=(
-deformingAdvection/nonOrthogW/120x60/0/Tmesh.pdf
+deformingAdvection/nonOrthogW_c1/120x60/0/Tmesh.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt1000CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt100CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt200CN_up/10000/Tall.pdf
@@ -52,8 +52,12 @@ solidBodyRotationOnPlane/nonOrthog/50x50/analytic/0/UT.pdf
 
 # List of files to convert from eps format to pdf
 epsFiles=(
-deformingAdvection/plots/l2errors.eps
-deformingAdvection/plots/linferrors.eps
+deformingAdvection/plots/l2errors_c1.eps
+deformingAdvection/plots/linferrors_c1.eps
+deformingAdvection/plots/l2errors_c10.eps
+deformingAdvection/plots/linferrors_c10.eps
+deformingAdvection/plots/l2errors_dt.eps
+deformingAdvection/plots/linferrors_dt.eps
 deformingAdvection/legends/Tmesh_T.eps
 deformingAdvection/legends/T.eps
 vSlice/horizontalAdvection/orography/legends/Tall_TdiffAll.eps
