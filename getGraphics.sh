@@ -5,12 +5,12 @@ ROOTDIR=/home/hilary/OpenFOAM/*/run
 
 #List of files to convert to png
 pngFiles=(
-deformingAdvection/orthogonal_c1/1600x800/0/T.pdf
-deformingAdvection/orthogonal_c1/1600x800/1/T.pdf
-deformingAdvection/orthogonal_c1/1600x800/2/T.pdf
-deformingAdvection/orthogonal_c1/1600x800/3/T.pdf
-deformingAdvection/orthogonal_c1/1600x800/4/T.pdf
-deformingAdvection/orthogonal_c1/1600x800/5/T.pdf
+deformingAdvection/orthogonal_c1/1920x960/0/T.pdf
+deformingAdvection/orthogonal_c1/1920x960/1/T.pdf
+deformingAdvection/orthogonal_c1/1920x960/2/T.pdf
+deformingAdvection/orthogonal_c1/1920x960/3/T.pdf
+deformingAdvection/orthogonal_c1/1920x960/4/T.pdf
+deformingAdvection/orthogonal_c1/1920x960/5/T.pdf
 )
 
 # List of files to copy and rename

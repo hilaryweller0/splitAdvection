@@ -3146,7 +3146,7 @@ reference "fig:deformResults"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -3186,7 +3186,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_0_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_0_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3202,7 +3202,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_1_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_1_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3246,7 +3246,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_2_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_2_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3262,7 +3262,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_3_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_3_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3306,7 +3306,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_4_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_4_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3322,7 +3322,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvection_orthogonal_1600x800_5_T.png
+	filename HilarysGraphics/deformingAdvection_orthogonal_1920x960_5_T.png
 	lyxscale 25
 	width 49text%
 
@@ -3740,7 +3740,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.4783
+?
 \end_layout
 
 \end_inset
@@ -3749,7 +3749,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.4835
+?
 \end_layout
 
 \end_inset
@@ -3864,7 +3864,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.91
+1.03
 \end_layout
 
 \end_inset
@@ -3873,7 +3873,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.402138
+0.485512
 \end_layout
 
 \end_inset
@@ -3882,7 +3882,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.483568
+0.524812
 \end_layout
 
 \end_inset
@@ -4003,7 +4003,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2849
+?
 \end_layout
 
 \end_inset
@@ -4012,7 +4012,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.3728
+?
 \end_layout
 
 \end_inset
@@ -4127,7 +4127,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.91
+1.03
 \end_layout
 
 \end_inset
@@ -4136,7 +4136,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.208187
+0.292093
 \end_layout
 
 \end_inset
@@ -4145,7 +4145,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.278428
+0.373936
 \end_layout
 
 \end_inset
@@ -4266,7 +4266,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.1474
+?
 \end_layout
 
 \end_inset
@@ -4275,7 +4275,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2572
+?
 \end_layout
 
 \end_inset
@@ -4390,7 +4390,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.91
+1.03
 \end_layout
 
 \end_inset
@@ -4399,7 +4399,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0796077
+0.150981
 \end_layout
 
 \end_inset
@@ -4408,7 +4408,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.123757
+0.238292
 \end_layout
 
 \end_inset
@@ -4529,7 +4529,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0801
+?
 \end_layout
 
 \end_inset
@@ -4538,7 +4538,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.1833
+?
 \end_layout
 
 \end_inset
@@ -4653,7 +4653,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.91
+1.03
 \end_layout
 
 \end_inset
@@ -4662,7 +4662,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0230702
+0.0754469
 \end_layout
 
 \end_inset
@@ -4671,7 +4671,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0416127
+0.143466
 \end_layout
 
 \end_inset
@@ -4682,7 +4682,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $1600\times800$
+\begin_inset Formula $1920\times960$
 \end_inset
 
 
@@ -4721,7 +4721,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.61
+0.74
 \end_layout
 
 \end_inset
@@ -4730,7 +4730,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.00746314
+
 \end_layout
 
 \end_inset
@@ -4739,7 +4739,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0147578
+
 \end_layout
 
 \end_inset
@@ -4750,9 +4750,6 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $1920\times960$
-\end_inset
-
 
 \end_layout
 
@@ -4789,7 +4786,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.91
+1.03
 \end_layout
 
 \end_inset
@@ -4798,7 +4795,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.00595122
+0.0384903
 \end_layout
 
 \end_inset
@@ -4807,7 +4804,7 @@ Multi-d
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0114364
+0.080704
 \end_layout
 
 \end_inset
