@@ -259,47 +259,545 @@ It is therefore not clear what approach should be taken for achieving long
  large and small Courant numbers.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Transport Schemes
-\end_layout
-
-\begin_layout Standard
-We present descriptions two advection schemes suitable for long time-steps
- (stable for Courant numbers significantly larger than one).
- Neither scheme has monotonicity or positivity preservation.
- The dimensionally split scheme uses the flux-form semi-Lagrangian approach
- and COSMIC splitting whereas the multi-dimensional scheme is a method of
- lines scheme (treating space and time independently) which uses implicit
- time-stepping.
- 
-\end_layout
-
-\begin_layout Subsection
-Dimensionally Split Flux-Form Semi-Lagrangian (FFSL) Scheme
-\end_layout
-
-\begin_layout Subsubsection*
-Hilary's version - is this correct?
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand input
-filename "PPM_Hilary.tex"
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:models"
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Subsubsection*
-Yumeng's version
+\begin_layout Standard
+We present descriptions two conservative advection schemes suitable for
+ long time-steps (stable for Courant numbers significantly larger than one)
+ for solving the linear advection equation:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{u}\phi=0
+\end{equation}
+
+\end_inset
+
+where dependent variable 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is advected by velocity field 
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+.
+ The dimensionally split scheme is the
+\lang english
+ piecewise parabolic method 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "PPM"
+key "CW84"
+
+\end_inset
+
+
+\lang british
+ which uses the flux-form semi-Lagrangian approach extended to long time-steps
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Leonard1995"
+
+\end_inset
+
+ and the COSMIC splitting technique 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Leonard1996"
+
+\end_inset
+
+.
+ The multi-dimensional scheme uses the method of lines approach (treating
+ space and time independently).
+ The spatial discretistaion is described by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "WS14"
+
+\end_inset
+
+ and to allow long time-steps, this combined with implicit, Crank-Nicholson
+ time-stepping.
+ Neither scheme has monotonicity or positivity preservation.
+ 
+\end_layout
+
+\begin_layout Subsection
+The Dimensionally Split Flux-Form Semi-Lagrangian (FFSL) Scheme
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:PPM"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand input
-filename "PPM.tex"
+We describe a long time-step version of PPM
+\lang english
+ for solving the one-dimensional advection equation:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi}{\partial t}+\frac{\partial u\phi}{\partial x}=0.
+\end{equation}
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "CW84"
+
+\end_inset
+
+ defined PPM with monotonicity constraints and for variable resolution but
+ for simplicity (and for comparison with the multi-dimensional scheme) we
+ will define PPM without monotonicity constraints and for a fixed grid-size,
+ 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+ and time-step 
+\begin_inset Formula $\Delta t$
+\end_inset
+
+.
+ With these restrictions, PPM should be fourth-order accurate in one dimension
+ for small time-steps.
+ We define the dependent variable, 
+\begin_inset Formula $\phi_{j}^{(n)}$
+\end_inset
+
+, to be the mean value of 
+\begin_inset Formula $\phi$
+\end_inset
+
+ in grid box 
+\begin_inset Formula $j$
+\end_inset
+
+ at time-level 
+\begin_inset Formula $n$
+\end_inset
+
+ where 
+\begin_inset Formula $x_{j}=j\Delta x$
+\end_inset
+
+ and 
+\begin_inset Formula $t=n\Delta t$
+\end_inset
+
+.
+ Since PPM is a flux form finite volume method, 
+\begin_inset Formula $\phi_{j}^{(n)}$
+\end_inset
+
+ is updated using:
+\begin_inset Formula 
+\[
+\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-\Delta t\frac{u_{j+1/2}\phi_{j+1/2}-u_{j-1/2}\phi_{j-1/2}}{\Delta x}
+\]
+
+\end_inset
+
+where the fluxes, 
+\begin_inset Formula $\phi_{j\pm1/2}$
+\end_inset
+
+, are found by integrating a piecewise polynomial, 
+\begin_inset Formula $p$
+\end_inset
+
+, along the distance travelled in each time-step upwind of cell boundary
+ 
+\begin_inset Formula $x_{j\pm1/2}$
+\end_inset
+
+.
+ The polynomial is defined in each cell, 
+\begin_inset Formula $j$
+\end_inset
+
+, such that:
+\begin_inset Formula 
+\begin{equation}
+\phi_{j}=\frac{1}{\Delta x}\int_{x_{j-1/2}}^{x_{j+1/2}}p_{j}(x)\ dx
+\end{equation}
+
+\end_inset
+
+by
+\begin_inset Formula 
+\begin{equation}
+p_{j}(x)=p_{j-1/2}+\xi\left(p_{j+1/2}-p_{j-1/2}+\left(1-\xi\right)6\left(\phi_{j}-\frac{1}{2}\left(p_{j-1/2}+p_{j+1/2}\right)\right)\right)
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\xi=(x-x_{j-1/2})/\Delta x$
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+p_{j+1/2}=\phi_{j}+\frac{1}{2}(\phi_{j+1}-\phi_{j})\biggl(1-\frac{1}{12}(\phi_{j+1}-\phi_{j-1})\biggr).
+\end{equation}
+
+\end_inset
+
+In order to cope with long time-steps, we follow 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Leonard1995"
+
+\end_inset
+
+ and divide the Courant number into an integer part, 
+\begin_inset Formula $c_{N}$
+\end_inset
+
+, and a remainder, 
+\begin_inset Formula $c_{r}$
+\end_inset
+
+.
+ Then for 
+\begin_inset Formula $u>0$
+\end_inset
+
+ the flux through 
+\begin_inset Formula $x_{j-1/2}$
+\end_inset
+
+ between times 
+\begin_inset Formula $n\Delta t$
+\end_inset
+
+ and 
+\begin_inset Formula $(n+1)\Delta t$
+\end_inset
+
+ is then given by: 
+\begin_inset Formula 
+\begin{equation}
+\phi_{j-1/2}=M_{j-1/2}-M_{j-c_{N}-1/2}+\frac{1}{\Delta x}\int_{x_{j}-c_{r}\Delta x}^{x_{j-1/2}}p(x)\ dx\label{eq:PPMflux}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $M_{j-1/2}$
+\end_inset
+
+ is the cumulative mass from the start point to position 
+\begin_inset Formula $x_{j-1/2}$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+M_{j-1/2}=\sum_{k<j}\Delta x\phi_{k}.
+\]
+
+\end_inset
+
+ The time-step is restricted by the deformational Courant number:
+\begin_inset Formula 
+\begin{equation}
+c_{d}=\Delta t\max\left(\biggl|\frac{\partial u}{\partial x}\biggr|,\biggl|\frac{\partial u}{\partial y}\biggr|,\biggl|\frac{\partial u}{\partial z}\biggr|,\biggl|\frac{\partial v}{\partial x}\biggr|,\biggl|\frac{\partial v}{\partial y}\biggr|,\biggl|\frac{\partial v}{\partial z}\biggr|,\biggl|\frac{\partial w}{\partial x}\biggr|,\biggl|\frac{\partial w}{\partial y}\biggr|,\biggl|\frac{\partial w}{\partial z}\biggr|\right)\label{eq:cd}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citep
+key "PS84"
+
+\end_inset
+
+ and the stability criterion is 
+\begin_inset Formula $c_{d}\leq1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+
+\lang english
+COSMIC Splitting
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:COSMIC"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\lang english
+ 
+\begin_inset Graphics
+	filename YumengsGraphics/conservative_form.pdf
+	scale 40
+
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang english
+The position of each flux and the position of 
+\begin_inset Formula $\phi$
+\end_inset
+
+, the subscript w/e/n/s denote the direction of the flux relative to the
+ position of 
+\begin_inset Formula $\phi$
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:COSMICcell"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+COSMIC operator splitting 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "LLM96"
+
+\end_inset
+
+ allows single stage, one-dimensional schemes such as PPM to be used stably
+ in two or more dimensions whilst retaining conservation, constancy preservation
+ and second-order accuracy (on orthogonal grids).
+ As we are now considering two spatial dimensions, we define 
+\begin_inset Formula $\phi_{ij}$
+\end_inset
+
+, 
+\begin_inset Formula $u_{ij}$
+\end_inset
+
+ and 
+\begin_inset Formula $v_{ij}$
+\end_inset
+
+, the values of 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and the velocity components, 
+\begin_inset Formula $u$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ in grid cell 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+ where 
+\begin_inset Formula $x=i\Delta x$
+\end_inset
+
+ and 
+\begin_inset Formula $y=j\Delta y$
+\end_inset
+
+.
+ COSMIC splitting uses both advective and conservative advection operators
+ in the 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ directions:
+\begin_inset Formula 
+\begin{align}
+X_{A}(\phi)=-\frac{u_{ij}}{2\Delta x}\left(\phi_{w}-\phi_{e}\right) &  & Y_{A}(\phi)=-\frac{v_{ij}}{2\Delta y}\left(\phi_{n}-\phi_{s}\right)\\
+X_{C}(\phi)=-\frac{1}{2\Delta x}\left(u_{w}\phi_{w}-u_{e}\phi_{e}\right) &  & Y_{C}(\phi)=-\frac{1}{2\Delta y}\left(v_{n}\phi_{n}-v_{s}\phi_{s}\right)
+\end{align}
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $\phi_{s}$
+\end_inset
+
+, 
+\begin_inset Formula $\phi_{e}$
+\end_inset
+
+ , 
+\begin_inset Formula $\phi_{w}$
+\end_inset
+
+, 
+\begin_inset Formula $v_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $v_{s}$
+\end_inset
+
+, 
+\begin_inset Formula $u_{e}$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{w}$
+\end_inset
+
+ are the values of 
+\begin_inset Formula $\phi$
+\end_inset
+
+, 
+\begin_inset Formula $u$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ and in at the cell boundaries, 
+\begin_inset Formula $(x_{i\pm1/2},\ y_{j\pm1/2})$
+\end_inset
+
+ as show in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:COSMICcell"
+
+\end_inset
+
+.
+ If COSMIC is being used to extend PPM to two spatial dimensions then the
+ 
+\begin_inset Formula $\phi_{n,s,e,w}$
+\end_inset
+
+ are calculated from equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:PPMflux"
+
+\end_inset
+
+.
+ Assuming C-grid staggering, 
+\begin_inset Formula $v_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $v_{s}$
+\end_inset
+
+, 
+\begin_inset Formula $u_{e}$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{w}$
+\end_inset
+
+ are dependent variables and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LR96"
+
+\end_inset
+
+ recommended using upwind values of 
+\begin_inset Formula $u$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ when cell centre values, 
+\begin_inset Formula $u_{ij}$
+\end_inset
+
+ and 
+\begin_inset Formula $v_{ij}$
+\end_inset
+
+, are needed in the advective updates.
+ The advective and conservative operators are combined to update 
+\begin_inset Formula $\phi_{ij}$
+\end_inset
+
+ at each cell by: 
+\begin_inset Formula 
+\begin{equation}
+\phi_{ij}^{(n+1)}=\phi_{ij}^{n}+X_{{\scriptscriptstyle C}}\left(\phi_{ij}^{(n)}+\frac{1}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)+Y_{C}\left(\phi_{ij}^{(n)}+\frac{1}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).\label{eq:COSMICupdate}
+\end{equation}
 
 \end_inset
 
@@ -1117,7 +1615,7 @@ l scheme accuracy is not grid dependent but suffers from phase errors for
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -1644,7 +2142,7 @@ with initial tracer centre,
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -3054,8 +3552,12 @@ f=\begin{cases}
 
 \end_inset
 
-The initial conditions and a grid with distortion defined by this co-ordinate
- transform is shown in figure 
+The initial conditions and a 
+\begin_inset Formula $120\times60$
+\end_inset
+
+ grid with distortion defined by this co-ordinate transform is shown in
+ figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:deformGrid"
@@ -3070,7 +3572,7 @@ reference "fig:deformGrid"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -3122,34 +3624,31 @@ name "fig:deformGrid"
 \end_layout
 
 \begin_layout Standard
-The tracer concentrations at the initial time and after 1, 2, 3, 4 and 5
- time units are shown in figure 
+The tracer concentrations after 1, 2, 3, 4 and 5 time units are shown in
+ figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:deformResults"
 
 \end_inset
 
- using the multi-dimensional scheme on an orthogonal grid of 
-\begin_inset Formula $1600\times800$
+ using the dimensionally split and multi-dimensional schemes on a non-orthogonal
+ grid of 
+\begin_inset Formula $480\times240$
 \end_inset
 
- cells, a time-step of 0.000625 units (ie 8000 time-steps to reach 5 time
- units) which gives a maximum (initial) Courant number of 0.61.
- For this second-order scheme, high resolution is needed to maintain the
- tracer filaments with sufficient accuracy so that they return to a shape
- close to the original after 5 time units.
- Due to the smooth shape of the initial tracer, negative tracer values are
- not generated except along the zero normal flow boundaries at the top and
- bottom.
+ cells, a time-step of 0.0025 units (ie 2000 time-steps to reach 5 time units)
+ which gives a maximum Courant number of 1.03.
  
+\color red
+Comments on the figure.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -3440,74 +3939,6 @@ name "fig:deformResults"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-All of the resolutions used, time-steps, Courant numbers and final 
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- and 
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error norms are shown in table ref.
- Convergence with resolution of the 
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- and 
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error norms at the final time are shown in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:deformationalConverge"
-
-\end_inset
-
-.
- All of the schemes give first-order convergence with resolution at coarse
- resolution due to error saturation (if the scheme is stable, errors are
- bounded above by about one).
- At higher resolution, the split scheme on the orthogonal grid converges
- with nearly third-order accuracy whereas the multi-dimensional scheme approache
-s second-order, independent of the grid type.
- The split scheme on the non-orthogonal grid is never better than first-order
- accurate.
- 
-\end_layout
-
-\begin_layout Standard
-More simulations we should consider
-\end_layout
-
-\begin_layout Itemize
-Hilary - orthogonal grid at 
-\begin_inset Formula $1920\times960$
-\end_inset
-
- to remove inconsistency
-\end_layout
-
-\begin_layout Itemize
-Hilary - lowest resolutions
-\end_layout
-
-\begin_layout Itemize
-Yumeng - what happens on the non-orthogonal grid at higher resolution?
-\end_layout
-
-\begin_layout Itemize
-Both - what about large Courant numbers
-\end_layout
-
-\begin_layout Itemize
-Should we consider a more deformed grid but a W shape rather than a ^ shape
- to be more similar to a cubed sphere.
- So there would be 4 changes of direction rather than 2 in the x direction.
- 
 \end_layout
 
 \begin_layout Standard
@@ -5150,10 +5581,13 @@ name "tab:deformRes"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -6147,10 +6581,54 @@ name "tab:res_Courant"
 \end_layout
 
 \begin_layout Standard
+Sensitivity to orthogonality, resolution an time-step are explored using
+ a range of simulations with maximum Courant numbers shown in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:res_Courant"
+
+\end_inset
+
+.
+ The Courant numbers on the uniform, orthogonal grid (with no grid distortions)
+ are 70% of those on the non-orthogonal grid since the non-orthogonal grid
+ has clustering of grid points.
+ The convergence with resolution of the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error norms at the final time are shown in figure for both advection schemes
+ using a maximum Courant number close to 1 and a maximum Courant number
+ clost to 10.
+ We will first consider the behaviour of the schemes at modest Courant number
+ (maximum close to one).
+ All of the schemes give first-order convergence with resolution at coarse
+ resolution due to error saturation (if the scheme is stable, errors are
+ bounded above by about one).
+ At higher resolution, the split scheme on the orthogonal grid converges
+ with nearly third-order accuracy whereas the multi-dimensional scheme approache
+s second-order, independent of the grid type.
+ The split scheme on the non-orthogonal grid has similar accuracy to the
+ multi-dimensional scheme at coarse resolution but is unstable at higher
+ resolution.
+ For large Courant numbers (maximum close to 10), both schemes converge
+ with first-order accuracy and the split scheme on the orthogonal grid is
+ much more accurate than the multi-dimensional scheme.
+ However the multi-dimensional scheme accuracy is not dependent on the grid
+ type whereas the split scheme is unstable on a non-orthogonal grid for
+ large Courant numbers.
+ 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -6332,10 +6810,80 @@ name "fig:deformationalConverge"
 \end_layout
 
 \begin_layout Standard
+We inspect sensitivity to time-step of both schemes on orthogonal and non-orthog
+onal grids of 
+\begin_inset Formula $120\times60$
+\end_inset
+
+ cells using the time-steps shown in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:res_Courant"
+
+\end_inset
+
+ giving maximum Courant numbers ranging from 0.25 to 10 which demonstrates
+ excellent properties of the flux-form semi-Lagrangian time-stepping used
+ by the split scheme.
+ Errors actually reduce for longer time-steps using the split scheme on
+ an orthogonal grid since space and time are discretised together and so,
+ for sufficiently small time-steps, errors per time-step are not dependent
+ on the time-step size and so, taking a longer time-step means fewer time-steps
+ and so reduced errors.
+ Due to the deformational nature of the flow, errors do grow for much larger
+ time-steps.
+ In contrast, using the multi-dimensional scheme which uses method of lines
+ time-stepping, errors always increase as the time-step is increased.
+ Comparisons between schemes in figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformResults"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformationalConverge"
+
+\end_inset
+
+ used maximum Courant numbers of 1 and 10 which showed that the split scheme
+ on the orthogonal grid gave better accruacy than the multi-dimensional
+ scheme.
+ However, figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformational_dt"
+
+\end_inset
+
+ shows that this advantage disappears at lower Courant numbers since the
+ multi-dimensional scheme (method of lines) gets more accurate with lower
+ Courant numbers whereas the split scheme (semi-Lagrangian) gets less accurate.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformational_dt"
+
+\end_inset
+
+ also demonstrates the potential danger of relying on test cases such as
+ these.
+ The split scheme on the non-orthogonal grid is stable for a maximum Courant
+ number of 1 (taking 500 times-steps of) but unstable for smaller Courant
+ numbers (taking 1000 and 2000 times-steps).
+ It is not the small time-steps that is leading to instability, it is the
+ slow growth of the instability, leading to divergence after 1000 but not
+ 500 time-steps.
+ 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -6426,6 +6974,8 @@ al grids of
 \end_inset
 
  cells using multi-dimensional and dimensionally split schemes.
+ Different time-steps give maximum Courant numbers of 0.25, 0.5, 1, 2, 5 and
+ 10.
  
 \begin_inset CommandInset label
 LatexCommand label
