@@ -384,7 +384,7 @@ key "CW84"
  With these restrictions, PPM should be fourth-order accurate in one dimension
  for small time-steps.
  We define the dependent variable, 
-\begin_inset Formula $\phi_{j}^{(n)}$
+\begin_inset Formula $\phi_{i}^{(n)}$
 \end_inset
 
 , to be the mean value of 
@@ -392,7 +392,7 @@ key "CW84"
 \end_inset
 
  in grid box 
-\begin_inset Formula $j$
+\begin_inset Formula $i$
 \end_inset
 
  at time-level 
@@ -400,7 +400,7 @@ key "CW84"
 \end_inset
 
  where 
-\begin_inset Formula $x_{j}=j\Delta x$
+\begin_inset Formula $x_{i}=i\Delta x$
 \end_inset
 
  and 
@@ -409,19 +409,19 @@ key "CW84"
 
 .
  Since PPM is a flux form finite volume method, 
-\begin_inset Formula $\phi_{j}^{(n)}$
+\begin_inset Formula $\phi_{i}^{(n)}$
 \end_inset
 
  is updated using:
 \begin_inset Formula 
 \[
-\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-\Delta t\frac{u_{j+1/2}\phi_{j+1/2}-u_{j-1/2}\phi_{j-1/2}}{\Delta x}
+\phi_{i}^{(n+1)}=\phi_{i}^{(n)}-\Delta t\frac{u_{i+1/2}\phi_{i+1/2}-u_{i-1/2}\phi_{i-1/2}}{\Delta x}
 \]
 
 \end_inset
 
 where the fluxes, 
-\begin_inset Formula $\phi_{j\pm1/2}$
+\begin_inset Formula $\phi_{i\pm1/2}$
 \end_inset
 
 , are found by integrating a piecewise polynomial, 
@@ -430,18 +430,18 @@ where the fluxes,
 
 , along the distance travelled in each time-step upwind of cell boundary
  
-\begin_inset Formula $x_{j\pm1/2}$
+\begin_inset Formula $x_{i\pm1/2}$
 \end_inset
 
 .
  The polynomial is defined in each cell, 
-\begin_inset Formula $j$
+\begin_inset Formula $i$
 \end_inset
 
 , such that:
 \begin_inset Formula 
 \begin{equation}
-\phi_{j}=\frac{1}{\Delta x}\int_{x_{j-1/2}}^{x_{j+1/2}}p_{j}(x)\ dx
+\phi_{i}=\frac{1}{\Delta x}\int_{x_{i-1/2}}^{x_{i+1/2}}p_{i}(x)\ dx
 \end{equation}
 
 \end_inset
@@ -449,19 +449,19 @@ where the fluxes,
 by
 \begin_inset Formula 
 \begin{equation}
-p_{j}(x)=p_{j-1/2}+\xi\left(p_{j+1/2}-p_{j-1/2}+\left(1-\xi\right)6\left(\phi_{j}-\frac{1}{2}\left(p_{j-1/2}+p_{j+1/2}\right)\right)\right)
+p_{i}(x)=p_{i-1/2}+\xi\left(p_{i+1/2}-p_{i-1/2}+\left(1-\xi\right)6\left(\phi_{i}-\frac{1}{2}\left(p_{i-1/2}+p_{i+1/2}\right)\right)\right)
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $\xi=(x-x_{j-1/2})/\Delta x$
+\begin_inset Formula $\xi=(x-x_{i-1/2})/\Delta x$
 \end_inset
 
  and 
 \begin_inset Formula 
 \begin{equation}
-p_{j+1/2}=\phi_{j}+\frac{1}{2}(\phi_{j+1}-\phi_{j})\biggl(1-\frac{1}{12}(\phi_{j+1}-\phi_{j-1})\biggr).
+p_{i+1/2}=\phi_{i}+\frac{1}{2}(\phi_{i+1}-\phi_{i})\biggl(1-\frac{1}{12}(\phi_{i+1}-\phi_{i-1})\biggr).
 \end{equation}
 
 \end_inset
@@ -487,7 +487,7 @@ key "Leonard1995"
 \end_inset
 
  the flux through 
-\begin_inset Formula $x_{j-1/2}$
+\begin_inset Formula $x_{i-1/2}$
 \end_inset
 
  between times 
@@ -501,23 +501,23 @@ key "Leonard1995"
  is then given by: 
 \begin_inset Formula 
 \begin{equation}
-\phi_{j-1/2}=M_{j-1/2}-M_{j-c_{N}-1/2}+\frac{1}{\Delta x}\int_{x_{j}-c_{r}\Delta x}^{x_{j-1/2}}p(x)\ dx\label{eq:PPMflux}
+\phi_{i-1/2}=M_{i-1/2}-M_{i-c_{N}-1/2}+\frac{1}{\Delta x}\int_{x_{i}-c_{r}\Delta x}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $M_{j-1/2}$
+\begin_inset Formula $M_{i-1/2}$
 \end_inset
 
  is the cumulative mass from the start point to position 
-\begin_inset Formula $x_{j-1/2}$
+\begin_inset Formula $x_{i-1/2}$
 \end_inset
 
 : 
 \begin_inset Formula 
 \[
-M_{j-1/2}=\sum_{k<j}\Delta x\phi_{k}.
+M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.
 \]
 
 \end_inset
@@ -551,61 +551,6 @@ COSMIC Splitting
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:COSMIC"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-
-\lang english
- 
-\begin_inset Graphics
-	filename YumengsGraphics/conservative_form.pdf
-	scale 40
-
-\end_inset
-
- 
-\begin_inset Caption
-
-\begin_layout Plain Layout
-
-\lang english
-The position of each flux and the position of 
-\begin_inset Formula $\phi$
-\end_inset
-
-, the subscript w/e/n/s denote the direction of the flux relative to the
- position of 
-\begin_inset Formula $\phi$
-\end_inset
-
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:COSMICcell"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
 
 \end_inset
 
@@ -674,8 +619,8 @@ key "LLM96"
  directions:
 \begin_inset Formula 
 \begin{align}
-X_{A}(\phi)=-\frac{u_{ij}}{2\Delta x}\left(\phi_{w}-\phi_{e}\right) &  & Y_{A}(\phi)=-\frac{v_{ij}}{2\Delta y}\left(\phi_{n}-\phi_{s}\right)\\
-X_{C}(\phi)=-\frac{1}{2\Delta x}\left(u_{w}\phi_{w}-u_{e}\phi_{e}\right) &  & Y_{C}(\phi)=-\frac{1}{2\Delta y}\left(v_{n}\phi_{n}-v_{s}\phi_{s}\right)
+X_{A}(\phi)=-\frac{u_{ij}}{2\Delta x}\left(\phi_{w}-\phi_{e}\right) &  & Y_{A}(\phi)=-\frac{v_{ij}}{2\Delta y}\left(\phi_{n}-\phi_{s}\right)\label{eq:COSMIC_A}\\
+X_{C}(\phi)=-\frac{1}{2\Delta x}\left(u_{w}\phi_{w}-u_{e}\phi_{e}\right) &  & Y_{C}(\phi)=-\frac{1}{2\Delta y}\left(v_{n}\phi_{n}-v_{s}\phi_{s}\right)\label{eq:COSMIC_C}
 \end{align}
 
 \end_inset
@@ -726,13 +671,6 @@ where
 
  and in at the cell boundaries, 
 \begin_inset Formula $(x_{i\pm1/2},\ y_{j\pm1/2})$
-\end_inset
-
- as show in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:COSMICcell"
-
 \end_inset
 
 .
@@ -788,7 +726,14 @@ key "LR96"
 \begin_inset Formula $v_{ij}$
 \end_inset
 
-, are needed in the advective updates.
+, are needed in the advective updates (eqn 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:COSMIC_A"
+
+\end_inset
+
+).
  The advective and conservative operators are combined to update 
 \begin_inset Formula $\phi_{ij}$
 \end_inset
@@ -3648,7 +3593,7 @@ Comments on the figure.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -3703,6 +3648,13 @@ Multi-dimensional
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_1_T.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
 
 \end_layout
 
@@ -3739,6 +3691,13 @@ Multi-dimensional
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_2_T.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
 
 \end_layout
 
@@ -3775,6 +3734,13 @@ Multi-dimensional
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_3_T.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
 
 \end_layout
 
@@ -3811,6 +3777,13 @@ Multi-dimensional
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_4_T.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
 
 \end_layout
 
@@ -3847,6 +3820,13 @@ Multi-dimensional
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_5_T.pdf
+	lyxscale 50
+	width 49text%
+
+\end_inset
+
 
 \end_layout
 
