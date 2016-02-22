@@ -8,6 +8,8 @@
 \usepackage { fancybox}
 \usepackage[export]{adjustbox}
 
+\usepackage{todo}
+
 \renewcommand{\floatpagefraction}{0.95}
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\topfraction}{1}
@@ -115,11 +117,6 @@ Yumeng Chen, Hilary Weller and James Shaw
 \end_layout
 
 \begin_layout Standard
-Re-visit Lauritzens' tracer transport comparisons and look up Wedi/Smolarkiewiz'
-s reference on implicit advection.
-\end_layout
-
-\begin_layout Standard
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
@@ -133,9 +130,10 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Dimensionally split schemes are attractive for atmospheric modelling due
- to their high accuracy in each spatial dimension and efficiency, operating
- in each dimension separately 
+Dimensionally split schemes (operating separately in each spatial dimension)
+ are attractive for atmospheric modelling due to their high accuracy in
+ each spatial dimension and efficiency, operating in each dimension separately
+ 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg. "
@@ -157,19 +155,18 @@ key "Smo82,CW84"
 
  which integrates the dependent variable over a swept volume upstream of
  every face in order to calculate fluxes in and out of cells.
- One-dimensional single stage, FFSL schemes can be combined to achieve second
- order accuracy, conservation and preservation of constants in multi-dimensions
- by using COSMIC splitting 
+ One-dimensional schemes can be used with operator splitting to create dimension
+ally split, second-order accurate multi-dimensional schemes
 \begin_inset CommandInset citation
 LatexCommand citep
+before "eg"
 key "LLM96"
 
 \end_inset
 
- which combines advective form and flux form updates in each direction in
- order to eliminate conservation and constancy preservation errors.
+.
  Dimensionally split schemes have even been found to give good accuracy
- on non-orthogonal grids such as the cubed sphere 
+ on non-orthogonal meshes such as the cubed sphere 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "PL07,KNK15"
@@ -177,7 +174,7 @@ key "PL07,KNK15"
 \end_inset
 
 .
- On non-orthongal grids, dimensionally split schemes do not account properly
+ On non-orthongal meshes, dimensionally split schemes do not account properly
  for non-orthogonality and first-order errors should inevitably occur, although
  accuracy between second and fourth was found in practice on a range of
  test cases on the cubed sphere by 
@@ -191,7 +188,7 @@ key "KNK15"
 \end_layout
 
 \begin_layout Standard
-First-order errors on non-orthogonal grids can be eliminated by using genuinely
+First-order errors on non-orthogonal meshes can be eliminated by using genuinely
  multi-dimensional advection schemes.
  These can be either FFSL 
 \begin_inset CommandInset citation
@@ -237,7 +234,7 @@ key "IK04,LNU10,ZWS04"
  which maintain accuracy with long time-steps.
  Conservative semi-Lagrangian naturally extends to long time-steps but the
  conservative remapping is complicated and expensive, particularly on non-rectan
-gular grids and will not be investigated here.
+gular meshes and will not be investigated here.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -252,11 +249,107 @@ key "LUJ+14"
 
 \begin_layout Standard
 It is therefore not clear what approach should be taken for achieving long
- time-steps when advecting multiple tracers on non-orthogonal grids.
+ time-steps when advecting multiple tracers on non-orthogonal meshes.
  In this paper, we show the affect of the first order errors of dimensionally
- split FFSL scheme on a number of test-cases which use non-orthogonal grids
+ split FFSL scheme on a number of test-cases which use non-orthogonal meshes
  and compare with a genuinely multi-dimensional implicit MOL scheme using
  large and small Courant numbers.
+\end_layout
+
+\begin_layout Standard
+The theoretical properties of dimensionally split schemes are often tested
+ on uniform, orthogonal meshes 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg"
+key "LLM96"
+
+\end_inset
+
+ and on the cubed-sphere, special treatment is needed for the cube edges
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg"
+key "LR96,KNK15"
+
+\end_inset
+
+.
+ Developing a transport scheme to the extent that it can be used on a multi-pane
+l cubed sphere with special treatment of cube edges is a considerable undertakin
+g.
+ We therefore need a framework for more challenging advection test cases
+ which are simpler to implement, without the need for a mesh of the sphere.
+ We therefore propose some modifications of existing test cases to use non-ortho
+gonal meshes, or non-orthogonal co-ordinate systems, on a plane.
+ These are challenging to dimensionally split schemes due to the non-orthogonali
+ty, challenging to some multi-dimensional schemes due to other aspects of
+ the mesh distortions 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg skewness,"
+key "Wel14"
+
+\end_inset
+
+ while being straightforward to implement because the mesh is logically
+ rectangular and in a two-dimensional plane.
+ 
+\end_layout
+
+\begin_layout Standard
+The long time-step permitting, dimensionally split scheme and the long time-step
+ permitting multi-dimensional schemes are defined in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:models"
+
+\end_inset
+
+.
+ In section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:results"
+
+\end_inset
+
+ we present results of three advection test cases on non-orthogonal meshes
+ in two-dimensional planes using Courant numbers above and below one; the
+ solid body rotation test case of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LLM96"
+
+\end_inset
+
+ modified to use a mesh (or co-ordinate system) with distortions similar
+ to a cubed-sphere (section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:solidRotate"
+
+\end_inset
+
+), the horizontal advection test case over orography 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "SLF+02"
+
+\end_inset
+
+, examining sensitivity to time-step, resolution and mountain height, all
+ on the maximally distorted basic terrain following grid and finally a modificat
+ion of the deformational flow test case of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LSPT2012"
+
+\end_inset
+
+ for a periodic rectangular plane.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -292,7 +385,7 @@ where dependent variable
 \begin_inset Formula $\phi$
 \end_inset
 
- is advected by velocity field 
+ is advected by non-divergent velocity field 
 \begin_inset Formula $\mathbf{u}$
 \end_inset
 
@@ -327,7 +420,7 @@ key "Leonard1996"
 .
  The multi-dimensional scheme uses the method of lines approach (treating
  space and time independently).
- The spatial discretistaion is described by 
+ The second-order accurate spatial discretistaion is described by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "WS14"
@@ -338,6 +431,22 @@ key "WS14"
  time-stepping.
  Neither scheme has monotonicity or positivity preservation.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Todo{Where can you download the code}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -371,7 +480,7 @@ key "CW84"
 
  defined PPM with monotonicity constraints and for variable resolution but
  for simplicity (and for comparison with the multi-dimensional scheme) we
- will define PPM without monotonicity constraints and for a fixed grid-size,
+ will define PPM without monotonicity constraints and for a fixed mesh-size,
  
 \begin_inset Formula $\Delta x$
 \end_inset
@@ -498,7 +607,7 @@ key "Leonard1995"
 \begin_inset Formula $(n+1)\Delta t$
 \end_inset
 
- is then given by: 
+ is: 
 \begin_inset Formula 
 \begin{equation}
 \phi_{i-1/2}=M_{i-1/2}-M_{i-c_{N}-1/2}+\frac{1}{\Delta x}\int_{x_{i}-c_{r}\Delta x}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
@@ -544,7 +653,7 @@ key "PS84"
 .
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 
 \lang english
 COSMIC Splitting
@@ -569,7 +678,7 @@ key "LLM96"
 
  allows single stage, one-dimensional schemes such as PPM to be used stably
  in two or more dimensions whilst retaining conservation, constancy preservation
- and second-order accuracy (on orthogonal grids).
+ and second-order accuracy (on orthogonal meshes).
  As we are now considering two spatial dimensions, we define 
 \begin_inset Formula $\phi_{ij}$
 \end_inset
@@ -626,35 +735,35 @@ X_{C}(\phi)=-\frac{1}{2\Delta x}\left(u_{w}\phi_{w}-u_{e}\phi_{e}\right) &  & Y_
 \end_inset
 
 where 
-\begin_inset Formula $\phi_{n}$
+\begin_inset Formula $\phi_{n}=\phi_{i,j+1/2}$
 \end_inset
 
 , 
-\begin_inset Formula $\phi_{s}$
+\begin_inset Formula $\phi_{s}=\phi_{i,j-1/2}$
 \end_inset
 
 , 
-\begin_inset Formula $\phi_{e}$
+\begin_inset Formula $\phi_{e}=\phi_{i+1/2,j}$
 \end_inset
 
  , 
-\begin_inset Formula $\phi_{w}$
+\begin_inset Formula $\phi_{w}=\phi_{i-1/2,j}$
 \end_inset
 
 , 
-\begin_inset Formula $v_{n}$
+\begin_inset Formula $v_{n}=v_{i,j+1/2}$
 \end_inset
 
 , 
-\begin_inset Formula $v_{s}$
+\begin_inset Formula $v_{s}=v_{i,j-1/2}$
 \end_inset
 
 , 
-\begin_inset Formula $u_{e}$
+\begin_inset Formula $u_{e}=u_{i+1/2,j}$
 \end_inset
 
  and 
-\begin_inset Formula $u_{w}$
+\begin_inset Formula $u_{w}=u_{i-1/2,j}$
 \end_inset
 
  are the values of 
@@ -669,11 +778,7 @@ where
 \begin_inset Formula $v$
 \end_inset
 
- and in at the cell boundaries, 
-\begin_inset Formula $(x_{i\pm1/2},\ y_{j\pm1/2})$
-\end_inset
-
-.
+ and in at the cell boundaries.
  If COSMIC is being used to extend PPM to two spatial dimensions then the
  
 \begin_inset Formula $\phi_{n,s,e,w}$
@@ -761,8 +866,9 @@ name "sub:MMmolscheme"
 \end_layout
 
 \begin_layout Standard
-The MOL scheme uses the finite volume method and is implemented in OpenFOAM.
- This involves a cubic upwind spatial discretisation 
+The MOL scheme uses the finite volume method for arbitrary meshes and is
+ implemented in OpenFOAM.
+ This uses a cubic upwind spatial discretisation 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "WS14"
@@ -772,10 +878,9 @@ key "WS14"
  combined with Crank-Nicholson in time.
  Although the interpolation uses a cubic polynomial, cell centre values
  are approximated as cell average values and face centre values are approximated
- as face average values so the method is formally limited to 2nd order in
- space.
- The finite volume advection scheme using Gauss's divergence theorem to
- approximate the divergence term of the advection equation:
+ as face average values so the method is limited to 2nd order in space.
+ The finite volume advection scheme uses Gauss's divergence theorem to approxima
+te the divergence term of the advection equation:
 \begin_inset Formula 
 \begin{equation}
 \nabla\cdot\mathbf{u}\phi=\frac{1}{V}\sum_{f\in c}\phi_{f}\mathbf{u}_{f}\cdot\mathbf{S}_{f}
@@ -883,7 +988,7 @@ omitting terms in
 
  is the size of the stencil.
  However this is purely a geometric calculation and is therefore a pre-processin
-g activity since the grid is fixed.
+g activity since the mesh is fixed.
  This generates a set of weights for calculating 
 \begin_inset Formula $\phi_{f}$
 \end_inset
@@ -893,7 +998,7 @@ g activity since the grid is fixed.
 \end_inset
 
  multiplies for each face for each call of the advection operator.
- The stencils are found for three-dimensional, arbitrarily structured grids
+ The stencils are found for three-dimensional, arbitrarily structured meshes
  by finding the face(s) closest to upwind of the face we are interpolating
  onto, taking the two cells either side of the upwind face(s) and then taking
  the vertex neighbours of those central cells (fig 
@@ -914,13 +1019,26 @@ reference "fig:stencil"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
+\noindent
 \align center
 \begin_inset External
 	template XFig
 	filename figs/cubicUpCPCstencil.fig
+	scale 50
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset External
+	template XFig
+	filename figs/hexStencil.fig
 	scale 50
 
 \end_inset
@@ -932,11 +1050,11 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Stencil of upwind-biased cells for interpolating onto face 
+Stencils of upwind-biased cells for interpolating onto face 
 \begin_inset Formula $F$
 \end_inset
 
- using a 2d cubic polynomial
+ using a 2d cubic polynomial for two different mesh structures.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:stencil"
@@ -968,7 +1086,15 @@ In order to ensure that the fit is accurate in the cells either side of
 \end_inset
 
 , rows associated with these values in the least squares fit matrix are
- weighted a factor of 1000 relative to the other rows.
+ weighted a factor of 1000 relative to the other rows 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "following"
+key "Las02"
+
+\end_inset
+
+).
  This does not affect the order of accuracy.
  The value 
 \begin_inset Formula $\phi_{f}$
@@ -997,12 +1123,20 @@ where
 \end_layout
 
 \begin_layout Standard
-In order to reduce the matrix size for the Crank-Nicholson time-stepping
- and improve the matrix conditioning, a first-order upwind spatial discretisatio
-n is used for the implicit solution and the higher-order contribution is
- a deferred correction.
- This means that two implicit solves are used per time-step so that the
- higher-order terms are solved to second-order in time.
+The implicit Crank-Nicholson time-stepping leads to a matrix equation which
+ needs to be solved to find all the 
+\begin_inset Formula $\phi$
+\end_inset
+
+s at the next time-step.
+ In order to ensure that the matrix is diagnoanally dominant for arbitrary
+ time-steps, the cubic interpolation is a deferred correction on first-order
+ upwind so that only the coefficient corresponding to the upwind cell is
+ included in the matrix.
+ The means that more than one implicit solves are needed per time-step so
+ that the higher-order terms are solved to second-order in time.
+ If the Courant number is less than or close to one, we use two implicit
+ solves per time-step.
  Consequently, assuming that the velocity field and mesh are constant in
  time, the time-stepping scheme is defined as:
 \begin_inset Formula 
@@ -1013,7 +1147,9 @@ n is used for the implicit solution and the higher-order contribution is
 
 \end_inset
 
-
+For larger Courant numbers we use four implicit solves per time-step although
+ sensitivity to this choice has not been investigated.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1025,28 +1161,43 @@ n is used for the implicit solution and the higher-order contribution is
 
 \begin_layout Section
 Results of Test Cases in Planar Geometry
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:results"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-In order to use test cases as simple as possible, without the need for incorpora
-ting spherical geometry, our computational domain consists of a periodic
- two-dimensional plane with deformations in the coordinate system (or grid)
- mimicking the kind of distortions which are produced by a cubed-sphere
- grid.
+In order to make test cases as simple as possible, without the need for
+ incorporating spherical geometry, our computational domain consists of
+ a periodic two-dimensional plane with deformations in the coordinate system
+ (or mesh) mimicking the kind of distortions which are produced by a cubed-spher
+e mesh.
  We also use a two-dimensional vertical slice test case over orography using
- terrain following coordinates (or terrain following grids).
+ terrain following coordinates (or terrain following meshes).
 \end_layout
 
 \begin_layout Standard
-A range of test cases are undertaken on uniform and on distorted grids using
- the dimensionally split scheme and the multi-dimensional scheme in order
- to evaluate the influences of grid distortions and the validity of using
- a dimenisonally split scheme on a distorted grid.
+A range of test cases are undertaken on uniform and on distorted meshes
+ using the dimensionally split scheme and the multi-dimensional scheme in
+ order to evaluate the influences of mesh distortions, the validity of using
+ a dimensionally split scheme on a distorted mesh and the accuracy for long
+ time-steps.
  
 \end_layout
 
 \begin_layout Subsection
 Solid Body Rotation
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:solidRotate"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1058,14 +1209,14 @@ key "LLM96"
 \end_inset
 
  is used to compare the accuracy of the dimensionally split and multi-dimensiona
-l schemes on orthogonal and non-orthogonal grids.
+l schemes on orthogonal and non-orthogonal meshes.
  We define this test case on a domain 
 \begin_inset Formula $10^{4}\times10^{4}\text{ m}^{2}$
 \end_inset
 
 .
  The velocity is defined by numerically integrating the streamfunction which
- can be defined at grid vertices, 
+ can be defined at mesh vertices, 
 \begin_inset Formula $\mathbf{x}$
 \end_inset
 
@@ -1133,7 +1284,7 @@ and the Gaussian rotates anti-clockwise exactly one revolution in
 \end_layout
 
 \begin_layout Standard
-Results of this test case on an orthogonal grid of 
+Results of this test case on an orthogonal mesh of 
 \begin_inset Formula $100\times100$
 \end_inset
 
@@ -1152,10 +1303,10 @@ reference "fig:solidBody"
  to one).
  The contours show the tracer value every 100 seconds and the colours show
  the errors summed every 100 seconds.
- On the orthogonal grid, the dimensionally split scheme outperforms the
+ On the orthogonal mesh, the dimensionally split scheme outperforms the
  multi-dimensional scheme due to the higher-order accuracy of the split
  scheme.
- The split scheme on the orthogonal grid has errors smaller than the first
+ The split scheme on the orthogonal mesh has errors smaller than the first
  colour value in the first 300 seconds and errors gradually increase showing
  a small phase lag near the peak of the Gaussian towards the end of the
  simulation.
@@ -1322,7 +1473,7 @@ Non-orthogonal, multi-dimensional scheme
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
- grids every 100 seconds for grids of 
+ meshes every 100 seconds for meshes of 
 \begin_inset Formula $100\times100$
 \end_inset
 
@@ -1357,8 +1508,8 @@ name "fig:solidBody"
 
 \begin_layout Standard
 The solid body rotation test case is also performed on a non-orthogonal
- grid on a plane with non-orthogonality similar to that of a cubed-sphere
- grid.
+ mesh on a plane with non-orthogonality similar to that of a cubed-sphere
+ mesh.
  For the dimensionally split scheme this is achieved using the co-ordinate
  transform:
 \begin_inset Formula 
@@ -1417,7 +1568,7 @@ where
 \begin_inset Formula $50\times50$
 \end_inset
 
- grid this gives the 
+ mesh this gives the 
 \begin_inset Formula $x$
 \end_inset
 
@@ -1434,7 +1585,7 @@ reference "fig:cubedGrid"
 
 .
  The multi-dimensional scheme model uses Cartesian coordinates and a distorted
- mesh rather than a non-orthogonal coordinate system on a Cartesian grid.
+ mesh rather than a non-orthogonal coordinate system on a Cartesian mesh.
  However this does not affect the numerical results.
  
 \end_layout
@@ -1461,12 +1612,12 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Grid on a plane designed to have similar angles to a cubed-sphere grid.
+Mesh on a plane designed to have similar angles to a cubed-sphere mesh.
  
 \begin_inset Formula $50\times50$
 \end_inset
 
- grid points and angles up to 
+ mesh points and angles up to 
 \begin_inset Formula $120^{o}$
 \end_inset
 
@@ -1492,7 +1643,7 @@ name "fig:cubedGrid"
 
 \begin_layout Standard
 The results of the dimensionally split and multi-dimensional schemes on
- the non-orthognal grid are also shown in figure 
+ the non-orthognal mesh are also shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:solidBody"
@@ -1501,13 +1652,13 @@ reference "fig:solidBody"
 
 .
  The dimensionally split scheme has much larger errors on the non-orthogonal
- grid then the orthogonal grid but it is still more accurate that the multi-dime
+ mesh then the orthogonal mesh but it is still more accurate that the multi-dime
 nsional scheme.
  Some oscillations are introduced at 300 seconds where the tracer goes through
- the change in direction of the grid.
+ the change in direction of the mesh.
  In contrast, the multi-dimensional scheme has a similar error on the non-orthog
-onal grid to on the orthogonal grid due to the complete representation of
- the variation of the tracer on the grid.
+onal mesh to on the orthogonal mesh due to the complete representation of
+ the variation of the tracer on the mesh.
  
 \end_layout
 
@@ -1521,7 +1672,7 @@ lly split scheme uses a flux-form semi-Lagrangian approach, integrating
  time-steps whereas the accuracy semi-Lagrangian approaches is less sensitive
  to the time-step.
  Therefore we present results of both schemes on orthogonal and non-orthogonal
- grids for time-steps 10 times those used in figure 
+ meshes for time-steps 10 times those used in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:solidBody"
@@ -1545,13 +1696,13 @@ reference "fig:solidBody-dt10"
 
 .
  The error of multi-dimensional scheme is much larger than dimensionally
- split scheme on the orthogonal grid.
+ split scheme on the orthogonal mesh.
  However, the dimensionally split scheme goes unstable on the non-orthogonal
- grid when using a large Courant number whereas the multi-dimensional scheme
- has similar accuracy as on the orthogonal grid for a large Courant number.
- In summary, the split scheme is very accurate on an orthogonal grid but
- has instabilities where the grid changes direction whereas the multi-dimensiona
-l scheme accuracy is not grid dependent but suffers from phase errors for
+ mesh when using a large Courant number whereas the multi-dimensional scheme
+ has similar accuracy as on the orthogonal mesh for a large Courant number.
+ In summary, the split scheme is very accurate on an orthogonal mesh but
+ has instabilities where the mesh changes direction whereas the multi-dimensiona
+l scheme accuracy is not mesh dependent but suffers from phase errors for
  large Courant numbers.
  
 \end_layout
@@ -1714,7 +1865,7 @@ Non-orthogonal, multi-dimensional scheme
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
- grids every 100 seconds for grids of 
+ meshes every 100 seconds for meshes of 
 \begin_inset Formula $100\times100$
 \end_inset
 
@@ -1756,7 +1907,7 @@ We present the convergence with resolution of the
 \begin_inset Formula $\ell_{\infty}$
 \end_inset
 
- error measures for grids of 
+ error measures for meshes of 
 \begin_inset Formula $50\times50$
 \end_inset
 
@@ -1786,25 +1937,25 @@ reference "fig:solidBodyConverge"
 \end_inset
 
 .
- On both orthogonal and non-orthogonal grids, the multi-dimensional scheme
+ On both orthogonal and non-orthogonal meshes, the multi-dimensional scheme
  has second order of convergence once errors are low enough to avoid error
  saturation (stable errors are bounded at around one).
  With large Courant number, the multi-dimensional scheme is less accurate
  due to phase errors of the implicit time-stepping.
  The dimensionally split scheme is affected by both the Courant number and
- the orthogonality of the grids.
- On the orthogonal grids, the dimensionally split scheme has third order
+ the orthogonality of the meshes.
+ On the orthogonal meshes, the dimensionally split scheme has third order
  accuracy and the lowest errors when the Courant number less than one, while
  it is second order accurate for the larger Courant number.
- On the non-orthogonal grid, the dimensionally split scheme reduce to less
+ On the non-orthogonal mesh, the dimensionally split scheme reduce to less
  than first order of accuracy for the small Courant number and is unstable
  for the large Courant number.
 \end_layout
 
 \begin_layout Standard
 In summary, the split scheme has excellent behaviour at large and small
- Courant numbers on the orthogonal grids but is prone to first-order errors
- and instability on the non-orthogonal grid whereas the multi-dimensional
+ Courant numbers on the orthogonal meshes but is prone to first-order errors
+ and instability on the non-orthogonal mesh whereas the multi-dimensional
  scheme is insensitive to the orthogonality, second-order accurate and suffers
  from phase errors at large Courant numbers.
  
@@ -1906,7 +2057,7 @@ Convergence with resolution of the
 \end_inset
 
  errors for the solid body rotation test case on orthogonal and non-orthogonal
- grids using multi-dimensional and dimensionally split schemes.
+ meshes using multi-dimensional and dimensionally split schemes.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -1936,10 +2087,17 @@ name "fig:solidBodyConverge"
 
 \begin_layout Subsection
 Horizontal Advection over Orography
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:overOrog"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Non-orthogonal grids are usually necessary for representing orography and
+Non-orthogonal meshes are usually necessary for representing orography and
  so this might be a challenge for dimensionally split schemes.
  Horizontal-vertical split schemes are commonly used in this context 
 \begin_inset CommandInset citation
@@ -3346,7 +3504,14 @@ er accuracy at all resolutions.
 \end_layout
 
 \begin_layout Subsection
-Deformational Flow
+Deformational Flow 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:deformFlow"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3466,7 +3631,7 @@ where
 \end_layout
 
 \begin_layout Standard
-A grid with distortion similar to a cubed-sphere is defined by the co-ordinate
+A mesh with distortion similar to a cubed-sphere is defined by the co-ordinate
  transform:
 \end_layout
 
@@ -3501,7 +3666,7 @@ The initial conditions and a
 \begin_inset Formula $120\times60$
 \end_inset
 
- grid with distortion defined by this co-ordinate transform is shown in
+ mesh with distortion defined by this co-ordinate transform is shown in
  figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3543,7 +3708,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-The non-orthognal grid/co-ordinate system for the deformational flow with
+The non-orthognal mesh/co-ordinate system for the deformational flow with
  
 \begin_inset Formula $120\times60$
 \end_inset
@@ -3578,7 +3743,7 @@ reference "fig:deformResults"
 \end_inset
 
  using the dimensionally split and multi-dimensional schemes on a non-orthogonal
- grid of 
+ mesh of 
 \begin_inset Formula $480\times240$
 \end_inset
 
@@ -3896,7 +4061,7 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 Results of the deformational flow test case after 1, 2, 3, 4 and 5 time
- units on the non-orthogonal grids of 480
+ units on the non-orthogonal meshes of 480
 \begin_inset Formula $\times$
 \end_inset
 
@@ -3956,7 +4121,7 @@ Resolution
 \begin_inset Text
 
 \begin_layout Plain Layout
-Grid
+Mesh
 \end_layout
 
 \end_inset
@@ -6534,12 +6699,12 @@ Maximum Courant numbers
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Resolutions, time-steps and Courant numbers for the non-orthogonal grids
+Resolutions, time-steps and Courant numbers for the non-orthogonal meshes
  for the deformational flow test case.
  Maximum Courant numbers are shown inside the table for simulations which
  are presented in graphs.
- The maximum Courant numbers on the orthogonal grids are 70% of those on
- the non-orthogonal grids.
+ The maximum Courant numbers on the orthogonal meshes are 70% of those on
+ the non-orthogonal meshes.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -6570,9 +6735,9 @@ reference "tab:res_Courant"
 \end_inset
 
 .
- The Courant numbers on the uniform, orthogonal grid (with no grid distortions)
- are 70% of those on the non-orthogonal grid since the non-orthogonal grid
- has clustering of grid points.
+ The Courant numbers on the uniform, orthogonal mesh (with no mesh distortions)
+ are 70% of those on the non-orthogonal mesh since the non-orthogonal mesh
+ has clustering of mesh points.
  The convergence with resolution of the 
 \begin_inset Formula $\ell_{2}$
 \end_inset
@@ -6589,17 +6754,17 @@ reference "tab:res_Courant"
  All of the schemes give first-order convergence with resolution at coarse
  resolution due to error saturation (if the scheme is stable, errors are
  bounded above by about one).
- At higher resolution, the split scheme on the orthogonal grid converges
+ At higher resolution, the split scheme on the orthogonal mesh converges
  with nearly third-order accuracy whereas the multi-dimensional scheme approache
-s second-order, independent of the grid type.
- The split scheme on the non-orthogonal grid has similar accuracy to the
+s second-order, independent of the mesh type.
+ The split scheme on the non-orthogonal mesh has similar accuracy to the
  multi-dimensional scheme at coarse resolution but is unstable at higher
  resolution.
  For large Courant numbers (maximum close to 10), both schemes converge
- with first-order accuracy and the split scheme on the orthogonal grid is
+ with first-order accuracy and the split scheme on the orthogonal mesh is
  much more accurate than the multi-dimensional scheme.
- However the multi-dimensional scheme accuracy is not dependent on the grid
- type whereas the split scheme is unstable on a non-orthogonal grid for
+ However the multi-dimensional scheme accuracy is not dependent on the mesh
+ type whereas the split scheme is unstable on a non-orthogonal mesh for
  large Courant numbers.
  
 \end_layout
@@ -6767,7 +6932,7 @@ Convergence with resolution of the
 \begin_inset Formula $\ell_{\infty}$
 \end_inset
 
- errors for the deformational flow on orthogonal and non-orthogonal grids
+ errors for the deformational flow on orthogonal and non-orthogonal meshes
  using multi-dimensional and dimensionally split schemes.
  
 \begin_inset CommandInset label
@@ -6791,7 +6956,7 @@ name "fig:deformationalConverge"
 
 \begin_layout Standard
 We inspect sensitivity to time-step of both schemes on orthogonal and non-orthog
-onal grids of 
+onal meshes of 
 \begin_inset Formula $120\times60$
 \end_inset
 
@@ -6806,7 +6971,7 @@ reference "tab:res_Courant"
  excellent properties of the flux-form semi-Lagrangian time-stepping used
  by the split scheme.
  Errors actually reduce for longer time-steps using the split scheme on
- an orthogonal grid since space and time are discretised together and so,
+ an orthogonal mesh since space and time are discretised together and so,
  for sufficiently small time-steps, errors per time-step are not dependent
  on the time-step size and so, taking a longer time-step means fewer time-steps
  and so reduced errors.
@@ -6829,7 +6994,7 @@ reference "fig:deformationalConverge"
 \end_inset
 
  used maximum Courant numbers of 1 and 10 which showed that the split scheme
- on the orthogonal grid gave better accruacy than the multi-dimensional
+ on the orthogonal mesh gave better accruacy than the multi-dimensional
  scheme.
  However, figure 
 \begin_inset CommandInset ref
@@ -6850,7 +7015,7 @@ reference "fig:deformational_dt"
 
  also demonstrates the potential danger of relying on test cases such as
  these.
- The split scheme on the non-orthogonal grid is stable for a maximum Courant
+ The split scheme on the non-orthogonal mesh is stable for a maximum Courant
  number of 1 (taking 500 times-steps of) but unstable for smaller Courant
  numbers (taking 1000 and 2000 times-steps).
  It is not the small time-steps that is leading to instability, it is the
@@ -6949,7 +7114,7 @@ Variation of
 \end_inset
 
  errors with time-step for the deformational flow on orthogonal and non-orthogon
-al grids of 
+al meshes of 
 \begin_inset Formula $120\times60$
 \end_inset
 
@@ -6999,6 +7164,22 @@ Conjecture: the split scheme can achieve convergence with resolution better
 LatexCommand bibtex
 bibfiles "numerics,reference"
 options "abbrvnat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todos
+\end_layout
 
 \end_inset
 
