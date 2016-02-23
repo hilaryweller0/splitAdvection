@@ -36,8 +36,10 @@ vSlice/horizontalAdvection/highOrography_coarse/save/cubicUpwindCPCFit_dt50N_up/
 vSlice/horizontalAdvection/highOrography_fine/save/cubicUpwindCPCFit_dt12.5N_up/10000/TallTall.pdf
 vSlice/horizontalAdvection/highOrography_vfine/save/cubicUpwindCPCFit_dt6.25N_up/10000/TallTall.pdf
 
-solidBodyRotationOnPlane/l2errors.eps
-solidBodyRotationOnPlane/linferrors.eps
+solidBodyRotationOnPlane/plots/l2errors.eps
+solidBodyRotationOnPlane/plots/linferrors.eps
+solidBodyRotationOnPlane/plots/l2errors_dt.eps
+solidBodyRotationOnPlane/plots/linferrors_dt.eps
 solidBodyRotationOnPlane/orthogonal/100x100/dt_1/Tcontours.pdf
 solidBodyRotationOnPlane/nonOrthog/100x100/dt_1/Tcontours.pdf
 solidBodyRotationOnPlane/orthogonal/100x100/dt_10/TcontoursBig.pdf
