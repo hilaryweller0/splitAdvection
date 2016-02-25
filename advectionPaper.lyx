@@ -450,14 +450,13 @@ key "WS14"
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
+The code for dimensionally splitting scheme is available at 
+\begin_inset Flex URL
+status collapsed
 
 \begin_layout Plain Layout
 
-
-\backslash
-todo[inline]{Where can you download the code}
+https://github.com/yumengch/COSMIC-splitting
 \end_layout
 
 \end_inset
