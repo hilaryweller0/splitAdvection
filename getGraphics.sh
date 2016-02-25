@@ -15,7 +15,7 @@ deformingAdvectionCyclic/nonOrthogW_c1/480x240/5/T.pdf
 
 # List of files to copy and rename
 cpFiles=(
-deformingAdvectionCyclic/nonOrthogW_c1/120x60/0/Tmesh.pdf
+deformingAdvectionCyclic/nonOrthogW_c1/120x60/0/TUmesh.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt1000CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt100CN_up/10000/Tall.pdf
 vSlice/horizontalAdvection/orography/save/cubicUpwindCPCFit_dt200CN_up/10000/Tall.pdf

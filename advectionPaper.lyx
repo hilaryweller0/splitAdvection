@@ -1138,6 +1138,17 @@ where
  
 \end_layout
 
+\begin_layout Subsubsection
+Implicit Solution, Matrix Solvers and Tolerances 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:implicitMethod"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 The implicit Crank-Nicholson time-stepping leads to a matrix equation which
  needs to be solved to find all the 
@@ -1157,14 +1168,60 @@ s at the next time-step.
  time, the time-stepping scheme is defined as:
 \begin_inset Formula 
 \begin{eqnarray}
-\frac{\phi^{\prime}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{\prime}+2\sum_{c}w_{c}\phi_{c}^{n}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}\\
-\frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{n+1}+\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.
+\frac{\phi^{\prime}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{\prime}+2\sum_{c}w_{c}\phi_{c}^{n}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:CN_1}\\
+\frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{n+1}+\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.\label{eq:CN_2}
 \end{eqnarray}
 
 \end_inset
 
 For larger Courant numbers we use four implicit solves per time-step although
  sensitivity to this choice has not been investigated.
+ 
+\end_layout
+
+\begin_layout Standard
+If this implicit scheme is applied on a logically rectangular, two-dimensional
+ mesh with horizonal and vertical Courant numbers 
+\begin_inset Formula $c_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{y}$
+\end_inset
+
+ then the diagonal coefficients of the matrix would be 
+\begin_inset Formula $1+c_{x}/2+c_{y}/2$
+\end_inset
+
+ and, assuming two upwind directions, there would be exactly two off-diagonal
+ elements, 
+\begin_inset Formula $c_{x}/2$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{y}/2$
+\end_inset
+
+.
+ Consequently the matrix is very sparse, asymmetric and diagonally dominant
+ for all time-steps.
+ It is solved using the OpenFOAM bi-conjugate gradient solver using DILU
+ pre-conditioning to a tolerance of 
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+ every iteration.
+ It would probably be cost effective to use a weaker tolerance on all but
+ the final iteration in each time-step but this has not been investigated.
+ Information about the number of iterations of the solver for different
+ test cases in given in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:cost"
+
+\end_inset
+
+.
  
 \end_layout
 
@@ -1322,26 +1379,7 @@ reference "fig:solidBody"
  On the orthogonal mesh, the dimensionally split scheme outperforms the
  multi-dimensional scheme due to the higher-order accuracy of the split
  scheme.
- 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Are we sure this is the reason? Like in fig 
-\backslash
-ref{fig:deformational_dt} for the deformational test case, could the smaller
- errors of the split scheme be due to the Courant number close to one? Need
- to look at errors when using smaller time-steps (like fig 
-\backslash
-ref{fig:deformational_dt})}
-\end_layout
-
-\end_inset
-
-The split scheme on the orthogonal mesh has errors smaller than the first
+ The split scheme on the orthogonal mesh has errors smaller than the first
  colour value in the first 300 seconds and errors gradually increase showing
  a small phase lag near the peak of the Gaussian towards the end of the
  simulation.
@@ -1718,7 +1756,7 @@ reference "fig:solidBody"
 \begin_inset Formula $\Delta t=10\text{ s}$
 \end_inset
 
-) giving maximum Courant nubmers of around 10 using 
+) giving maximum Courant numbers of around 10 using 
 \begin_inset Formula $100\times100$
 \end_inset
 
@@ -1730,15 +1768,15 @@ reference "fig:solidBody-dt10"
 \end_inset
 
 .
- The error of multi-dimensional scheme is much larger than dimensionally
+ The error of the multi-dimensional scheme is much larger than dimensionally
  split scheme on the orthogonal mesh.
  However, the dimensionally split scheme goes unstable on the non-orthogonal
- mesh when using a large Courant number whereas the multi-dimensional scheme
- has similar accuracy as on the orthogonal mesh for a large Courant number.
- In summary, the split scheme is very accurate on an orthogonal mesh but
- has instabilities where the mesh changes direction whereas the multi-dimensiona
-l scheme accuracy is not mesh dependent but suffers from phase errors for
- large Courant numbers.
+ mesh when using a large Courant number whereas for the multi-dimensional
+ scheme, errors and stability are not strongly affected by the non-orthogonality.
+ In summary, the split scheme is very accurate on an orthogonal mesh and
+ much less accurate on non-orthogonal mesh with instabilities where the
+ mesh changes direction whereas the multi-dimensional scheme accuracy is
+ not mesh dependent but suffers from phase errors for large Courant numbers.
  
 \end_layout
 
@@ -1975,32 +2013,23 @@ reference "fig:solidBodyConverge"
  On both orthogonal and non-orthogonal meshes, the multi-dimensional scheme
  has second order convergence once errors are low enough to avoid error
  saturation (stable errors are bounded at around one).
- With large Courant number, the multi-dimensional scheme is less accurate
+ With a large Courant number, the multi-dimensional scheme is less accurate
  due to phase errors of the implicit time-stepping.
  The dimensionally split scheme is affected by both the Courant number and
  the orthogonality of the meshes.
  On the orthogonal meshes, the dimensionally split scheme has third order
- accuracy and the lowest errors when the Courant number less than one, while
- it is second order accurate for the larger Courant number.
+ accuracy for th Courant number close to one and second order accuracy for
+ the larger Courant number.
  On the non-orthogonal mesh, the dimensionally split scheme reduce to less
  than first order of accuracy for the small Courant number and is unstable
  for the large Courant number.
 \end_layout
 
 \begin_layout Standard
-In summary, the split scheme has excellent behaviour at large and small
- Courant numbers on the orthogonal meshes but is prone to first-order errors
- and instability on the non-orthogonal mesh whereas the multi-dimensional
- scheme is insensitive to the orthogonality, second-order accurate and suffers
- from phase errors at large Courant numbers.
- 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -2128,10 +2157,58 @@ name "fig:solidBodyConverge"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The different time-stepping schemes of the two models affects accuracy as
+ well as the different spatial discretisation.
+ The 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error measures as a function of time-step for meshes of 
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBodyConverge-dt"
+
+\end_inset
+
+.
+ The dimensionally split scheme, which uses flux-form semi-Lagrangian time-stepp
+ing, has errors reducing as time-step increases, up to a Courant number
+ of 2 (
+\begin_inset Formula $\Delta t=2\ \text{s}$
+\end_inset
+
+) on the orthogonal grid whereas the multi-dimensional scheme, which uses
+ the method of lines to treat space and time separately, always has error
+ reducing as time-steps reduces.
+ Again we see error insensitive to orthogonality for the multi-dimensional
+ scheme whereas the split scheme is unstable for a Courant number greater
+ than 1 (
+\begin_inset Formula $\Delta t>1\ \text{s}$
+\end_inset
+
+) on the non-orthogonal mesh.
+ The flux-form semi-Lagrangian technique discretises space and time together
+ and the error is not very sensitive to time-step.
+ However, the shorter the time-step, the more time-steps need to be taken
+ so errors can actually accumulate more by taking more time-steps.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -2267,6 +2344,15 @@ name "fig:solidBodyConverge-dt"
 \end_layout
 
 \begin_layout Standard
+In summary, the split scheme has excellent behaviour at large and small
+ Courant numbers on the orthogonal meshes but is prone to first-order errors
+ and instability on the non-orthogonal mesh whereas the multi-dimensional
+ scheme is insensitive to the orthogonality, second-order accurate and suffers
+ from phase errors at large Courant numbers.
+ 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -2317,7 +2403,7 @@ key "GCS75"
 
 \end_inset
 
-:
+ in order to maximise the non-orthogonality:
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{ccc}
@@ -2367,8 +2453,8 @@ with the maximum mountain height,
 \end_inset
 
 .
- The wind is specified from a streamfunction defined at vertices so that
- the wind field applied is discretely divergence free.
+ The wind is defined from a streamfunction which is defined at vertices
+ so that the wind field applied is discretely divergence free.
  The streamfunction at vertices is calculated analytically from the wind
  profile:
 \begin_inset Formula 
@@ -2990,7 +3076,7 @@ reference "fig:horizontalAdvectionWithDt"
 
 \end_inset
 
- for the split and multi-dimensional schemes at a resolutiohn of 
+ for the split and multi-dimensional schemes at a resolution of 
 \begin_inset Formula $\Delta x=1\text{ km}$
 \end_inset
 
@@ -3024,7 +3110,7 @@ reference "sub:MMmolscheme"
 
 \end_inset
 
- for definitions of variables).
+ for definitions of variables) and ranges from 0.74 to 29.6.
  The time-step restriction for the split scheme is based on the deformational
  Courant number, 
 \begin_inset Formula $c_{d}\le1$
@@ -3075,446 +3161,33 @@ reference "fig:horizontalAdvectionWithDt"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
-<column alignment="center" valignment="middle" width="14text%">
-<column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dimensionally split
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Multi-dimensional
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta x=2\ $
-\end_inset
-
-km
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta z=1\ $
-\end_inset
-
-km
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=50\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 0.59
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_coarse_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_coarse_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta x=1\ $
-\end_inset
-
-km
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta z=500\ $
-\end_inset
-
-m
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=25\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 0.74
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta x=500\ $
-\end_inset
-
-m
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta z=250\ $
-\end_inset
-
-m
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=12.5\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 0.78
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_fine_save_cubicUpwindCPCFit_dt12.5CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_fine_save_cubicUpwindCPCFit_dt12.5CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta x=250\ $
-\end_inset
-
-m
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta z=125\ $
-\end_inset
-
-m
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=6.25\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 0.78
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_vfine_save_cubicUpwindCPCFit_dt6.25CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_vfine_save_cubicUpwindCPCFit_dt6.25CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_legends_Tall_TdiffAll.pdf
-	lyxscale 50
-	width 85text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Tracer contours after 0, 5000 and 10000s for the horizontal advection over
- orography and errors in colour.
- Different plots use different spatial and temporal resolutions but they
- use the same horizontal  Courant number of 0.25.
- The maximum Courant number is dependent on the resolution of the orography.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:horizontalAdvectionWithDx"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 We examine the convergence with spatial resolution in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:horizontalAdvectionWithDx"
-
-\end_inset
-
- which shows contours and errors for various spatial resolutions and in
- figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:horizontalAdvectConverge"
 
 \end_inset
 
- which shows error norms as a function of resolution.
+ which shows the 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error norms as a function of 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+.
  These simulations all use a maximum Courant number less than one, a horizontal
  Courant number of 0.25 and a maximum deformational Courant number of about
  0.2.
- Both schemes show large errors at the coarsest resolution in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:horizontalAdvectionWithDx"
-
-\end_inset
-
- with the split scheme producing oscillations above the mountains and both
- schemes diffusing the tracer in the 
-\begin_inset Formula $z$
-\end_inset
-
- direction.
- Both schemes give similar accuracy until the highest resolution, where
- the multi-dimensional scheme is more accurate.
+ Both schemes give similar accuracy at the coarsest three resolutions, convergin
+g with second-order accuracy, but at higher resolution, the split scheme
+ converges much more slowly whereas the multi-dimensional scheme continues
+ to converge with second-order accuracy.
  
 \end_layout
 
@@ -3642,25 +3315,15 @@ name "fig:horizontalAdvectConverge"
 \end_layout
 
 \begin_layout Standard
-The convergence with resolution of the 
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- and 
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error norms are shown in figure 
+Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:horizontalAdvectConverge"
 
 \end_inset
 
- with all simulations using a horizontal Courant number of 0.25.
- As well as the standard setup, results are shown for a setup with a higher
- mountain in order to see the first-order behaviour of the split scheme
- at lower resolution.
+ also shows convergence with resolution for a higher mountain in order to
+ increase the non-orthogonality.
  The higher mountain uses 
 \begin_inset Formula $h_{0}=6\text{ km}$
 \end_inset
@@ -3678,11 +3341,9 @@ reference "fig:horizontalAdvectConverge"
 \end_inset
 
 .
- The multi-dimensional scheme converges with second-order accuracy for all
- resolutions whereas the split scheme reduces to first-order at high resolution
- and, for the higher mountain, appears to be converging with less than first-ord
-er accuracy at all resolutions.
- 
+ The multi-dimensional scheme converges with second-order accuracy at all
+ resolutions for the higher mountain whereas the split scheme is at best
+ first-order accurate for the higher mountain.
 \end_layout
 
 \begin_layout Standard
@@ -3875,7 +3536,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_120x60_0_Tmesh.pdf
+	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_120x60_0_TUmesh.pdf
 	width 100text%
 
 \end_inset
@@ -3946,9 +3607,26 @@ reference "fig:deformResults"
  preserving.
  The multi-dimensional scheme produces smooth errors in the final tracer
  field whereas the split scheme produces and maintains large dispersion
- errors but only in isolated places, where the mesh non-orthogonality is
- large leading to some grid-scale grid imprinting in the final tracer field.
+ errors but only in a few isolated places, where the mesh non-orthogonality
+ is large, leading to some grid-scale grid imprinting in the final tracer
+ field.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Replot split results for fig 10 to match multi-d results}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5292,7 +4970,7 @@ reference "tab:res_Courant"
 .
  The Courant numbers on the uniform, orthogonal meshes (with no mesh distortions
 ) are 70% of those on the non-orthogonal mesh since the non-orthogonal mesh
- has clustering of mesh points (not shown).
+ has clustering of mesh points.
  The convergence with resolution of the 
 \begin_inset Formula $\ell_{2}$
 \end_inset
@@ -5536,10 +5214,14 @@ n time-stepping used by the split scheme.
  Errors actually reduce for longer time-steps using the split scheme on
  an orthogonal mesh since space and time are discretised together and so,
  for sufficiently small time-steps, errors per time-step are not dependent
- on the time-step size and so, taking a longer time-step means fewer time-steps
- and so reduced errors.
- Due to the deformational nature of the flow, errors do grow for much larger
- time-steps.
+ very on the time-step size and so, taking a longer time-step means fewer
+ time-steps and so reduced errors.
+ Once the maximum Courant number reaches 2 (
+\begin_inset Formula $\Delta t=0.02$
+\end_inset
+
+), error of the split scheme do grow with the time-step, due to the deformationa
+l nature of the flow.
  In contrast, using the multi-dimensional scheme which uses method of lines
  time-stepping, errors always increase as the time-step is increased.
  Comparisons between schemes in figures 
@@ -5557,7 +5239,7 @@ reference "fig:deformationalConverge"
 \end_inset
 
  used maximum Courant numbers of 1 and 10 which showed that the split scheme
- on the orthogonal mesh gave better accruacy than the multi-dimensional
+ on the orthogonal mesh gave better accuracy than the multi-dimensional
  scheme.
  However, figure 
 \begin_inset CommandInset ref
@@ -5568,7 +5250,8 @@ reference "fig:deformational_dt"
 
  shows that this advantage disappears at lower Courant numbers since the
  multi-dimensional scheme (method of lines) gets more accurate with lower
- Courant numbers whereas the split scheme (semi-Lagrangian) gets less accurate.
+ Courant numbers whereas the split scheme (semi-Lagrangian) gets less accurate
+ since more time-steps have to be taken.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5706,6 +5389,37 @@ name "fig:deformational_dt"
 
 \begin_layout Subsection
 Computational Cost
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:cost"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We cannot compare CPU time, wall clock time or parallel efficiency of the
+ two advection schemes because the multi-dimensional scheme is written in
+ C++ using OpenFOAM and the split scheme is written in Python, both codes
+ have been run on different hardware and the split advection scheme code
+ has not been parallelised.
+ Instead we consider the number of multiplies per cell per time-step outside
+ the linear equation solver and the number of iterations per time-step of
+ the linear equation solver.
+ We realise that this is not a good predictor of efficiency as it does not
+ consider memory read and write requirements or cache coherency.
+ However all data that is multiplied has to be fetched from memory and so,
+ assuming that all data can be arranged optimally in memory to enable fewest
+ cache misses, the number of multiplies should be related to the wall clock
+ time.
+ Neither advection scheme does significantly more multiplies per memory
+ fetch than the other.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Dimensionally Split Scheme
 \end_layout
 
 \begin_layout Standard
@@ -5716,13 +5430,650 @@ status open
 
 
 \backslash
-todo[inline]{Theoretical comparison and discussion of computational cost,
- complexity and opportunities for multi-tracer efficiency}
+todo[inline]{Yumeng, could you put similar text in here for the split scheme}
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Multi-dimensional Scheme
+\end_layout
+
+\begin_layout Standard
+It is much more straightforward to calculate the computational cost (measured
+ as number of multiplies) for an explicit version of the multi-dimensional
+ scheme, assuming that we are using an RK2 time-stepping scheme 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg as used by"
+key "SW1x"
+
+\end_inset
+
+ which is stable and accurate up to a Courant number of one.
+ We consider the cost of the linear equation solver separately.
+ 
+\end_layout
+
+\begin_layout Standard
+We will estimate the number multiplies per cell, per time-step, per tracer
+ of the multi-dimensional advection scheme for a logically rectangular two-dimen
+sional mesh.
+ In this case, there are 12 cells in each stencil for each face, each cell
+ has four faces and the interpolation onto each face is used to calculate
+ the flux into two cells.
+ This leads to 24 multiplies per cell for each RK2 stage and hence 48 multiplies
+ per cell per time-step.
+ When using implicit time-stepping, this is the cost of calculating the
+ right hand side of the matrix equation.
+\end_layout
+
+\begin_layout Standard
+As described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:implicitMethod"
+
+\end_inset
+
+, the matrix is asymmetric, diagonally dominant for any Courant number and,
+ for a logically rectangular mesh, has three non-zero elements per row.
+ The average number of iterations of the preconditioned bi-CG solver per
+ time-step for each of the simulations is shown in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:iterations"
+
+\end_inset
+
+.
+ These simulations use two outer iterations per time-step when the maximum
+ Courant number is 
+\begin_inset Formula $\le1.1$
+\end_inset
+
+ (as in equations (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CN_1"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CN_2"
+
+\end_inset
+
+)) but, for stability, use four outer iterations per time-step for the larger
+ Courant numbers.
+ This partly explains the greater number of iterations for larger Courant
+ numbers.
+ A solver tolerance of 
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+ is used for each of the outer solves.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:iterations"
+
+\end_inset
+
+ shows that the total number of iterations per time-step reduces slightly
+ as resolution increases and increases as the Courant number increases,
+ but less than linearly with Courant number, meaning that the simulations
+ using large Courant numbers have fewer solves for a given simulation time,
+ meaning that they are cheaper (in fact they are also considerably cheaper
+ because there are fewer evaluations of the right hand side of the matrix
+ equation).
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Resolution 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $120\times60$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $240\times120$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $480\times240$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $960\times480$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1920\times960$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Max 
+\begin_inset Formula $c$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Iterations per time-step orthogonal/non-orthogonal 
+\begin_inset Formula $\downarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+33.4/39.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+31.3/38.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26.0/32.8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19.3/25.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.5/18.6
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22.4/25.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.1/14.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6.0/6.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.4/5.8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.9/5.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.6/4.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.9/4.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.9/5.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.9/3.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Number of solver iterations per time-step of the multi-dimensional scheme
+ for all the simulations on orthogonal/non-orthogonal meshes.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:iterations"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is considerable flexibility in how many outer iterations are performed
+ per time-step (ie how frequently the right hand side of the matrix equation,
+ the higher-order correction, is updated) and the solver tolerance per outer
+ iteration and, for example, using a weaker tolerance on all but the final
+ matrix solve per time-step.
+ These options have not been fully explored.
+ It may also be beneficial to create more non-zero matrix entries rather
+ than having the higher-order correction entirely a deferred correction
+ on first-order upwind (which would need to be done with care to ensure
+ that the matrix remains diagonally dominant).
+ 
 \end_layout
 
 \begin_layout Standard
