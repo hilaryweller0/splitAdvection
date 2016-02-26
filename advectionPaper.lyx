@@ -141,6 +141,22 @@ listoftodos
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Hilary: abstract}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introduction
 \end_layout
@@ -457,6 +473,22 @@ status collapsed
 \begin_layout Plain Layout
 
 https://github.com/yumengch/COSMIC-splitting
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Hilary: where is the multi-d code available?}
 \end_layout
 
 \end_inset
@@ -3620,7 +3652,7 @@ status open
 
 
 \backslash
-todo[inline]{Replot split results for fig 10 to match multi-d results}
+todo[inline]{Hilary: Replot split results for fig 10 to match multi-d results}
 \end_layout
 
 \end_inset
@@ -5417,6 +5449,22 @@ We cannot compare CPU time, wall clock time or parallel efficiency of the
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Hilary: Clarify what this means}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Dimensionally Split Scheme
 \end_layout
@@ -6091,6 +6139,22 @@ Conjecture: the split scheme can achieve convergence with resolution better
  than first order on non-orthogonal co-ordinate systems if the errors due
  to the dimension splitting is not the dominant source of error.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Hilary: Discussion and conclusions}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
