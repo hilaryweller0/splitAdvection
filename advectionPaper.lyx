@@ -5258,8 +5258,8 @@ reference "fig:deformational_dt"
 
 \end_inset
 
- also demonstrates the potential danger of relying on test cases such as
- these.
+ also demonstrates the potential danger of relyi|b|ng on test cases such
+ as these.
  The split scheme on the non-orthogonal mesh is stable for a maximum Courant
  number of 1 (taking 500 times-steps) but unstable for smaller Courant numbers
  (taking 1000 and 2000 times-steps).
@@ -5422,19 +5422,39 @@ Dimensionally Split Scheme
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Yumeng, could you put similar text in here for the split scheme}
-\end_layout
-
+The computational cost for dimensionally split scheme is highly dependent
+ on the one-dimensional scheme.
+ Since we use flux form semi-Lagrangian scheme to achieve long time steps,
+ the computational cost is different for small Courant number, where 
+\begin_inset Formula $\max\{c_{x},c_{y}\}\leqslant1$
 \end_inset
 
+, and large Courant number.
+ 
+\end_layout
 
+\begin_layout Standard
+One-dimensional PPM on uniform grids needs 4 cells to interpolate each face
+ values used by reconstruction, while each cell has two faces and each face
+ is used by two cells.
+ The Dimensionally split scheme involves both advective operator and conservativ
+e operator in each directions.
+ As the flux can be used at both faces and only upwind velocity is used
+ in the advective operator, these steps would not double the multiplies
+ in the PPM.
+ Hence, for both directions, 8 multiplies are introduced.
+ However, due to the cross terms for stability, the PPM have to be used
+ twice in both directions, which leads to 16 multiplies per cell per time
+ step.
+ 
+\end_layout
+
+\begin_layout Standard
+For large Courant numbers, the scheme needs to trace back to the departure
+ cell, which involves an additional multiply each time one-dimensional PPM
+ is used.
+ Because PPM is used four times in the dimensionally split scheme, 20 multiplies
+ are used in the dimensionally split scheme for large Courant number.
 \end_layout
 
 \begin_layout Subsubsection
