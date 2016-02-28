@@ -5485,14 +5485,16 @@ The computational cost for dimensionally split scheme is highly dependent
 One-dimensional PPM on uniform grids needs 4 cells to interpolate each face
  values used by reconstruction, while each cell has two faces and each face
  is used by two cells.
+ The reconstruction proccess leads to additioal 5 multiplies to calculate
+ the flux on each face.
  The Dimensionally split scheme involves both advective operator and conservativ
 e operator in each directions.
  As the flux can be used at both faces and only upwind velocity is used
  in the advective operator, these steps would not double the multiplies
  in the PPM.
- Hence, for both directions, 8 multiplies are introduced.
+ Hence, for both directions, 18 multiplies are introduced.
  However, due to the cross terms for stability, the PPM have to be used
- twice in both directions, which leads to 16 multiplies per cell per time
+ twice in both directions, which leads to 36 multiplies per cell per time
  step.
  
 \end_layout
