@@ -149,7 +149,7 @@ status open
 
 
 \backslash
-todo[inline]{Hilary: abstract}
+todo[inline]{abstract}
 \end_layout
 
 \end_inset
@@ -5435,11 +5435,10 @@ We cannot compare CPU time, wall clock time or parallel efficiency of the
  C++ using OpenFOAM and the split scheme is written in Python, both codes
  have been run on different hardware and the split advection scheme code
  has not been parallelised.
- Instead we consider the number of multiplies per cell per time-step outside
- the linear equation solver and the number of iterations per time-step of
- the linear equation solver.
- We realise that this is not a good predictor of efficiency as it does not
- consider memory read and write requirements or cache coherency.
+ Instead we consider the number of multiply operations performed per cell
+ per time-step for calculating the fluxes of each tracer.
+ We appreciate that this is not a good predictor of efficiency as it does
+ not consider memory read and write requirements or cache coherency.
  However all data that is multiplied has to be fetched from memory and so,
  assuming that all data can be arranged optimally in memory to enable fewest
  cache misses, the number of multiplies should be related to the wall clock
@@ -5457,7 +5456,7 @@ status open
 
 
 \backslash
-todo[inline]{Hilary: Clarify what this means}
+todo[inline]{Yumeng: Is this section now clearer}
 \end_layout
 
 \end_inset
@@ -5477,7 +5476,8 @@ status open
 
 
 \backslash
-todo[inline]{Yumeng, could you put similar text in here for the split scheme}
+todo[inline]{Yumeng, could you put similar text in here on the computational
+ cost of the split scheme}
 \end_layout
 
 \end_inset
@@ -5516,6 +5516,22 @@ sional mesh.
  per cell per time-step.
  When using implicit time-stepping, this is the cost of calculating the
  right hand side of the matrix equation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Hilary: Number of multiplies of the linear equation solver}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6149,7 +6165,7 @@ status open
 
 
 \backslash
-todo[inline]{Hilary: Discussion and conclusions}
+todo[inline]{Discussion and conclusions}
 \end_layout
 
 \end_inset
