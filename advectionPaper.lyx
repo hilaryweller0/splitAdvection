@@ -1244,6 +1244,7 @@ If this implicit scheme is applied on a logically rectangular, two-dimensional
  every iteration.
  It would probably be cost effective to use a weaker tolerance on all but
  the final iteration in each time-step but this has not been investigated.
+ It could also be effective to use a different solver and preconditioner.
  Information about the number of iterations of the solver for different
  test cases in given in section 
 \begin_inset CommandInset ref
@@ -3648,7 +3649,7 @@ reference "fig:deformResults"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -5440,7 +5441,7 @@ status open
 
 
 \backslash
-todo[inline]{Yumeng: Is this section now clearer}
+todo[inline]{Yumeng: Is this section now clearer?}
 \end_layout
 
 \end_inset
@@ -5560,19 +5561,25 @@ sional mesh.
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Hilary: Number of multiplies of the linear equation solver}
-\end_layout
+We have not explored the sensitivity of the accuracy and stability to the
+ stencil size and shape in three dimensions.
+ The three dimensional equivalent of the stencil of quadrilaterals in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:stencil"
 
 \end_inset
 
+ is likely to contain 36 (rather than 12) cells although it may be possible
+ to omit some corner cells and use a stencil of 20 cells.
+ For a stencil of 36 cells, the number of multiplies per cell per time-step
+ would be 
+\begin_inset Formula $36\times4=144$
+\end_inset
 
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -5585,6 +5592,32 @@ reference "sub:implicitMethod"
 
 , the matrix is asymmetric, diagonally dominant for any Courant number and,
  for a logically rectangular mesh, has three non-zero elements per row.
+ The pre-conditioner is implemented in file 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+DILUPreconditioner.C
+\end_layout
+
+\end_inset
+
+ in OpenFOAM and the solver in file 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+PBiCG.C
+\end_layout
+
+\end_inset
+
+.
+ From these files, we estimate that, for a mesh of quadrilaterals, the solver
+ will use 24 multiplies (or divides) per cell, per solver iteration, including
+ pre-conditioning.
  The average number of iterations of the preconditioned bi-CG solver per
  time-step for each of the simulations is shown in table 
 \begin_inset CommandInset ref
@@ -6150,6 +6183,455 @@ Number of solver iterations per time-step of the multi-dimensional scheme
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:iterations"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Combining the number of solver iterations, the number of multiply operations
+ per solve and the number of multiply operations in calculating the higher
+ order part of the advection scheme, the total number of multiply operations
+ per cell per time-step for the multi-dimensional scheme, an explicit version
+ of the multi-dimensional scheme and the dimensionally split scheme are
+ shown in table ref for the non-orthogonal grid of 
+\begin_inset Formula $120\times60$
+\end_inset
+
+ cells.
+ The explicit version of the dimensionally split scheme uses RK2 or Heun
+ time-stepping, in which 
+\begin_inset Formula $\phi_{\text{up}}^{\prime}$
+\end_inset
+
+ on the RHS of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CN_1"
+
+\end_inset
+
+) is replaced by 
+\begin_inset Formula $\phi_{\text{up}}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{\text{up}}^{n+1}$
+\end_inset
+
+ on the RHS of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CN_2"
+
+\end_inset
+
+) is replaced by 
+\begin_inset Formula $\phi_{\text{up}}^{\prime}$
+\end_inset
+
+.
+ When using the cubic-upwind spacial discretisation described in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:MMmolscheme"
+
+\end_inset
+
+, this time-stepping scheme is stable for Courant numbers up to one and
+ gives very similar results to the implicit scheme (not shown).
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:multiplies"
+
+\end_inset
+
+ shows that the implicit scheme always uses more multiply operations but
+ particularly uses more multiplies for large Courant numbers.
+ The explicit version of the multi-dimensional scheme always uses 48 multiply
+ operations but is not stable for all time-steps whereas the dimensionally
+ split scheme (using flux-form semi-Lagrangian time-stepping) is stable
+ for all Courant numbers (at this spatial resolution) and always uses the
+ fewest number of multiply operations per cell per time-step.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Max 
+\begin_inset Formula $c$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Implicit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Explicit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dimensionally
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-dimensionsal
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Split
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $39.5\times24+48\times2=1,044$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $25.7\times24+48\times2=712.8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $14.6\times24+48\times2=446.4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $6.5\times24+48=204$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+48
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.0\times24+48=168$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+48
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3.9\times24+48=$
+\end_inset
+
+141.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+48
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Total number of multiply operations per cell per time-step for different
+ Courant numbers for the multi-dimensional scheme, an explicit version of
+ the multi-dimensional scheme (using RK2 or Heun time-stepping) and the
+ dimensionally split scheme.
+ The version using RK2 time-stepping is stable for Courant numbers 
+\begin_inset Formula $\le1$
+\end_inset
+
+ and gives very similar solutions.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:multiplies"
 
 \end_inset
 
