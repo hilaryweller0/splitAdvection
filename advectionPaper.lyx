@@ -672,9 +672,9 @@ where
 
 : 
 \begin_inset Formula 
-\[
+\begin{equation}
 M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.
-\]
+\end{equation}
 
 \end_inset
 
@@ -3645,26 +3645,10 @@ reference "fig:deformResults"
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Hilary: Replot split results for fig 10 to match multi-d results}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -3720,8 +3704,8 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_1_T.pdf
-	lyxscale 50
+	filename YumengsGraphics/deformationalData/plots/T1.pdf.png
+	lyxscale 25
 	width 49text%
 
 \end_inset
@@ -3763,8 +3747,8 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_2_T.pdf
-	lyxscale 50
+	filename YumengsGraphics/deformationalData/plots/T2.pdf.png
+	lyxscale 25
 	width 49text%
 
 \end_inset
@@ -3806,8 +3790,8 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_3_T.pdf
-	lyxscale 50
+	filename YumengsGraphics/deformationalData/plots/T3.pdf.png
+	lyxscale 25
 	width 49text%
 
 \end_inset
@@ -3849,8 +3833,8 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_4_T.pdf
-	lyxscale 50
+	filename YumengsGraphics/deformationalData/plots/T4.pdf.png
+	lyxscale 25
 	width 49text%
 
 \end_inset
@@ -3892,8 +3876,8 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformingAdvection_onOrthogW_c1_480x240_5_T.pdf
-	lyxscale 50
+	filename YumengsGraphics/deformationalData/plots/T5.pdf.png
+	lyxscale 25
 	width 49text%
 
 \end_inset
@@ -5290,8 +5274,8 @@ reference "fig:deformational_dt"
 
 \end_inset
 
- also demonstrates the potential danger of relying on test cases such as
- these.
+ also demonstrates the potential danger of relyi|b|ng on test cases such
+ as these.
  The split scheme on the non-orthogonal mesh is stable for a maximum Courant
  number of 1 (taking 500 times-steps) but unstable for smaller Courant numbers
  (taking 1000 and 2000 times-steps).
@@ -5469,6 +5453,10 @@ Dimensionally Split Scheme
 \end_layout
 
 \begin_layout Standard
+The computational cost of PPM with COSMIC splitting is time-step dependent
+ due to the swept area approach of flux form semi-Lagrangian.
+ We will first consider the case for a Courant number less that one.
+ One-dimensional PPM on a uniform grid 
 \begin_inset ERT
 status open
 
@@ -5476,13 +5464,66 @@ status open
 
 
 \backslash
-todo[inline]{Yumeng, could you put similar text in here on the computational
- cost of the split scheme}
+todo[inline]{Yumeng: How many for a non-uniform grid? Could any of the multiplie
+s be pre-computed?}
+\end_layout
+
+\end_inset
+
+uses 4 cells for each interpolation to find face values used by reconstruction.
+ Each cell has two faces and each face is used by two cells.
+ The reconstruction process leads to additional 5 multiplies to calculate
+ the flux on each face 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Yumeng: You say "additional 5 multiplies, but for the interpolation
+ you said how many cells were needed but not how many multiplies were needed.
+ So this is in addition to what? If you are just using 4 cells, is it possible
+ to pre-compute coefficients?}
+\end_layout
+
+\end_inset
+
+making 9 multiplies per cell for applying PPM in one direction.
+ The COSMIC splitting involves one application of the advective operator
+ and one application of the conservative operator in each of the two directions.
+ This makes 
+\begin_inset Formula $9\times2\times2=36$
+\end_inset
+
+ multiplies per cell for a Courant number less than one.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Yumeng: As far as I can see from eqn 6, no additional multiplies
+ are needed for Courant numbers greater than one.
+ This is one of the beauties of PPM.
+ (I don't think that the cumulative mass in eqn 7 needs to count.)}
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+For Courant numbers greater than one, the scheme needs to trace back to
+ the departure cell, which involves an additional memory access and additional
+ multiplies.
+ Because PPM is used four times in the dimensionally split scheme, 20 multiplies
+ are used in the dimensionally split scheme for large Courant number.
 \end_layout
 
 \begin_layout Subsubsection
