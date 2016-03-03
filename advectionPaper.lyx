@@ -5471,7 +5471,8 @@ The computational cost of PPM with COSMIC splitting is time-step dependent
  multiplies per cell for a Courant number less than one.
  For Courant numbers greater than one, the scheme needs to trace back to
  the departure cell, which involves an additional memory access and additional
- multiplies for one-dimensional PPM.
+ multiplies for one-dimensional PPM resulting in 9 multiplies per cell per
+ time step.
  Therefore, 
 \begin_inset Formula $32+1\times4=36$
 \end_inset
@@ -5483,10 +5484,13 @@ The computational cost of PPM with COSMIC splitting is time-step dependent
 On the non-uniform grids, because most coefficient of the quartic interpolation
  function of one-dimensional PPM can be precomputed, only 3 multiplies is
  needed.
- Hence, PPM requires 10 multiplies per cell per time step.
+ The reconstruction does not need additional multiplies.
+ Hence, PPM requires 9 multiplies per cell per time step with Courant number
+ less than one on non-uniform grids.
+ Accordingly, PPM with Courant number larger than one needs 10 multiplies
+ per cell per time step.
  The number of multiplies would be 40 per cell per time step for PPM with
- COSMIC splitting with Courant number larger than one on non-uniform grids
- since all other processes do not depend on the size of cell.
+ COSMIC splitting.
 \end_layout
 
 \begin_layout Standard
