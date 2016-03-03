@@ -5457,74 +5457,54 @@ Dimensionally Split Scheme
 The computational cost of PPM with COSMIC splitting is time-step dependent
  due to the swept area approach of flux form semi-Lagrangian.
  We will first consider the case for a Courant number less that one.
- One-dimensional PPM on a uniform grid 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Yumeng: How many for a non-uniform grid? Could any of the multiplie
-s be pre-computed?}
-\end_layout
-
-\end_inset
-
-uses 4 cells for each interpolation to find face values used by reconstruction.
- Each cell has two faces and each face is used by two cells.
- The reconstruction process leads to additional 5 multiplies to calculate
- the flux on each face 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Yumeng: You say "additional 5 multiplies, but for the interpolation
- you said how many cells were needed but not how many multiplies were needed.
- So this is in addition to what? If you are just using 4 cells, is it possible
- to pre-compute coefficients?}
-\end_layout
-
-\end_inset
-
-making 9 multiplies per cell for applying PPM in one direction.
- The COSMIC splitting involves one application of the advective operator
- and one application of the conservative operator in each of the two directions.
+ One-dimensional PPM uses 4 cells for interpolation to find face values
+ used by reconstruction.
+ Based on the interpolation function, we have 2 multiplies.
+ The reconstruction process leads to 6 multiplies to calculate the flux
+ on each face making 8 multiplies per cell for applying PPM in one direction.
+ The COSMIC splitting involves four applications of the one-dimensional
+ PPM.
  This makes 
-\begin_inset Formula $9\times2\times2=36$
+\begin_inset Formula $8\times4=32$
 \end_inset
 
  multiplies per cell for a Courant number less than one.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Yumeng: As far as I can see from eqn 6, no additional multiplies
- are needed for Courant numbers greater than one.
- This is one of the beauties of PPM.
- (I don't think that the cumulative mass in eqn 7 needs to count.)}
-\end_layout
-
+ For Courant numbers greater than one, the scheme needs to trace back to
+ the departure cell, which involves an additional memory access and additional
+ multiplies for one-dimensional PPM.
+ Therefore, 
+\begin_inset Formula $32+1\times4=36$
 \end_inset
 
-
+ multiplies involved per cell per time step on uniform grids.
 \end_layout
 
 \begin_layout Standard
-For Courant numbers greater than one, the scheme needs to trace back to
- the departure cell, which involves an additional memory access and additional
- multiplies.
- Because PPM is used four times in the dimensionally split scheme, 20 multiplies
- are used in the dimensionally split scheme for large Courant number.
+On the non-uniform grids, because most coefficient of the quartic interpolation
+ function of one-dimensional PPM can be precomputed, only 3 multiplies is
+ needed.
+ Hence, PPM requires 10 multiplies per cell per time step.
+ The number of multiplies would be 40 per cell per time step for PPM with
+ COSMIC splitting with Courant number larger than one on non-uniform grids
+ since all other processes do not depend on the size of cell.
+\end_layout
+
+\begin_layout Standard
+On three dimensions, COSMIC splitting require the PPM updates 12 times in
+ total.
+ Following the multiplies per cell per time step for one-dimensional PPM,
+ there are 8 multiplies, 9 multiplies for Courant number less than and larger
+ than one respectively on uniform grids making 96 and 108 multiplies per
+ cell per time step.
+ For non-uniform grids, as PPM needs 10 multiplies per cell per time step,
+ 120 multiplies is used on three dimensions.
+\end_layout
+
+\begin_layout Standard
+Only the cost of PPM is calculated and the cost of update does not counted.
+ Splitting schemes requires 4 times and 12 times on two- and three dimensions
+ respectively.
+ Each updating only involves one multiply.
 \end_layout
 
 \begin_layout Subsubsection
