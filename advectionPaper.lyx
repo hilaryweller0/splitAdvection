@@ -5438,9 +5438,9 @@ name "sub:cost"
 \begin_layout Standard
 We cannot compare CPU time, wall clock time or parallel efficiency of the
  two advection schemes because the multi-dimensional scheme is written in
- C++ using OpenFOAM whereas the split scheme is written in Python, both
- codes have been run on different hardware and the split advection scheme
- code has not been parallelised.
+ C++ using OpenFOAM and the split scheme is written in Python, both codes
+ have been run on different hardware and the split advection scheme code
+ has not been parallelised.
  Instead we consider the number of multiply operations performed per cell
  per time-step for calculating the fluxes of each tracer.
  We appreciate that this is not a good predictor of efficiency as it does
@@ -5509,7 +5509,7 @@ The computational cost of PPM with COSMIC splitting is not strongly time-step
  multiplies on a non-uniform grid.
  The reconstruction then uses 6 multiplies to calculate the flux on each
  face.
- Only one additional multiply is needed per cell for Courant numbers greater
+ Only one additional memory access and one additional  multiply are needed per cell for Courant numbers greater
  than one (eqn 
 \begin_inset CommandInset ref
 LatexCommand ref
