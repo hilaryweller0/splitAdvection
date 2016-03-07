@@ -109,11 +109,12 @@
 \begin_body
 
 \begin_layout Title
-Dimension Splitting Errors in Atmospheric Transport and Long Time-Steps
+Dimension Splitting Errors and a Long Time-Step Multi-Dimensional Scheme
+ for Atmospheric Transport 
 \end_layout
 
 \begin_layout Author
-Yumeng Chen, Hilary Weller and James Shaw
+Yumeng Chen, Hilary Weller, Stephen Pring and James Shaw
 \end_layout
 
 \begin_layout Standard
@@ -163,9 +164,8 @@ Introduction
 
 \begin_layout Standard
 Dimensionally split schemes (operating separately in each spatial dimension)
- are attractive for atmospheric modelling due to their high accuracy in
- each spatial dimension and efficiency, operating in each dimension separately
- 
+ are attractive for atmospheric modelling due to their efficiency and high
+ accuracy in each spatial dimension 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg. "
@@ -175,8 +175,8 @@ key "LR96,LLM96,BS99,PL07,KNK15"
 
 .
  Inherent conservation and accurate long time steps can be achieved without
- remapping by using the flux form semi-Lagrangian (FFSL or forward in time)
- technique 
+ significant cost and without remapping by using the flux form semi-Lagrangian
+ (FFSL or forward in time) technique 
 \begin_inset CommandInset citation
 LatexCommand citep
 after "and EN14"
@@ -185,8 +185,8 @@ key "Smo82,CW84"
 
 \end_inset
 
- which integrates the dependent variable over a swept volume upstream of
- every face in order to calculate fluxes in and out of cells.
+ which integrates the dependent variable over a swept distance upstream
+ of every face in order to calculate fluxes in and out of cells.
  One-dimensional schemes can be used with operator splitting to create dimension
 ally split, second-order accurate multi-dimensional schemes
 \begin_inset CommandInset citation
@@ -196,7 +196,7 @@ key "LLM96"
 
 \end_inset
 
-.
+ on logically rectangular meshes.
  Dimensionally split schemes have even been found to give good accuracy
  on non-orthogonal meshes such as the cubed sphere 
 \begin_inset CommandInset citation
@@ -205,11 +205,11 @@ key "PL07,KNK15"
 
 \end_inset
 
-.
- On non-orthongal meshes, dimensionally split schemes do not account properly
- for non-orthogonality and first-order errors should inevitably occur, although
- accuracy between second and fourth was found in practice on a range of
- test cases on the cubed sphere by 
+ with special treatment over cube edges.
+ Dimensionally split schemes do not account properly for mesh distortion
+ and first-order errors may occur, although accuracy between second and
+ fourth was found in practice on a range of test cases on the cubed sphere
+ by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "KNK15"
@@ -217,15 +217,18 @@ key "KNK15"
 \end_inset
 
 .
+ However meshes (or co-ordinate systems) must also be distorted over orography
+ when using terrain following layers and special treatment of the advection
+ scheme cannot be used everywhere where there is orography.
 \end_layout
 
 \begin_layout Standard
-First-order errors on non-orthogonal meshes can be eliminated by using genuinely
+First-order errors on distorted meshes can be eliminated by using genuinely
  multi-dimensional advection schemes.
  These can be either FFSL 
 \begin_inset CommandInset citation
 LatexCommand citep
-before "or swept area, eg."
+before "ie swept area, eg."
 key "Las02,LR05b,Miu07b,TCD14"
 
 \end_inset
@@ -252,18 +255,17 @@ key "IK04,LNU10,ZWS04"
  by integrating the upstream swept volume over a large upstream volume,
  interacting with a large number of upstream cells.
  However the cost would be proportional to to time-step since the larger
- the Courant number, the more cells the upstream swept volume would have
+ the Courant number, the more cells the upstream swept volume would need
  to overlap with.
  This technique therefore offers no advantage over using a smaller time-step.
  MOL multi-dimensional schemes could be extended to work with Courant numbers
  larger than one by using implicit time-stepping.
  This would increase the computational cost per tracer advected since the
- solution of a matrix equation would be needed for every advected tracer
- (although common pre-conditioners could be used, enabling multi-tracer
- efficiency).
+ solution of a matrix equation would be needed for every advected tracer.
  The other disadvantage of implicit time-stepping is the large phase errors
- when long time-steps are used in contrast to semi-Lagrangian or FFSL schemes
- which maintain accuracy with long time-steps.
+ when long time-steps are used.
+ This is in contrast to semi-Lagrangian or FFSL schemes which maintain accuracy
+ with long time-steps.
  Conservative semi-Lagrangian naturally extends to long time-steps but the
  conservative remapping is complicated and expensive, particularly on non-rectan
 gular meshes and will not be investigated here.
@@ -281,16 +283,16 @@ key "LUJ+14"
 
 \begin_layout Standard
 It is therefore not clear what approach should be taken for achieving long
- time-steps when advecting multiple tracers on non-orthogonal meshes.
- In this paper, we show the affect of the first order errors of dimensionally
- split FFSL scheme on a number of test-cases which use non-orthogonal meshes
- and compare with a genuinely multi-dimensional implicit MOL scheme using
- large and small Courant numbers.
+ time-steps when advecting multiple tracers on distorted meshes.
+ In this paper, we show the affect of dimension splitting errors using a
+ FFSL dimensionally split scheme on a number of test-cases which use distorted
+ meshes and compare with a genuinely multi-dimensional implicit MOL scheme
+ using large and small Courant numbers.
 \end_layout
 
 \begin_layout Standard
-The theoretical properties of dimensionally split schemes are often tested
- on uniform, orthogonal meshes 
+The theoretical properties of dimensionally split advection schemes are
+ often tested on uniform, orthogonal meshes 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
@@ -298,8 +300,8 @@ key "LLM96"
 
 \end_inset
 
- and on the cubed-sphere, special treatment is needed for the cube edges
- 
+.
+ On the cubed-sphere, special treatment is needed for the cube edges 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
@@ -313,19 +315,10 @@ l cubed sphere with special treatment of cube edges is a considerable undertakin
 g.
  We therefore need a framework for more challenging advection test cases
  which are simpler to implement, without the need for a mesh of the sphere.
- We therefore propose some modifications of existing test cases to use non-ortho
-gonal meshes, or non-orthogonal co-ordinate systems, on a plane.
- These are challenging to dimensionally split schemes due to the non-orthogonali
-ty, challenging to some multi-dimensional schemes due to other aspects of
- the mesh distortions 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "eg skewness,"
-key "Wel14"
-
-\end_inset
-
- while being straightforward to implement because the mesh is logically
+ We therefore propose some modifications of existing test cases to use distorted
+ meshes, or distorted co-ordinate systems, on a plane.
+ These are challenging to dimensionally split schemes due to the mesh distortion
+s while being straightforward to implement because the mesh is logically
  rectangular and in a two-dimensional plane.
  
 \end_layout
@@ -347,9 +340,9 @@ reference "sec:results"
 
 \end_inset
 
- we present results of three advection test cases on non-orthogonal meshes
- in two-dimensional planes using Courant numbers above and below one; the
- solid body rotation test case of 
+ we present results of three advection test cases on distorted meshes in
+ two-dimensional planes using Courant numbers above and below one; the solid
+ body rotation test case of 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "LLM96"
@@ -381,7 +374,21 @@ key "LSPT12"
 \end_inset
 
  for a periodic rectangular plane.
- 
+ Some estimates are made of computational cost in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:cost"
+
+\end_inset
+
+ and final conclusions drawn in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:concs"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -403,9 +410,9 @@ name "sec:models"
 \end_layout
 
 \begin_layout Standard
-We present descriptions two conservative advection schemes suitable for
- long time-steps (stable for Courant numbers significantly larger than one)
- for solving the linear advection equation:
+We present two conservative advection schemes suitable for long time-steps
+ (stable for Courant numbers significantly larger than one) for solving
+ the linear advection equation:
 \begin_inset Formula 
 \begin{equation}
 \frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{u}\phi=0
@@ -417,7 +424,7 @@ where dependent variable
 \begin_inset Formula $\phi$
 \end_inset
 
- is advected by non-divergent velocity field 
+ is advected by velocity field 
 \begin_inset Formula $\mathbf{u}$
 \end_inset
 
@@ -452,7 +459,8 @@ key "LLM96"
 .
  The multi-dimensional scheme uses the method of lines approach (treating
  space and time independently).
- The second-order accurate spatial discretistaion is described by 
+ The second-order accurate spatial discretistaion is described here and
+ by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "WS14"
@@ -570,9 +578,9 @@ key "CW84"
 
  is updated using:
 \begin_inset Formula 
-\[
-\phi_{i}^{(n+1)}=\phi_{i}^{(n)}-\Delta t\frac{u_{i+1/2}\phi_{i+1/2}-u_{i-1/2}\phi_{i-1/2}}{\Delta x}
-\]
+\begin{equation}
+\phi_{i}^{(n+1)}=\phi_{i}^{(n)}-\Delta t\frac{u_{i+1/2}\phi_{i+1/2}-u_{i-1/2}\phi_{i-1/2}}{\Delta x}\label{PPMgauss}
+\end{equation}
 
 \end_inset
 
@@ -673,12 +681,13 @@ where
 : 
 \begin_inset Formula 
 \begin{equation}
-M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.
+M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.\label{eq:cumulativeMass}
 \end{equation}
 
 \end_inset
 
- The time-step is restricted by the deformational Courant number:
+For stability, the time-step is restricted by the deformational Courant
+ number:
 \begin_inset Formula 
 \begin{equation}
 c_{d}=\Delta t\max\left(\biggl|\frac{\partial u}{\partial x}\biggr|,\biggl|\frac{\partial u}{\partial y}\biggr|,\biggl|\frac{\partial u}{\partial z}\biggr|,\biggl|\frac{\partial v}{\partial x}\biggr|,\biggl|\frac{\partial v}{\partial y}\biggr|,\biggl|\frac{\partial v}{\partial z}\biggr|,\biggl|\frac{\partial w}{\partial x}\biggr|,\biggl|\frac{\partial w}{\partial y}\biggr|,\biggl|\frac{\partial w}{\partial z}\biggr|\right)\label{eq:cd}
@@ -693,7 +702,7 @@ key "PS84"
 
 \end_inset
 
- and the stability criterion is 
+ by the criterion is 
 \begin_inset Formula $c_{d}\leq1$
 \end_inset
 
@@ -930,7 +939,7 @@ key "WS14"
 te the divergence term of the advection equation:
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\mathbf{u}\phi=\frac{1}{V}\sum_{f\in c}\phi_{f}\mathbf{u}_{f}\cdot\mathbf{S}_{f}
+\nabla\cdot\mathbf{u}\phi=\frac{1}{V}\sum_{f\in c}\phi_{f}\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:multidGauss}
 \end{equation}
 
 \end_inset
@@ -963,7 +972,7 @@ where
 \begin_inset Formula $\mathbf{u}_{f}$
 \end_inset
 
- is the velocity on face 
+ is the velocity at face 
 \begin_inset Formula $f$
 \end_inset
 
@@ -1066,7 +1075,7 @@ reference "fig:stencil"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -1098,7 +1107,7 @@ status open
 
 \begin_layout Plain Layout
 Stencils of upwind-biased cells for interpolating onto face 
-\begin_inset Formula $F$
+\begin_inset Formula $f$
 \end_inset
 
  using a 2d cubic polynomial for two different mesh structures.
@@ -1151,7 +1160,7 @@ key "Las02"
  
 \begin_inset Formula 
 \begin{equation}
-\phi_{f}=\phi_{\text{up}}+\sum_{c}w_{c}\phi_{c}
+\phi_{f}=\phi_{\text{up}}+\sum_{c}w_{c}\phi_{c}\label{eq:multiDflux}
 \end{equation}
 
 \end_inset
@@ -1181,16 +1190,16 @@ name "sub:implicitMethod"
 \end_layout
 
 \begin_layout Standard
-The implicit Crank-Nicholson time-stepping leads to a matrix equation which
- needs to be solved to find all the 
+The trapezoidal implicit or Crank-Nicholson time-stepping leads to a matrix
+ equation which needs to be solved to find all the 
 \begin_inset Formula $\phi$
 \end_inset
 
 s at the next time-step.
  In order to ensure that the matrix is diagnoanally dominant for arbitrary
- time-steps, the cubic interpolation is a deferred correction on first-order
- upwind so that only the coefficient corresponding to the upwind cell is
- included in the matrix.
+ time-steps, the cubic interpolation applied is a deferred correction on
+ first-order upwind so that only the coefficient corresponding to the upwind
+ cells are included in the matrix.
  The means that more than one implicit solves are needed per time-step so
  that the higher-order terms are solved to second-order in time.
  If the Courant number is less than or close to one, we use two implicit
@@ -1224,8 +1233,20 @@ If this implicit scheme is applied on a logically rectangular, two-dimensional
 \begin_inset Formula $1+c_{x}/2+c_{y}/2$
 \end_inset
 
- and, assuming two upwind directions, there would be exactly two off-diagonal
- elements, 
+ and, assuming two upwind directions,
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{check signs of the terms of the matrix elements}
+\end_layout
+
+\end_inset
+
+ there would be exactly two off-diagonal elements, 
 \begin_inset Formula $c_{x}/2$
 \end_inset
 
@@ -5417,9 +5438,9 @@ name "sub:cost"
 \begin_layout Standard
 We cannot compare CPU time, wall clock time or parallel efficiency of the
  two advection schemes because the multi-dimensional scheme is written in
- C++ using OpenFOAM and the split scheme is written in Python, both codes
- have been run on different hardware and the split advection scheme code
- has not been parallelised.
+ C++ using OpenFOAM whereas the split scheme is written in Python, both
+ codes have been run on different hardware and the split advection scheme
+ code has not been parallelised.
  Instead we consider the number of multiply operations performed per cell
  per time-step for calculating the fluxes of each tracer.
  We appreciate that this is not a good predictor of efficiency as it does
@@ -5428,25 +5449,51 @@ We cannot compare CPU time, wall clock time or parallel efficiency of the
  assuming that all data can be arranged optimally in memory to enable fewest
  cache misses, the number of multiplies should be related to the wall clock
  time.
- Neither advection scheme does significantly more multiplies per memory
- fetch than the other.
+ Neither advection scheme does significantly more work per memory fetch
+ than the other.
  
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
+For both schemes we consider the number of multiplies needed to calculate
+ the flux of 
+\begin_inset Formula $\phi$
+\end_inset
 
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Yumeng: Is this section now clearer?}
-\end_layout
+ at each face.
+ That is equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:PPMflux"
 
 \end_inset
 
+ for the dimensionally scheme and equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:multiDflux"
 
+\end_inset
+
+) for the multi-dimensional scheme.
+ We do not consider the computational cost of updating the cell averages
+ from the fluxes using Gauss's theorem (eqns (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "PPMgauss"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:multidGauss"
+
+\end_inset
+
+)) as these are the same for each scheme.
+ For the multi-dimensional scheme, we do include an estimate of the amount
+ of work done by the linear equation solver.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5454,57 +5501,36 @@ Dimensionally Split Scheme
 \end_layout
 
 \begin_layout Standard
-The computational cost of PPM with COSMIC splitting is time-step dependent
- due to the swept area approach of flux form semi-Lagrangian.
- We will first consider the case for a Courant number less that one.
+The computational cost of PPM with COSMIC splitting is not strongly time-step
+ dependent due to the swept area approach of flux form semi-Lagrangian.
  One-dimensional PPM uses 4 cells for interpolation to find face values
- used by reconstruction.
- Based on the interpolation function, we have 2 multiplies.
- The reconstruction process leads to 6 multiplies to calculate the flux
- on each face making 8 multiplies per cell for applying PPM in one direction.
- The COSMIC splitting involves four applications of the one-dimensional
- PPM.
- This makes 
-\begin_inset Formula $8\times4=32$
+ used by the reconstruction.
+ Assuming as much as possible is pre-computed, this interpolation uses 3
+ multiplies on a non-uniform grid.
+ The reconstruction then uses 6 multiplies to calculate the flux on each
+ face.
+ Only one additional multiply is needed per cell for Courant numbers greater
+ than one (eqn 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:cumulativeMass"
+
 \end_inset
 
- multiplies per cell for a Courant number less than one.
- For Courant numbers greater than one, the scheme needs to trace back to
- the departure cell, which involves an additional memory access and additional
- multiplies for one-dimensional PPM.
- Therefore, 
-\begin_inset Formula $32+1\times4=36$
+) making 10 multiplies per cell for applying PPM in one direction for a
+ Cournat number greater than one.
+ The COSMIC splitting in two dimensions involves four applications of the
+ one-dimensional PPM.
+ This makes 40 multiplies per cell in total for applying PPM with COSMIC
+ splitting in two dimensions.
+ In three dimensions, COSMIC splitting requires 12 applications of PPM 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "LLM96"
+
 \end_inset
 
- multiplies involved per cell per time step on uniform grids.
-\end_layout
-
-\begin_layout Standard
-On the non-uniform grids, because most coefficient of the quartic interpolation
- function of one-dimensional PPM can be precomputed, only 3 multiplies is
- needed.
- Hence, PPM requires 10 multiplies per cell per time step.
- The number of multiplies would be 40 per cell per time step for PPM with
- COSMIC splitting with Courant number larger than one on non-uniform grids
- since all other processes do not depend on the size of cell.
-\end_layout
-
-\begin_layout Standard
-On three dimensions, COSMIC splitting require the PPM updates 12 times in
- total.
- Following the multiplies per cell per time step for one-dimensional PPM,
- there are 8 multiplies, 9 multiplies for Courant number less than and larger
- than one respectively on uniform grids making 96 and 108 multiplies per
- cell per time step.
- For non-uniform grids, as PPM needs 10 multiplies per cell per time step,
- 120 multiplies is used on three dimensions.
-\end_layout
-
-\begin_layout Standard
-Only the cost of PPM is calculated and the cost of update does not counted.
- Splitting schemes requires 4 times and 12 times on two- and three dimensions
- respectively.
- Each updating only involves one multiply.
+ leading to 120 multiplies.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5512,9 +5538,11 @@ Multi-dimensional Scheme
 \end_layout
 
 \begin_layout Standard
-It is much more straightforward to calculate the computational cost (measured
- as number of multiplies) for an explicit version of the multi-dimensional
- scheme, assuming that we are using an RK2 time-stepping scheme 
+The number of multiplies involved in the multi-dimensional scheme includes
+ the number of multiplies to update the higher order advection and the number
+ of multiplications for each iteration of the linear equation solver.
+ We will also consider the cost of an explicit version of the multi-dimensional
+ scheme using an RK2 time-stepping scheme 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg as used by"
@@ -5522,22 +5550,62 @@ key "SW1x"
 
 \end_inset
 
- which is stable and accurate up to a Courant number of one.
- We consider the cost of the linear equation solver separately.
+ which is stable and accurate up to a Courant number of one for this spatial
+ discretistion and gives very similar results to the implicit scheme (not
+ shown).
  
 \end_layout
 
 \begin_layout Standard
-We will estimate the number multiplies per cell, per time-step, per tracer
- of the multi-dimensional advection scheme for a logically rectangular two-dimen
-sional mesh.
- In this case, there are 12 cells in each stencil for each face, each cell
- has four faces and the interpolation onto each face is used to calculate
- the flux into two cells.
+The explicit version of the dimensionally split scheme uses RK2 or Heun
+ time-stepping, in which 
+\begin_inset Formula $\phi_{\text{up}}^{\prime}$
+\end_inset
+
+ on the RHS of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CN_1"
+
+\end_inset
+
+) is replaced by 
+\begin_inset Formula $\phi_{\text{up}}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{\text{up}}^{n+1}$
+\end_inset
+
+ on the RHS of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CN_2"
+
+\end_inset
+
+) is replaced by 
+\begin_inset Formula $\phi_{\text{up}}^{\prime}$
+\end_inset
+
+.
+ On a logically rectangular two-dimensional mesh there are 12 cells in each
+ stencil for each face (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:stencil"
+
+\end_inset
+
+).
+ Each cell has four faces and the interpolation onto each face is used to
+ calculate the flux into two cells.
  This leads to 24 multiplies per cell for each RK2 stage and hence 48 multiplies
  per cell per time-step.
- When using implicit time-stepping, this is the cost of calculating the
- right hand side of the matrix equation.
+ When using implicit time-stepping, there will be 24 multiplies per cell
+ for every evaluation of the right hand side of the matrix for the higher-order
+ correction on first-order upwind.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -5555,7 +5623,7 @@ reference "fig:stencil"
  to omit some corner cells and use a stencil of 20 cells.
  For a stencil of 36 cells, the number of multiplies per cell per time-step
  would be 
-\begin_inset Formula $36\times4=144$
+\begin_inset Formula $36\times3\times2=216$
 \end_inset
 
 .
@@ -5563,15 +5631,16 @@ reference "fig:stencil"
 \end_layout
 
 \begin_layout Standard
-As described in section 
+The implicit version of the multi-dimensional scheme (section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:implicitMethod"
 
 \end_inset
 
-, the matrix is asymmetric, diagonally dominant for any Courant number and,
- for a logically rectangular mesh, has three non-zero elements per row.
+) requires the solution of an asymmetric, diagonally dominant matrix with
+ three non-zero elements per row for a logically rectangular two-dimensional
+ mesh,.
  The pre-conditioner is implemented in file 
 \begin_inset Flex URL
 status collapsed
@@ -5606,7 +5675,7 @@ reference "tab:iterations"
 
 \end_inset
 
-.
+ (including the number of solver iterations in each outer iteration).
  These simulations use two outer iterations per time-step when the maximum
  Courant number is 
 \begin_inset Formula $\le1.1$
@@ -6181,57 +6250,21 @@ name "tab:iterations"
 
 \begin_layout Standard
 Combining the number of solver iterations, the number of multiply operations
- per solve and the number of multiply operations in calculating the higher
- order part of the advection scheme, the total number of multiply operations
- per cell per time-step for the multi-dimensional scheme, an explicit version
- of the multi-dimensional scheme and the dimensionally split scheme are
- shown in table ref for the non-orthogonal grid of 
+ per solve and the number of multiply operations in calculating the explicit
+ higher order part of the advection scheme, the total number of multiply
+ operations per cell per time-step for the multi-dimensional scheme is shown
+ in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:multiplies"
+
+\end_inset
+
+ for the non-orthogonal grid of 
 \begin_inset Formula $120\times60$
 \end_inset
 
  cells.
- The explicit version of the dimensionally split scheme uses RK2 or Heun
- time-stepping, in which 
-\begin_inset Formula $\phi_{\text{up}}^{\prime}$
-\end_inset
-
- on the RHS of eqn (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:CN_1"
-
-\end_inset
-
-) is replaced by 
-\begin_inset Formula $\phi_{\text{up}}^{n}$
-\end_inset
-
- and 
-\begin_inset Formula $\phi_{\text{up}}^{n+1}$
-\end_inset
-
- on the RHS of eqn (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:CN_2"
-
-\end_inset
-
-) is replaced by 
-\begin_inset Formula $\phi_{\text{up}}^{\prime}$
-\end_inset
-
-.
- When using the cubic-upwind spacial discretisation described in section
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:MMmolscheme"
-
-\end_inset
-
-, this time-stepping scheme is stable for Courant numbers up to one and
- gives very similar results to the implicit scheme (not shown).
  Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -6239,13 +6272,9 @@ reference "tab:multiplies"
 
 \end_inset
 
- shows that the implicit scheme always uses more multiply operations but
- particularly uses more multiplies for large Courant numbers.
- The explicit version of the multi-dimensional scheme always uses 48 multiply
- operations but is not stable for all time-steps whereas the dimensionally
- split scheme (using flux-form semi-Lagrangian time-stepping) is stable
- for all Courant numbers (at this spatial resolution) and always uses the
- fewest number of multiply operations per cell per time-step.
+ also shows the number of multiplies for using the explicit, RK2 version
+ of the muti-dimensional scheme and the dimensionally split scheme.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -6318,7 +6347,7 @@ Dimensionally
 \begin_inset Text
 
 \begin_layout Plain Layout
-Multi-dimensionsal
+Multi-dimensional
 \end_layout
 
 \end_inset
@@ -6377,7 +6406,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-36?
+40
 \end_layout
 
 \end_inset
@@ -6418,7 +6447,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-36?
+40
 \end_layout
 
 \end_inset
@@ -6459,7 +6488,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-36?
+40
 \end_layout
 
 \end_inset
@@ -6500,7 +6529,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-36
+40
 \end_layout
 
 \end_inset
@@ -6541,7 +6570,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-36
+40
 \end_layout
 
 \end_inset
@@ -6582,7 +6611,7 @@ Split
 \begin_inset Text
 
 \begin_layout Plain Layout
-36
+40
 \end_layout
 
 \end_inset
@@ -6602,12 +6631,13 @@ Split
 Total number of multiply operations per cell per time-step for different
  Courant numbers for the multi-dimensional scheme, an explicit version of
  the multi-dimensional scheme (using RK2 or Heun time-stepping) and the
- dimensionally split scheme.
- The version using RK2 time-stepping is stable for Courant numbers 
+ dimensionally split scheme on two-dimensional, logically rectangular grids.
+ The multi-dimensional using RK2 time-stepping is stable for Courant numbers
+ 
 \begin_inset Formula $\le1$
 \end_inset
 
- and gives very similar solutions.
+ and gives very similar solutions to the implicit version.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -6626,6 +6656,23 @@ name "tab:multiplies"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:multiplies"
+
+\end_inset
+
+ shows that the implicit scheme always uses more multiply operations but
+ particularly uses more multiplies for large Courant numbers.
+ The explicit version of the multi-dimensional scheme always uses 48 multiply
+ operations but is not stable for all time-steps whereas the dimensionally
+ split scheme (using flux-form semi-Lagrangian time-stepping) is stable
+ for all Courant numbers (at this spatial resolution) and always uses the
+ fewest number of multiply operations per cell per time-step.
 \end_layout
 
 \begin_layout Standard
@@ -6650,30 +6697,163 @@ There is considerable flexibility in how many outer iterations are performed
 \end_layout
 
 \begin_layout Section
-Discussion and Conclusions
-\end_layout
-
-\begin_layout Standard
-Conjecture: the split scheme can achieve convergence with resolution better
- than first order on non-orthogonal co-ordinate systems if the errors due
- to the dimension splitting is not the dominant source of error.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Discussion and conclusions}
-\end_layout
+Summary and Conclusions
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:concs"
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+We examine the errors associated with using a dimensionally split advection
+ scheme and a multi-dimensional advection scheme on non-orthogonal meshes.
+ The dimensionally split scheme is very accurate on orthogonal meshes but
+ looses accuracy and stability on distorted meshes.
+ The multi-dimensional scheme is less accurate on orthgonal meshes than
+ the dimensionally split scheme but the accuracy is not sensitive to mesh
+ distortions.
+\end_layout
+
+\begin_layout Standard
+The dimensionally split scheme is the piecewise polynomial method 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "PPM,"
+key "CW84"
+
+\end_inset
+
+ with COSMIC splitting 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "LLM96"
+
+\end_inset
+
+ to extend it to two spatial dimensions, PPM is third-order accurate and
+ COSMIC splitting is second-order accurate in two orthogonal directions.
+ This is a flux-form semi-Lagrangian scheme and so can handle large Courant
+ numbers accurately without significant additional computational cost.
+ The second-order accurate multi-dimensional scheme is split in space and
+ time (method of lines) and uses a cubic polynomial fit over a stencil of
+ cells for spatial discretisation and trapezoidal implicit in time to retain
+ stability for large Courant numbers.
+ We use versions of both schemes without any monotonicity constraints in
+ order to compare the handling of multi-dimensionality of the two schemes
+ and order of accuracy rather than comparing the limiters of the two schemes.
+\end_layout
+
+\begin_layout Standard
+Three two-dimensional advection test cases on Cartesian planes are proposed
+ with distorted meshes to mimic the distortions of a cubed sphere or terrain
+ following coordinates.
+ Without the complexities of a spherical domain or multi-panel meshes, these
+ test cases on logically rectangular meshes are easy to set up but with
+ numerical challenges similar to more realistic atmospheric advection.
+ We therefore propose that these test cases should be used in the initial
+ testing of advection schemes, before the generation of meshes on the sphere.
+ The first test case is an extension of the 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LLM96"
+
+\end_inset
+
+ solid body rotation to use a mesh with distortion similar to a cubed sphere.
+ The second test case is the familiar horizontal advection over orography
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "SLF+02"
+
+\end_inset
+
+ using a basic terrain following mesh in order to maximise the distortions
+ and a version using higher orography.
+ The third test cases is the deformational flow test case of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LSPT12"
+
+\end_inset
+
+ adapted to a planar, Cartesian domain.
+ We use the version of this test case with smooth initial conditions (the
+ sum of two Gaussians) in order to examine order of accuracy.
+\end_layout
+
+\begin_layout Standard
+The dimensionally split scheme is extremely accurate on orthogonal meshes
+ and retains accuracy when long time-steps are used.
+ However on distorted meshes, particularly at changes in direction such
+ as those that appear at cube sphere edges or over orography, the split
+ scheme loses accuracy and stability, with errors converging at less that
+ first-order accuracy before diverging.
+ In contrast the multi-dimensional scheme is almost entirely insensitive
+ to mesh distortion and asymptotes to second-order accuracy at high resolution.
+ As is expected for implicit time-stepping, phase errors occur when using
+ long time-steps but the well resolved features are advected at the correct
+ speed and the multi-dimensional scheme is always stable.
+\end_layout
+
+\begin_layout Standard
+The matrix solver associated with the implicit time-stepping of the multi-dimens
+ional scheme means that it is always considerably more expensive than the
+ split scheme with cost increasing with Courant number.
+ We point out that we haven't investigated sensitivity to solver and pre-conditi
+oner and it may be possible to do significantly better.
+ But the flux-form semi-Lagrangian method enables long time-steps without
+ any matrix solutions and this will always be difficult to beat.
+ It is possible to use the multi-dimensional scheme with explicit time-stepping
+ such as Runge-Kutta.
+ In that case, the Courant number is restricted to be less than one but
+ the cost is similar to the dimensionally split scheme.
+\end_layout
+
+\begin_layout Standard
+The conclusions of this paper are different but not inconsistent with those
+ of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "KNK15"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "KNK15"
+
+\end_inset
+
+ found a dimensionally split scheme to be as accurate as a multi-dimensional
+ scheme on a cubed-sphere mesh with special interpolations so that the dimension
+ally split scheme could cope with the cube edges.
+ When dimensionally split schemes are used on cubed sphere meshes, the do
+ usually have special interpolations at cube edges 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg"
+key "LR96"
+
+\end_inset
+
+.
+ However orography is everywhere and so special treatment over steep orography
+ would not be practical.
+\end_layout
+
+\begin_layout Standard
+In summary, if meshes can be kept sufficiently smooth, the dimensionally
+ split scheme will be hard to beat, especially if large Courant numbers.
+ However if meshes have large distortions such as occur at the edges of
+ a cubed sphere or over steep orography, the multi-dimensional scheme retains
+ accuracy and stability, and large Courant numbers can be handled using
+ implicit time-stepping.
 \end_layout
 
 \begin_layout Standard
