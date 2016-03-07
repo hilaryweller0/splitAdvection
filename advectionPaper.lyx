@@ -1233,25 +1233,13 @@ If this implicit scheme is applied on a logically rectangular, two-dimensional
 \begin_inset Formula $1+c_{x}/2+c_{y}/2$
 \end_inset
 
- and, assuming two upwind directions,
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{check signs of the terms of the matrix elements}
-\end_layout
-
-\end_inset
-
- there would be exactly two off-diagonal elements, 
-\begin_inset Formula $c_{x}/2$
+ and, assuming two upwind directions, there would be exactly two off-diagonal
+ elements, 
+\begin_inset Formula $-c_{x}/2$
 \end_inset
 
  and 
-\begin_inset Formula $c_{y}/2$
+\begin_inset Formula $-c_{y}/2$
 \end_inset
 
 .
@@ -1298,10 +1286,10 @@ name "sec:results"
 
 \begin_layout Standard
 In order to make test cases as simple as possible, without the need for
- incorporating spherical geometry, our computational domain consists of
- a periodic two-dimensional plane with deformations in the coordinate system
- (or mesh) mimicking the kind of distortions which are produced by a cubed-spher
-e mesh.
+ incorporating spherical geometry, multi-panel meshes or non-rectangular
+ cells, our computational domain consists of a periodic two-dimensional
+ plane with deformations in the coordinate system (or mesh) mimicking the
+ kind of distortions which are produced by a cubed-sphere mesh.
  We also use a two-dimensional vertical slice test case over orography using
  terrain following coordinates (or terrain following meshes).
 \end_layout
@@ -1310,8 +1298,8 @@ e mesh.
 A range of test cases are undertaken on uniform and on distorted meshes
  using the dimensionally split scheme and the multi-dimensional scheme in
  order to evaluate the influences of mesh distortions, the validity of using
- a dimensionally split scheme on a distorted mesh and the accuracy for long
- time-steps.
+ a dimensionally split scheme on a distorted mesh and the accuracy and stability
+ for long time-steps.
  
 \end_layout
 
@@ -1795,8 +1783,8 @@ The multi-dimensional and dimensionally split schemes take very different
 lly split scheme uses a flux-form semi-Lagrangian approach, integrating
  over a line of cells in order to calculate the flux across a face.
  It is well known that implicit schemes suffer from phase errors for long
- time-steps whereas the accuracy semi-Lagrangian approaches is less sensitive
- to the time-step.
+ time-steps whereas the accuracy of semi-Lagrangian is less sensitive to
+ time-step.
  Therefore we present results of both schemes on orthogonal and non-orthogonal
  meshes for time-steps 10 times those used in figure 
 \begin_inset CommandInset ref
@@ -1821,16 +1809,32 @@ reference "fig:solidBody-dt10"
 \end_inset
 
 .
- The error of the multi-dimensional scheme is much larger than dimensionally
+ The error of the multi-dimensional scheme is much larger than the dimensionally
  split scheme on the orthogonal mesh.
  However, the dimensionally split scheme goes unstable on the non-orthogonal
- mesh when using a large Courant number whereas for the multi-dimensional
- scheme, errors and stability are not strongly affected by the non-orthogonality.
+ mesh (at the change in direction of the mesh) when using a large Courant
+ number whereas for the multi-dimensional scheme, errors and stability are
+ not strongly affected by the non-orthogonality.
+ It is a common miss-conception that implicit schemes slow down fast process
+ to the extent that they are stationary or propagate at a speed associated
+ with a Courant number of one for large Courant numbers.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBody-dt10"
+
+\end_inset
+
+ clearly shows that this is not the case.
+ Dispersion analysis shows that high frequency oscillations (which are poorly
+ resolved in time and space) will be slowed dramatically but fast moving
+ features which are well resolved in space will propagate at a much more
+ realistic speed.
  In summary, the split scheme is very accurate on an orthogonal mesh and
- much less accurate on non-orthogonal mesh with instabilities where the
- mesh changes direction whereas the multi-dimensional scheme accuracy is
- not mesh dependent but suffers from phase errors for large Courant numbers.
- 
+ much less accurate on the non-orthogonal mesh with instabilities where
+ the mesh changes direction whereas the multi-dimensional scheme accuracy
+ is not mesh dependent but suffers from phase errors for large Courant numbers
+ which lead to distortions of the advected tracer shape.
 \end_layout
 
 \begin_layout Standard
@@ -2025,7 +2029,14 @@ name "fig:solidBody-dt10"
 \end_layout
 
 \begin_layout Standard
-We present the convergence with resolution of the 
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBodyConverge"
+
+\end_inset
+
+ shows convergence with resolution of the 
 \begin_inset Formula $\ell_{2}$
 \end_inset
 
@@ -2049,20 +2060,16 @@ We present the convergence with resolution of the
 \begin_inset Formula $400\times400$
 \end_inset
 
- cells with time-steps scaled in order to maintain the same Courant numbers
- (
+ cells with time-steps scaled in order to maintain a maximum Courant number
+ of 1 (
 \begin_inset Formula $\Delta t=2,\ 1,\ 0.5,\ 0.25\text{ s}$
 \end_inset
 
- to achieve a maximum Courant number of 1 and 10 times these values for
- a maximum Courant number of 10) in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:solidBodyConverge"
-
+) or scaled to achieve a maximum Courant number of 10 (
+\begin_inset Formula $\Delta t=20,\ 10,\ 5,\ 2.5\text{ s}$
 \end_inset
 
-.
+).
  On both orthogonal and non-orthogonal meshes, the multi-dimensional scheme
  has second order convergence once errors are low enough to avoid error
  saturation (stable errors are bounded at around one).
@@ -2071,8 +2078,8 @@ reference "fig:solidBodyConverge"
  The dimensionally split scheme is affected by both the Courant number and
  the orthogonality of the meshes.
  On the orthogonal meshes, the dimensionally split scheme has third order
- accuracy for th Courant number close to one and second order accuracy for
- the larger Courant number.
+ accuracy for the Courant number close to one and second order accuracy
+ for the larger Courant number.
  On the non-orthogonal mesh, the dimensionally split scheme reduce to less
  than first order of accuracy for the small Courant number and is unstable
  for the large Courant number.
@@ -2213,8 +2220,7 @@ name "fig:solidBodyConverge"
 \end_layout
 
 \begin_layout Standard
-The different time-stepping schemes of the two models affects accuracy as
- well as the different spatial discretisation.
+The different time-stepping schemes of the two models also affect accuracy.
  The 
 \begin_inset Formula $\ell_{2}$
 \end_inset
@@ -2424,8 +2430,9 @@ name "sub:overOrog"
 \end_layout
 
 \begin_layout Standard
-Non-orthogonal meshes are usually necessary for representing orography and
- so this could be a challenge for dimensionally split schemes.
+Non-orthogonal meshes (or co-ordinate systems) are usually necessary for
+ representing orography which could be a challenge for dimensionally split
+ schemes.
  Horizontal-vertical split schemes are commonly used in this context 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -3660,9 +3667,9 @@ reference "fig:deformResults"
  preserving.
  The multi-dimensional scheme produces smooth errors in the final tracer
  field whereas the split scheme produces and maintains large dispersion
- errors but only in a few isolated places, where the mesh non-orthogonality
- is large, leading to some grid-scale grid imprinting in the final tracer
- field.
+ errors but only in a few isolated places, where tracer passes over changes
+ in orthogonality of the mesh, leading to some grid-scale grid imprinting
+ in the final tracer field.
  
 \end_layout
 
@@ -5017,7 +5024,7 @@ reference "tab:res_Courant"
 \end_inset
 
  error norms at the final time are shown in figure for both advection schemes
- using a maximum Courant number close to 1 and a maximum Courant number
+ using a maximum Courant number close to 1 and for a maximum Courant number
  close to 10.
  We will first consider the behaviour of the schemes at modest Courant number
  (maximum close to one).
@@ -5248,17 +5255,17 @@ reference "tab:res_Courant"
  giving maximum Courant numbers ranging from 0.25 to 10.
  This demonstrates potentially useful properties of the flux-form semi-Lagrangia
 n time-stepping used by the split scheme.
- Errors actually reduce for longer time-steps using the split scheme on
- an orthogonal mesh since space and time are discretised together and so,
- for sufficiently small time-steps, errors per time-step are not dependent
- very on the time-step size and so, taking a longer time-step means fewer
- time-steps and so reduced errors.
+ Errors reduce for longer time-steps using the split scheme on an orthogonal
+ mesh since space and time are discretised together and so, for sufficiently
+ small time-steps, errors per time-step are not dependent very on the time-step
+ size and so, taking a longer time-step means fewer time-steps and so reduced
+ errors.
  Once the maximum Courant number reaches 2 (
 \begin_inset Formula $\Delta t=0.02$
 \end_inset
 
-), error of the split scheme do grow with the time-step, due to the deformationa
-l nature of the flow.
+), errors of the split scheme do grow with the time-step, due to the deformation
+al nature of the flow.
  In contrast, using the multi-dimensional scheme which uses method of lines
  time-stepping, errors always increase as the time-step is increased.
  Comparisons between schemes in figures 
@@ -5296,8 +5303,8 @@ reference "fig:deformational_dt"
 
 \end_inset
 
- also demonstrates the potential danger of relyi|b|ng on test cases such
- as these.
+ also demonstrates the potential danger of relying on test cases such as
+ these.
  The split scheme on the non-orthogonal mesh is stable for a maximum Courant
  number of 1 (taking 500 times-steps) but unstable for smaller Courant numbers
  (taking 1000 and 2000 times-steps).
@@ -5509,8 +5516,8 @@ The computational cost of PPM with COSMIC splitting is not strongly time-step
  multiplies on a non-uniform grid.
  The reconstruction then uses 6 multiplies to calculate the flux on each
  face.
- Only one additional memory access and one additional  multiply are needed per cell for Courant numbers greater
- than one (eqn 
+ Only one additional memory access and one additional  multiply are needed
+ per cell for Courant numbers greater than one (eqn 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:cumulativeMass"
@@ -5599,7 +5606,7 @@ reference "fig:stencil"
 
 ).
  Each cell has four faces and the interpolation onto each face is used to
- calculate the flux into two cells.
+ calculate the flux between two cells.
  This leads to 24 multiplies per cell for each RK2 stage and hence 48 multiplies
  per cell per time-step.
  When using implicit time-stepping, there will be 24 multiplies per cell
@@ -5640,7 +5647,7 @@ reference "sub:implicitMethod"
 
 ) requires the solution of an asymmetric, diagonally dominant matrix with
  three non-zero elements per row for a logically rectangular two-dimensional
- mesh,.
+ mesh.
  The pre-conditioner is implemented in file 
 \begin_inset Flex URL
 status collapsed
@@ -6284,6 +6291,8 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="4">
 <features tabularvalignment="middle">
@@ -6632,8 +6641,8 @@ Total number of multiply operations per cell per time-step for different
  Courant numbers for the multi-dimensional scheme, an explicit version of
  the multi-dimensional scheme (using RK2 or Heun time-stepping) and the
  dimensionally split scheme on two-dimensional, logically rectangular grids.
- The multi-dimensional using RK2 time-stepping is stable for Courant numbers
- 
+ The multi-dimensional scheme using RK2 time-stepping is stable for Courant
+ numbers 
 \begin_inset Formula $\le1$
 \end_inset
 
