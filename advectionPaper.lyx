@@ -6718,10 +6718,10 @@ name "sec:concs"
 
 \begin_layout Standard
 We examine the errors associated with using a dimensionally split advection
- scheme and a multi-dimensional advection scheme on non-orthogonal meshes.
+ scheme and a multi-dimensional advection scheme on distorted meshes.
  The dimensionally split scheme is very accurate on orthogonal meshes but
  looses accuracy and stability on distorted meshes.
- The multi-dimensional scheme is less accurate on orthgonal meshes than
+ The multi-dimensional scheme is less accurate on orthogonal meshes than
  the dimensionally split scheme but the accuracy is not sensitive to mesh
  distortions.
 \end_layout
@@ -6743,8 +6743,8 @@ key "LLM96"
 \end_inset
 
  to extend it to two spatial dimensions, PPM is third-order accurate and
- COSMIC splitting is second-order accurate in two orthogonal directions.
- This is a flux-form semi-Lagrangian scheme and so can handle large Courant
+ COSMIC splitting enables second-order accuracy in two orthogonal directions.
+ PPM is a flux-form semi-Lagrangian scheme and so can handle large Courant
  numbers accurately without significant additional computational cost.
  The second-order accurate multi-dimensional scheme is split in space and
  time (method of lines) and uses a cubic polynomial fit over a stencil of
@@ -6757,12 +6757,10 @@ key "LLM96"
 
 \begin_layout Standard
 Three two-dimensional advection test cases on Cartesian planes are proposed
+ without the complexities of a spherical domain or multi-panel meshes but
  with distorted meshes to mimic the distortions of a cubed sphere or terrain
  following coordinates.
- Without the complexities of a spherical domain or multi-panel meshes, these
- test cases on logically rectangular meshes are easy to set up but with
- numerical challenges similar to more realistic atmospheric advection.
- We therefore propose that these test cases should be used in the initial
+ We therefore propose that these test cases could be used in the initial
  testing of advection schemes, before the generation of meshes on the sphere.
  The first test case is an extension of the 
 \begin_inset CommandInset citation
@@ -6771,7 +6769,7 @@ key "LLM96"
 
 \end_inset
 
- solid body rotation to use a mesh with distortion similar to a cubed sphere.
+ solid body rotation using a distorted mesh.
  The second test case is the familiar horizontal advection over orography
  
 \begin_inset CommandInset citation
@@ -6789,7 +6787,7 @@ key "LSPT12"
 
 \end_inset
 
- adapted to a planar, Cartesian domain.
+ adapted to a planar, Cartesian domain and a distorted mesh.
  We use the version of this test case with smooth initial conditions (the
  sum of two Gaussians) in order to examine order of accuracy.
 \end_layout
@@ -6800,12 +6798,12 @@ The dimensionally split scheme is extremely accurate on orthogonal meshes
  However on distorted meshes, particularly at changes in direction such
  as those that appear at cube sphere edges or over orography, the split
  scheme loses accuracy and stability, with errors converging at less that
- first-order accuracy before diverging.
- In contrast the multi-dimensional scheme is almost entirely insensitive
+ first-order accuracy or diverging.
+ In contrast, the multi-dimensional scheme is almost entirely insensitive
  to mesh distortion and asymptotes to second-order accuracy at high resolution.
  As is expected for implicit time-stepping, phase errors occur when using
- long time-steps but the well resolved features are advected at the correct
- speed and the multi-dimensional scheme is always stable.
+ long time-steps but the spatially well resolved features are advected at
+ the correct speed and the multi-dimensional scheme is always stable.
 \end_layout
 
 \begin_layout Standard
@@ -6831,19 +6829,11 @@ key "KNK15"
 
 \end_inset
 
-.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "KNK15"
-
-\end_inset
-
- found a dimensionally split scheme to be as accurate as a multi-dimensional
+ who found a dimensionally split scheme to be as accurate as a multi-dimensional
  scheme on a cubed-sphere mesh with special interpolations so that the dimension
 ally split scheme could cope with the cube edges.
- When dimensionally split schemes are used on cubed sphere meshes, the do
- usually have special interpolations at cube edges 
+ When dimensionally split schemes are used on cubed sphere meshes, they
+ do usually have special interpolations at cube edges 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
