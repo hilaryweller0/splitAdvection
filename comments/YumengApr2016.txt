@@ -1,0 +1,17 @@
+Yumeng's comment:
+At the start of page 11, Hilary wrote:
+
+"It is a common misconception that implicit schemes slow down fast process to the extent that they are stationary or propagate at a speed associated with a Courant number of one for large Courant numbers. Figure 4 clearly shows that this is not the case. Dispersion analysis shows that high frequency oscillations (which are poorly resolved in time and space) will be slowed dramatically but fast moving features which are well resolved in space will propagate at a much more realistic speed. "
+
+Should we elaborate it in a clearer way? As the phase error seems quite obvious to me.
+
+Hilary's reply:
+I have re-phrased this:
+"Figure 4 clearly shows phase errors of the implicit time-stepping but, despite the large Courant number, the well resolved part of the profile is propagating at close to the correct speed. Dispersion analysis shows that high frequency oscillations (which are poorly resolved in time and space) will be slowed dramatically but fast moving features which are well resolved in space will propagate at a much more realistic speed, supporting the results shown in figure 4.
+
+Yumeng's comment:
+I am quite interested in the modification of FFSL on non-orthogonal grids Stephen mentioned. I am not so familiar with the first method, do you have any references? The second method seems to set some halo zones around the discontinuities. Is my understanding right?
+
+Hilary's reply:
+It is very clear to me based on Kattal, Nair and Kumar's results and Lin and Rood's results, that dimensionally split schemes can work well on cubed-sphere meshes with enough special treatment of the edges. This is not new. The new thing that we can say to make this paper publishable is that there are (weak) zero-th order errors and instabilities associated with using dimensionally split schemes on non-orthogonal grids. These can be hidden by using special treatment of cube edges but more difficult over steep orography. These test cases are really about destruction testing.
+

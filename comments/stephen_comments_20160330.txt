@@ -1,0 +1,51 @@
+Stephen:
+Hi, below I've put a few comments regarding the paper. I think overall the paper is good and in particular the deformational flow test case gives some good pictures in figure 10!
+
+
+Stephen:
+I had a few comments on the Introduction, just that I felt that it could be a bit more general to start with. We currently use Semi-Lagrangian to advect but this is not mass conservative and so mass conservation as a key feature of an advection scheme could be mentioned. Also the robustness of being able to handle large Courant numbers is important, especially for limited area models with finer grid meshes and interaction with jet stream.
+
+Hilary: I have put in a more general first paragraph.
+
+Stephen:
+In Section 2.1 I think some of the equations need to be changed. For equation (2), the flux is written as flux = density * u but think it should be written in the form flux = Mass/time with PPM calculating the accumulated mass. Equation (4) has phi_i = 1/dx *int() where as this should be flux_i = 1/dT * [mass calculated from integrating density]. Again (7) also needs to be changed with a term for mass on the left hand side of the equation.
+
+Hilary:
+I understand your concern but I think that they way that I have written the equations is a good compromise. I was aiming to write down the equations for PPM and the multi-dimensional scheme as similar as possible which, I realise, makes the description of PPM somewhat unusual. The disadvantage of my description of PPM is that it does not generalise to non-uniform grids in a straightforward way. However I like that my description of PPM is very compact and analagous to the description of the multi-d scheme. 
+
+@Stephen: If you could create a github account then I will give you read/write access to the lyx document and you could write an alternative description of PPM. (Do you use lyx?) Alternatively, if you wanted to write a stand alone lyx or latex document to describe PPM, I could include this in the paper.
+
+Even without a github account, you can access the manuscript at:
+https://github.com/hilaryweller0/splitAdvection
+If you have a dropbox account I can give you access to all the binaries associated with the paper.
+
+Stephen:
+I thought perhaps Section 2.2 could be expanded a bit more and made a bit clearer. The notation X_A, Y_A used in Section 2.2 could be introduced in Section 2.1.
+
+Hilary: I have now introduced X_C in section 2.1 but not X_A, Y_A or Y_C because the latter are not used in section 2.1. I love the compactness of section 2.2 although I realise that it is not necessarily the best introduction to COSMIC splitting. However I don't want to re-produce too much of Leonard et al 1996. They give a great description of COSMIC splitting and I don't really have much to add. So I think that the best I can do is just define COSMIC splitting as compactly as I can.
+
+Stephen:
+In Section 3 I thought it might be worth having figure 3 before figure 2, so that the grid is introduced first.
+
+Hilary:
+Good plan. Done.
+
+Stephen:
+As I understand it no special treatment was made for the discontinuity in the grid for the non-orthogonal mesh and this made it first order. I think we would be interested in how the order of accuracy changes if the discontinuity is handled differently. There are two ways which I know of which are to either make two one-sided approximations at the discontinuity and choose the most suitable value depending on wind direction or extend the grid (overlap) so that a smooth approximation can be made at the previous location of the discontinuity.
+
+Hilary:
+Actually I believe that the errors at discontinuities are zeroth order. Your suggestions are similar to the approaches taken by Lin and Rood and Kattal et al which I already cite as sensible approaches when using dimensionally split schemes. My understanding is that Yumeng is not going to implement either of these established techniques. My view is that it is not really the point of the paper to use these kind of work-arounds to hide the errors associated with dimensional splitting. I am trying to illuminate the problem (although I admit that it is not a large problem). If you have one large discontinuity you can always have some special treatment just there. But on a cubed sphere mesh or on a terrain following mesh the orthogonality changes between every pair of cells so these errors will always be there. 
+
+Stephen:
+I believe there are two possible ways to deal with the first order discontinuity of the non-orthogonal mesh which we see at the panel edge of the cube sphere and in the middle of the domain for the non-orthogonal mesh used in the paper. One method is to estimate fluxes at the discontinuity using two one sided estimates so that the estimate of flux is performed within the smooth part of the mesh. The appropriate estimate is taken depending on wind direction. Another method is extending the smooth mesh such that there is overlap between two smooth grids and using a known transform to transfer density values between the two grids.
+
+Hilary:
+You can always make the zeroth order error smaller by smoothing the grid but this does not solve with the problem, it hides the problem. I am keen to illuminate the (admittedly small and possibly insignificant) problem. But I do not want to hide the problem. In addition, smoothing can only have limited benefit over orography.
+
+Stephen:
+Further work could also include changing the grid from being defined by a piecewise linear function with discontinuous derivative to instead using a quadratic function to define the mesh. This would remove the first order discontinuity and possibly better understand its effects.
+
+Hilary:
+This would be a manageable task for Yumeng. Yumeng, have you thought about trying this? I wouldn't want to replace exising results entirely with results on smoothed grids because, as I say, I don't want to hide the problem. But there might be scope to include results on a smoother grid.
+
+I wouldn't describe the grid as having a first order discontinuity. All grids are discontinuous and there is always a change in orthogonality from one cell to the next. If this change is reduced by smoothing the grid then errors associated with changes in grid non-orthogonality get smaller. 
