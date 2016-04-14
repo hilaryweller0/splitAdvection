@@ -273,8 +273,8 @@ key "LR96,LLM96,BS99,PL07,KNK15"
 
 .
  Inherent conservation and accurate long time steps can be achieved without
- significant cost and without remapping by using the flux form semi-Lagrangian
- (FFSL or forward in time) technique 
+ significant cost by using the flux form semi-Lagrangian (FFSL or forward
+ in time) technique 
 \begin_inset CommandInset citation
 LatexCommand citep
 after "and EN14"
@@ -285,8 +285,10 @@ key "Smo82,CW84"
 
  which integrates the dependent variable over a swept distance upstream
  of every face in order to calculate fluxes in and out of cells.
+ This is done without remapping which can be an expensive procedure, finding
+ a conservative map between fields on overlapping meshes.
  One-dimensional schemes can be used with operator splitting to create dimension
-ally split, second-order accurate multi-dimensional schemes
+ally split, second-order accurate multi-dimensional schemes 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
@@ -295,8 +297,8 @@ key "LLM96"
 \end_inset
 
  on logically rectangular meshes.
- Dimensionally split schemes have even been found to give good accuracy
- on non-orthogonal meshes such as the cubed sphere 
+ Dimensionally split schemes have been found to give good accuracy on non-orthog
+onal meshes such as the cubed sphere 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "PL07,KNK15"
@@ -304,10 +306,25 @@ key "PL07,KNK15"
 \end_inset
 
  with special treatment over cube edges.
- Dimensionally split schemes do not account properly for mesh distortion
- and first-order errors may occur, although accuracy between second and
- fourth was found in practice on a range of test cases on the cubed sphere
- by 
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "PL07"
+
+\end_inset
+
+ use the average of two one-sided schemes at cube edges whereas 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "KNK15"
+
+\end_inset
+
+ create ghost cells outside each cube panel boundary.
+ Without this special treatment, dimensionally split schemes do not account
+ properly for mesh distortion and errors may occur.
+ Accuracy between second and fourth order was found in practice on a range
+ of test cases on the cubed sphere by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "KNK15"
@@ -315,9 +332,49 @@ key "KNK15"
 \end_inset
 
 .
- However meshes (or co-ordinate systems) must also be distorted over orography
- when using terrain following layers and special treatment of the advection
- scheme cannot be used everywhere where there is orography.
+ 
+\end_layout
+
+\begin_layout Standard
+The same problems occur when using dimensionally split schemes over orography
+ since terrain following layers become non-orthogonal over orography and
+ special treatment cannot be used everywhere where there is orography.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "KUJ14"
+
+\end_inset
+
+ show some advection errors that can occur over orography using horizontally/ver
+tically split schemes although the errors are not attributed to the dimension
+ splitting.
+ A common solution has been to make the terrain following layers as smooth
+ as possible, reducing non-orthogonality 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg"
+key "SLF+02"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Re-read KUJ14 to check that this is what they say and do}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
