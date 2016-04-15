@@ -44,8 +44,6 @@ solidBodyRotationOnPlane/orthogonal/100x100/dt_1/Tcontours.pdf
 solidBodyRotationOnPlane/nonOrthog/100x100/dt_1/Tcontours.pdf
 solidBodyRotationOnPlane/orthogonal/100x100/dt_10/TcontoursBig.pdf
 solidBodyRotationOnPlane/nonOrthog/100x100/dt_10/TcontoursBig.pdf
-solidBodyRotationOnPlane/orthogonal/400x400/dt_2.5/Tcontours.pdf
-solidBodyRotationOnPlane/nonOrthog/400x400/dt_2.5/Tcontours.pdf
 solidBodyRotationOnPlane/legends/Tdiff.eps
 solidBodyRotationOnPlane/legends/TdiffBig_Tdiff.eps
 solidBodyRotationOnPlane/nonOrthog/50x50/analytic/constant/mesh.pdf
