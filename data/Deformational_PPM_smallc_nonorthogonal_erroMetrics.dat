@@ -1,4 +1,4 @@
-#dx     dz      dt     l2     linf   min(phi) max(phi)
+#dx     dz      dt     l2     linf   min(phi) max(phi) defCo(x) defCo(y)
 6       6       0.02   0.4783 0.4835 -0.0896 0.6522
 3       3       0.01   0.2849 0.3728 -0.1745 0.8176
 1.5     1.5     0.005   0.1474 0.2572 -0.1115  0.9644
