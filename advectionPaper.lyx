@@ -132,7 +132,7 @@ status open
 
 \begin_layout Plain Layout
 
-%
+
 \backslash
 listoftodos
 \end_layout
@@ -171,25 +171,25 @@ Three two-dimensional advection test cases on Cartesian planes are proposed
 \end_layout
 
 \begin_layout Abstract
+The dimensionally split scheme is very accurate on orthogonal meshes and
+ retains accuracy when long time-steps are used.
+ When mesh distortions are modest the split scheme continues to perform
+ well but at changes in distortion, the split scheme loses accuracy and
+ stability.
+ In contrast, the multi-dimensional scheme is almost entirely insensitive
+ to mesh distortion and asymptotes to second-order accuracy at high resolution.
+ As is expected for implicit time-stepping, phase errors occur when using
+ long time-steps but the spatially well resolved features are advected at
+ the correct speed and the multi-dimensional scheme is always stable.
+\end_layout
+
+\begin_layout Abstract
 A naive estimate of computational cost (number of multiplies) reveals that
  the implicit scheme is  the most expensive, particularly for large Courant
  numbers.
  If the multi-dimensional scheme is used instead with explicit time-stepping,
  the Courant number is restricted to less than one but the cost becomes
  similar to the dimensionally split scheme.
-\end_layout
-
-\begin_layout Abstract
-The dimensionally split scheme is very accurate on orthogonal meshes and
- retains accuracy when long time-steps are used.
- When mesh distortions are modest the split scheme continues to perform
- well but at sharp changes in distortion, the split scheme loses accuracy
- and stability.
- In contrast, the multi-dimensional scheme is almost entirely insensitive
- to mesh distortion and asymptotes to second-order accuracy at high resolution.
- As is expected for implicit time-stepping, phase errors occur when using
- long time-steps but the spatially well resolved features are advected at
- the correct speed and the multi-dimensional scheme is always stable.
 \end_layout
 
 \begin_layout Section
@@ -1647,7 +1647,7 @@ where
 f=\begin{cases}
 y_{m}\left(1+\frac{1}{2\sqrt{3}}\right)-\frac{x}{\sqrt{3}} & \text{ for }x\le x_{m}\\
 y_{m}\left(1-\frac{1}{2\sqrt{3}}\right)+\frac{x-x_{m}}{\sqrt{3}} & \text{ for }x>x_{m}
-\end{cases}.
+\end{cases}.\label{eq:f_for_Vmesh}
 \end{equation}
 
 \end_inset
@@ -1676,9 +1676,9 @@ reference "fig:cubedGrid"
 
 \end_inset
 
-.
- The multi-dimensional scheme model uses Cartesian coordinates and a distorted
- mesh rather than a non-orthogonal coordinate system on a Cartesian mesh.
+(a) (the V mesh).
+ The multi-dimensional scheme model uses Cartesian coordinates and the distorted
+ V mesh rather than a non-orthogonal coordinate system on a Cartesian mesh.
  However this does not affect the numerical results assuming that the co-ordinat
 e transforms are implemented in a consistent way to the distorted mesh in
  Cartisian coordinates.
@@ -1689,14 +1689,72 @@ e transforms are implemented in a consistent way to the distorted mesh in
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(a) V mesh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(b) quadratic
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf
-	lyxscale 80
-	width 80text%
+	lyxscale 50
+	width 49text%
+	height 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename YumengsGraphics/quadtratic_mesh.pdf
+	lyxscale 50
+	width 49text%
+	height 49text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
@@ -1707,9 +1765,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Non-orthogonal mesh on a plane designed to have similar angles to a cubed-sphere
- mesh.
- The mesh has 
+Two non-orthogonal meshes on a plane with 
 \begin_inset Formula $50\times50$
 \end_inset
 
@@ -1718,6 +1774,8 @@ Non-orthogonal mesh on a plane designed to have similar angles to a cubed-sphere
 \end_inset
 
 .
+ (a) Designed to have similar angles to a cubed-sphere mesh.
+ (b) avoids abrupt changes in orthogonality 
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:cubedGrid"
@@ -2340,7 +2398,7 @@ key "CW84,LLM96"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -2428,6 +2486,22 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Add results on quadratic mesh}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -2463,6 +2537,76 @@ name "fig:solidBodyConverge"
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These results raise concerns that the split scheme is performing very well
+ apart from where the orthogonality changes direction on the V-mesh.
+ To illuminate, we also run the solid body rotation test case using the
+ split scheme using a co-ordinate system with smoothly varying non-orthogonality
+, as shown in fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:cubedGrid"
+
+\end_inset
+
+(b).
+ This mesh uses the following quadratic function for 
+\begin_inset Formula $f$
+\end_inset
+
+ in place of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:f_for_Vmesh"
+
+\end_inset
+
+):
+\begin_inset Formula 
+\begin{equation}
+f=\frac{1}{L_{?}}\left(x-\frac{L_{x}}{2}\right)^{2}+\frac{L_{y}}{2}.
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Define in terms of $x_m$ and $y_m$}
+\end_layout
+
+\end_inset
+
+Error norms using this co-ordinate system are also shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBodyConverge"
+
+\end_inset
+
+ which demonstrates that the smoother change in non-orthogonality reduces
+ errors a little but does not bring them down anywhere near the errors on
+ the orthogonal mesh and does not improve the order of accuracy.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{What about for a large Courant number of the quadratic mesh}
 \end_layout
 
 \end_inset
@@ -4273,7 +4417,7 @@ name "fig:deformResults"
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -4291,11 +4435,7 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-Resolution 
-\begin_inset Formula $\rightarrow$
-\end_inset
-
-
+Resolution
 \end_layout
 
 \end_inset
@@ -4395,6 +4535,10 @@ Resolution
 
 \begin_layout Plain Layout
 Maximum Courant numbers 
+\size footnotesize
+(deformational)
+\size default
+ 
 \begin_inset Formula $\downarrow$
 \end_inset
 
@@ -4463,7 +4607,9 @@ Maximum Courant numbers
 \begin_inset Text
 
 \begin_layout Plain Layout
-10.3
+10.3 
+\size footnotesize
+(0.64)
 \end_layout
 
 \end_inset
@@ -4538,6 +4684,8 @@ Maximum Courant numbers
 
 \begin_layout Plain Layout
 10.3
+\size footnotesize
+ (0.32)
 \end_layout
 
 \end_inset
@@ -4603,6 +4751,8 @@ Maximum Courant numbers
 
 \begin_layout Plain Layout
 5.17
+\size footnotesize
+ (0.16)
 \end_layout
 
 \end_inset
@@ -4611,7 +4761,9 @@ Maximum Courant numbers
 \begin_inset Text
 
 \begin_layout Plain Layout
-10.3
+10.3 
+\size footnotesize
+(0.16)
 \end_layout
 
 \end_inset
@@ -4686,6 +4838,8 @@ Maximum Courant numbers
 
 \begin_layout Plain Layout
 10.3
+\size footnotesize
+ (0.08)
 \end_layout
 
 \end_inset
@@ -4733,6 +4887,8 @@ Maximum Courant numbers
 
 \begin_layout Plain Layout
 2.06
+\size footnotesize
+ (0.064)
 \end_layout
 
 \end_inset
@@ -4862,7 +5018,9 @@ Maximum Courant numbers
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.03
+1.03 
+\size footnotesize
+(0.032)
 \end_layout
 
 \end_inset
@@ -4992,7 +5150,9 @@ Maximum Courant numbers
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.517
+0.517 
+\size footnotesize
+(0.016)
 \end_layout
 
 \end_inset
@@ -5002,6 +5162,8 @@ Maximum Courant numbers
 
 \begin_layout Plain Layout
 1.03
+\size footnotesize
+ (0.016)
 \end_layout
 
 \end_inset
@@ -5057,7 +5219,9 @@ Maximum Courant numbers
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.254
+0.254 
+\size footnotesize
+(0.008)
 \end_layout
 
 \end_inset
@@ -5076,6 +5240,8 @@ Maximum Courant numbers
 
 \begin_layout Plain Layout
 1.03
+\size footnotesize
+ (0.008)
 \end_layout
 
 \end_inset
@@ -5150,6 +5316,8 @@ Maximum Courant numbers
 
 \begin_layout Plain Layout
 1.03
+\size footnotesize
+ (0.004)
 \end_layout
 
 \end_inset
@@ -5246,6 +5414,7 @@ Resolutions, time-steps and Courant numbers for the non-orthogonal meshes
  are presented in graphs.
  The maximum Courant numbers on the orthogonal meshes are 70% of those on
  the non-orthogonal meshes.
+ The maximum deformational Courant numbers are in brackets for some cases
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -5279,6 +5448,7 @@ reference "tab:res_Courant"
  The Courant numbers on the uniform, orthogonal meshes (with no mesh distortions
 ) are 70% of those on the non-orthogonal mesh since the non-orthogonal mesh
  has clustering of mesh points.
+ The deformational Courant number is less than one for all simulations.
  The convergence with resolution of the 
 \begin_inset Formula $\ell_{2}$
 \end_inset
@@ -5524,7 +5694,8 @@ reference "tab:res_Courant"
 
 \end_inset
 
- giving maximum Courant numbers ranging from 0.25 to 10.
+ giving maximum Courant numbers ranging from 0.25 to 10 (deformational Courant
+ numbers always less than 0.32).
  This demonstrates potentially useful properties of the flux-form semi-Lagrangia
 n time-stepping used by the split scheme.
  Errors reduce for longer time-steps using the split scheme on an orthogonal
@@ -5533,12 +5704,12 @@ n time-stepping used by the split scheme.
  size.
  Therefore taking a longer time-step means fewer time-steps and so should
  reduced errors.
- Once the maximum Courant number reaches 2 (
-\begin_inset Formula $\Delta t=0.02$
+ Once the maximum Courant number reaches 1 or 2 (
+\begin_inset Formula $\Delta t=0.01$
 \end_inset
 
-), errors of the split scheme do grow with the time-step, due to the deformation
-al nature of the flow.
+ or 0.02), errors of the split scheme do grow with the time-step, due to
+ the deformational nature of the flow.
  In contrast, using the multi-dimensional scheme which uses method of lines
  time-stepping, errors always increase as the time-step is increased.
  Comparisons between schemes in figures 
@@ -5569,22 +5740,10 @@ reference "fig:deformational_dt"
  multi-dimensional scheme (method of lines) gets more accurate with lower
  Courant numbers whereas the split scheme (semi-Lagrangian) gets less accurate
  since more time-steps have to be taken.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:deformational_dt"
-
-\end_inset
-
- also demonstrates the potential danger of relying on test cases such as
- these.
- The split scheme on the non-orthogonal mesh is stable for a maximum Courant
- number of 1 (taking 500 times-steps) but unstable for smaller Courant numbers
- (taking 1000 and 2000 times-steps).
- It is not the small time-steps that is leading to instability, it is the
- slow growth of the instability, leading to divergence after 1000 but not
- 500 time-steps.
- 
+ The split scheme is stable for all time-steps used on the orthogonal mesh
+ which is expected since the deformational Courant number is less than one.
+ However the split scheme is unstable for Courant number larger than 2 on
+ the non-orthogonal mesh.
 \end_layout
 
 \begin_layout Standard
@@ -5707,9 +5866,11 @@ name "fig:deformational_dt"
 \begin_layout Standard
 In summary, the dimensionally split scheme has good accuracy for deformational
  flow at modest Courant number when using an orthogonal grid but suffers
- from instabilities on the non-orthogonal grid regardless of the Courant
- number whereas the multi-dimensional scheme retains stability regardless
- of Courant number or orthogonality.
+ from instabilities on the non-orthogonal grid, either at high resolution
+ or at large Courant numbers.
+ In contrast the multi-dimensional scheme retains stability regardless of
+ Courant number, orthogonality or resolution.
+ 
 \end_layout
 
 \begin_layout Subsection
