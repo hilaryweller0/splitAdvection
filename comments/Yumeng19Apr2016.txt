@@ -1,0 +1,30 @@
+Yumeng:
+Sorry for the inconvenience. I just push the deformational Courant
+number and the correction to git.
+
+Hilary: No worries. I have included these in table 2 and commented on them.
+
+Note, I have changed the time-steps in file:
+data/Deformational_PPM_largec_nonOrthogW_erroMetrics.dat
+as they were out by a factor or 10. 
+
+Yumeng:
+Yes. The results are from solid body rotation test case and no periodic
+boundary. I defined the
+
+ f = (x-0.5*Lx)^2/10000. + 0.5*Ly
+
+It is also possible to use  f = (x-0.5*Lx)^2/Lx + 0.5*Ly. We can run the
+same setup as we run on solid body rotation test case before.
+
+Hilary: I think there is no need for me to repeat these with OpenFOAM. We already know that OpenFOAM is much less sensitive to the mesh distortions. However these results are useful for the split scheme and I would like to include them. Some questions
+
+Could you put the data for your graph order_comparison_meshes.pdf into a file in the data directory so that I can inlude this in figure 5a
+
+Does the use of the quadratic function mean that the split scheme is now stable for a Courant number of 10 for this test case?
+
+Your equation for f:
+f = (x-0.5*Lx)^2/10000. + 0.5*Ly
+
+uses Lx and Ly which haven't been defined in section 3.1. Section 3.1 uses x_m = y_m = 5000m. Could you define f in terms of x_m and y_m?
+

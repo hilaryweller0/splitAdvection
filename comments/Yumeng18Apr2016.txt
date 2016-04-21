@@ -1,0 +1,29 @@
+Thank you for the suggestions. I am sorry for figure 12 in the section
+3.3 where I made a mistake when I put the data into the figure. The
+sequence of the data is wrong. The instability is not exposed due to
+large total time but the large time step and the error norm is
+consistent in both figure 11 and figure 12. I have updated the data in
+git. And we may need to rewrite some parts of section 3.3.
+
+I think figure 5 for c = 10 could be a good indication for the
+instability that could be hidden due to short total time, where we can
+get a relatively small error norm with large dt and the error gets
+infinity for smaller dt.
+
+I have updated the font size in figure 3 and 4, which should be clearer.
+
+In response to Stephen's comments, I just got the result for mesh of
+quadratic function and the convergence rate with respect to dx. The
+stability difference is not quite obvious. I am afraid that, in the
+advection over orography test case, we already have a much smoother mesh
+and the flow is less challenging. In advection over orography test case,
+the convergence rate reduce to first order (from 2nd order) when the
+resolution increases (steeper representation of orography).
+
+As for the deformational Courant number, do you need me to provide the
+numbers in git or do you have it with you? I know deformational Courant
+number is a restriction for semi-Lagrangian schemes, but in my opinion,
+I think the deformational Courant number <= 1 is not enough to ensure
+the stability, which should be more mesh relevant. The stable dt would
+be smaller for steeper meshes.
+

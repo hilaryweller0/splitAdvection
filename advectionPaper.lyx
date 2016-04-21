@@ -410,15 +410,10 @@ key "IK04,LNU10,ZWS04"
  solution of a matrix equation would be needed for every advected tracer.
  The other disadvantage of implicit time-stepping is the large phase errors
  when long time-steps are used 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{citation}
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg"
+key "DB12,LWW14"
 
 \end_inset
 
@@ -2045,18 +2040,19 @@ The multi-dimensional and dimensionally split schemes take very different
  The multi-dimensional scheme uses implicit time-stepping whereas the dimensiona
 lly split scheme uses a flux-form semi-Lagrangian approach, integrating
  over a line of cells in order to calculate the flux across a face.
- It is well known that implicit schemes suffer from phase errors for long
- time-steps whereas the accuracy of semi-Lagrangian is less sensitive to
- time-step
-\begin_inset ERT
-status open
+ Implicit schemes are known to suffer from phase errors 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg"
+key "DB12,LWW14"
 
-\begin_layout Plain Layout
+\end_inset
 
-
-\backslash
-todo[inline]{citation for implicit advection and phase errors}
-\end_layout
+ for long time-steps whereas the accuracy of semi-Lagrangian is less sensitive
+ to time-step 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "PS84"
 
 \end_inset
 
