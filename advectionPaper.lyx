@@ -419,7 +419,14 @@ key "DB12,LWW14"
 
 .
  This is in contrast to semi-Lagrangian or FFSL schemes which maintain accuracy
- with long time-steps.
+ with long time-steps 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Pur76,PS84,LLM95"
+
+\end_inset
+
+.
  Conservative semi-Lagrangian naturally extends to long time-steps but the
  conservative remapping is complicated and expensive, particularly on non-rectan
 gular meshes and will not be investigated here.
@@ -2097,7 +2104,14 @@ reference "fig:solidBody-dt10"
  clearly shows phase errors of the implicit time-stepping but, despite the
  large Courant number, the well resolved part of the profile is propagating
  at close to the correct speed.
- Dispersion analysis shows that high 
+ Dispersion analysis 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "LWW14"
+
+\end_inset
+
+ shows that high 
 \emph on
 frequency
 \emph default
@@ -2119,19 +2133,6 @@ reference "fig:solidBody-dt10"
 
 .
  
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{This needs a citation or analysis}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
