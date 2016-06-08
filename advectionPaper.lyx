@@ -2568,7 +2568,7 @@ reference "eq:f_for_Vmesh"
 ):
 \begin_inset Formula 
 \begin{equation}
-f=\frac{1}{\sqrt{3}x_{m}}\left(x-x_{m}\right)^{2}+y_{m}-\frac{x_{m}}{4\sqrt{3}}.
+f=\frac{1}{2\sqrt{3}x_{m}}\left(x-x_{m}\right)^{2}+y_{m}-\frac{x_{m}}{8\sqrt{3}}.
 \end{equation}
 
 \end_inset
