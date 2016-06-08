@@ -1865,7 +1865,7 @@ reference "fig:solidBody"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -2171,7 +2171,7 @@ reference "fig:solidBody-dt10"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
