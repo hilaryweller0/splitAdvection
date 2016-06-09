@@ -148,7 +148,8 @@ Dimensionally split advection schemes are attractive for atmospheric modelling
  Accurate long time steps can be achieved without significant cost using
  the flux form semi-Lagrangian technique.
  However we show that errors and instabilities can occur when using split
- schemes on non-orthogonal grids such as the cubed sphere or following terrain.
+ schemes on non-orthogonal grids such as the cubed sphere or over steep
+ terrain.
  
 \end_layout
 
@@ -162,9 +163,9 @@ ing which is stable for very large Courant numbers.
 \end_layout
 
 \begin_layout Abstract
-Three two-dimensional advection test cases on Cartesian planes are proposed
- without the complexities of a spherical domain or multi-panel meshes but
- with distortions to mimic those of a cubed sphere or following terrain.
+Two-dimensional advection test cases on Cartesian planes are proposed without
+ the complexities of a spherical domain or multi-panel meshes but with distortio
+ns to mimic those of a cubed sphere or over terrain.
  These are solid body rotation, horizontal advection over orography and
  deformational flow.
  
@@ -173,7 +174,7 @@ Three two-dimensional advection test cases on Cartesian planes are proposed
 \begin_layout Abstract
 The dimensionally split scheme is very accurate on orthogonal meshes and
  retains accuracy when long time-steps are used.
- When mesh distortions are modest the split scheme continues to perform
+ When mesh distortions are modest, the split scheme continues to perform
  well but at changes in distortion, the split scheme loses accuracy and
  stability.
  In contrast, the multi-dimensional scheme is almost entirely insensitive
@@ -400,7 +401,7 @@ key "IK04,LNU10,ZWS04"
  FFSL multi-dimensional schemes could be extended to handle large time-steps
  by integrating the upstream swept volume over a large upstream volume,
  interacting with a large number of upstream cells.
- However the cost would be proportional to to time-step since the larger
+ However the cost would be proportional to the time-step since the larger
  the Courant number, the more cells the upstream swept volume would need
  to overlap with.
  This technique therefore offers no advantage over using a smaller time-step.
@@ -408,7 +409,7 @@ key "IK04,LNU10,ZWS04"
  larger than one by using implicit time-stepping.
  This would increase the computational cost per tracer advected since the
  solution of a matrix equation would be needed for every advected tracer.
- The other disadvantage of implicit time-stepping is the large phase errors
+ Two other disadvantages of implicit time-stepping are the large phase errors
  when long time-steps are used 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -417,12 +418,19 @@ key "DB12,LWW14"
 
 \end_inset
 
-.
+ and the difficulty of applying limiters.
  This is in contrast to semi-Lagrangian or FFSL schemes which maintain accuracy
  with long time-steps 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Pur76,PS84,LLM95"
+
+\end_inset
+
+ although monotonocity with long time-steps is still challenging 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bott10"
 
 \end_inset
 
@@ -854,7 +862,7 @@ key "LLM95"
  is: 
 \begin_inset Formula 
 \begin{equation}
-\phi_{i-1/2}=M_{i-1/2}-M_{i-c_{N}-1/2}+\frac{1}{\Delta x}\int_{x_{i}-c_{r}\Delta x}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
+\phi_{i-1/2}=\frac{M_{i-1/2}-M_{i-c_{N}-1/2}}{\Delta x}+\frac{1}{\Delta x}\int_{x_{i}-c_{r}\Delta x}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
 \end{equation}
 
 \end_inset
@@ -1525,8 +1533,8 @@ l schemes on orthogonal and non-orthogonal meshes.
 \end_inset
 
 .
- The velocity is defined by numerically integrating the streamfunction which
- can be defined at mesh vertices, 
+ The velocity is defined by numerically differentiating the streamfunction
+ which can be defined at mesh vertices, 
 \begin_inset Formula $\mathbf{x}$
 \end_inset
 
@@ -1688,6 +1696,30 @@ e transforms are implemented in a consistent way to the distorted mesh in
 \end_layout
 
 \begin_layout Standard
+For the multi-dimensional scheme, fixed value boundary conditions of 
+\begin_inset Formula $\phi=0$
+\end_inset
+
+ are used where the velocity is into the domain and zero normal gradient
+ is used where the velocity is out of the domain.
+ For the dimensionally split scheme 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Describe BCs for split scheme and also describe ramp down of
+ velocity to the wall}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -1833,7 +1865,7 @@ reference "fig:solidBody"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -2139,7 +2171,7 @@ reference "fig:solidBody-dt10"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -2327,7 +2359,34 @@ name "fig:solidBody-dt10"
 \end_layout
 
 \begin_layout Standard
-Figure 
+The 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ell_{\infty}$
+\end_inset
+
+ error norms are defined in the usual way as:
+\begin_inset Formula 
+\begin{eqnarray}
+\ell_{2} & = & \int_{V}\left(\phi-\phi_{T}\right)^{2}dV\bigg/\int_{V}\phi_{T}^{2}\ dV\\
+\ell_{\infty} & = & \max|\phi-\phi_{T}|\big/\max|\phi_{T}|
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi_{T}$
+\end_inset
+
+ is the analytic solution and the integrations and maxima are over the whole
+ domain, with volume 
+\begin_inset Formula $V$
+\end_inset
+
+.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:solidBodyConverge"
@@ -2570,19 +2629,6 @@ reference "eq:f_for_Vmesh"
 \begin{equation}
 f=\frac{1}{2\sqrt{3}x_{m}}\left(x-x_{m}\right)^{2}+y_{m}-\frac{x_{m}}{8\sqrt{3}}.
 \end{equation}
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Define in terms of $x_m$ and $y_m$}
-\end_layout
 
 \end_inset
 
@@ -7164,11 +7210,12 @@ name "sec:concs"
 We examine the errors associated with using a dimensionally split advection
  scheme and a multi-dimensional advection scheme on distorted meshes.
  The dimensionally split scheme is very accurate on orthogonal meshes but
- looses accuracy and stability on distorted meshes, particularly for large
- Courant numbers.
- The multi-dimensional scheme is less accurate on orthogonal meshes than
- the dimensionally split scheme but the accuracy is not sensitive to mesh
- distortions and the stability is less sensitive to Courant number.
+ looses accuracy and stability on highly distorted meshes, particularly
+ for large Courant numbers.
+ The multi-dimensional scheme with implicit time-stepping is less accurate
+ on orthogonal meshes than the dimensionally split scheme but the accuracy
+ is not sensitive to mesh distortions and the stability is less sensitive
+ to Courant number.
 \end_layout
 
 \begin_layout Standard
@@ -7187,8 +7234,9 @@ key "LLM96"
 
 \end_inset
 
- to extend it to two spatial dimensions, PPM is third-order accurate and
- COSMIC splitting enables second-order accuracy in two orthogonal directions.
+ to extend it to two spatial dimensions.
+ PPM is third-order accurate in one dimension and COSMIC splitting enables
+ second-order accuracy in two orthogonal directions.
  PPM is a flux-form semi-Lagrangian scheme and so can handle large Courant
  numbers accurately without significant additional computational cost.
  The second-order accurate multi-dimensional scheme is split in space and
@@ -7215,7 +7263,7 @@ key "LLM96"
 \end_inset
 
  solid body rotation using a distorted mesh.
- The second test case is the familiar horizontal advection over orography
+ The second test case is the established horizontal advection over orography
  
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -7256,7 +7304,7 @@ The matrix solver associated with the implicit time-stepping of the multi-dimens
 ional scheme means that it is always considerably more expensive than the
  split scheme with cost increasing with Courant number.
  We point out that we haven't investigated sensitivity to solver and pre-conditi
-oner and it may be possible to do significantly better.
+oner and it may be possible to do  better.
  But the flux-form semi-Lagrangian method enables long time-steps without
  any matrix solutions and this will always be difficult to beat.
  It is possible to use the multi-dimensional scheme with explicit time-stepping
