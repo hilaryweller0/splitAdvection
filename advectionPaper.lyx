@@ -1766,7 +1766,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/relaxed_quad_mesh.pdf
+	filename YumengsGraphics/quadratic_mesh.pdf
 	lyxscale 50
 	width 49text%
 	height 49text%
@@ -2376,7 +2376,7 @@ reference "eq:f_for_Vmesh"
 ):
 \begin_inset Formula 
 \begin{equation}
-f=\frac{1}{2\sqrt{3}x_{m}}\left(x-x_{m}\right)^{2}+y_{m}-\frac{x_{m}}{8\sqrt{3}}.
+f=\frac{1}{\sqrt{3}x_{m}}\left(x-x_{m}\right)^{2}+y_{m}-\frac{x_{m}}{4\sqrt{3}}.
 \end{equation}
 
 \end_inset
@@ -2539,7 +2539,7 @@ ent).
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -2797,7 +2797,7 @@ al scheme whereas the split scheme is unstable for a Courant number greater
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -3203,7 +3203,7 @@ horiz
 	lyxscale 50
 	width 39text%
 	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
+	BoundingBox 0bp 0bp 998bp 442bp
 	clip
 	special valign=m
 
@@ -3277,7 +3277,7 @@ horiz
 	lyxscale 50
 	width 39text%
 	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
+	BoundingBox 0bp 0bp 998bp 442bp
 	clip
 	special valign=m
 
@@ -3351,7 +3351,7 @@ horiz
 	lyxscale 50
 	width 39text%
 	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
+	BoundingBox 0bp 0bp 998bp 442bp
 	clip
 	special valign=m
 
@@ -3425,7 +3425,7 @@ horiz
 	lyxscale 50
 	width 39text%
 	height 20text%
-	BoundingBox 0bp 0bp 449bp 255bp
+	BoundingBox 0bp 0bp 998bp 442bp
 	clip
 	special valign=m
 
@@ -3795,7 +3795,7 @@ g with second-order accuracy, but at higher resolution, the split scheme
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -3884,14 +3884,7 @@ Convergence of the
 
  error metrics for horizontal advection over a 3000m and a 6000m mountains
  after 10,000s for the dimensionally split (PPM) scheme and multi-dimensional
- MOL scheme using the results shown in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:horizontalAdvectionWithDx"
-
-\end_inset
-
-, all using a horizontal Courant number of 0.25.
+ MOL scheme, all using a horizontal Courant number of 0.25.
  Lines also show theoretical first- and second-order convergence are also
  shown.
  
@@ -4227,7 +4220,7 @@ reference "fig:deformResults"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -4283,7 +4276,7 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T1.pdf.png
+	filename YumengsGraphics/deformationalData/plots/T1.png
 	lyxscale 25
 	width 49text%
 
@@ -4326,7 +4319,7 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T2.pdf.png
+	filename YumengsGraphics/deformationalData/plots/T2.png
 	lyxscale 25
 	width 49text%
 
@@ -4369,7 +4362,7 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T3.pdf.png
+	filename YumengsGraphics/deformationalData/plots/T3.png
 	lyxscale 25
 	width 49text%
 
@@ -4412,7 +4405,7 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T4.pdf.png
+	filename YumengsGraphics/deformationalData/plots/T4.png
 	lyxscale 25
 	width 49text%
 
@@ -4455,7 +4448,7 @@ Multi-dimensional
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T5.pdf.png
+	filename YumengsGraphics/deformationalData/plots/T5.png
 	lyxscale 25
 	width 49text%
 
