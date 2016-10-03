@@ -1145,19 +1145,8 @@ reference "eq:COSMIC_A"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-To incoparate the change in non-orthogonal grids, the scheme should formulated
+To incorporate the change in non-orthogonal grids, the scheme should formulated
  as:
-\end_layout
-
-\begin_layout Standard
-
-\lang english
 \begin_inset Formula 
 \begin{equation}
 \phi_{ij}^{(n+1)}=\phi_{ij}^{n}+J(X_{{\scriptscriptstyle C}}\left(\phi_{ij}^{(n)}+\frac{J}{2}Y_{A}\left(\frac{\phi_{ij}^{(n)}}{J}\right)\right)+Y_{C}\left(\phi_{ij}^{(n)}+\frac{J}{2}X_{A}\left(\frac{\phi_{ij}^{(n)}}{J}\right)\right)).\label{eq:COSMICupdate-1}
@@ -1165,12 +1154,6 @@ To incoparate the change in non-orthogonal grids, the scheme should formulated
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
 where 
 \begin_inset Formula $J$
 \end_inset
