@@ -1163,10 +1163,10 @@ To incorporate the change in non-orthogonal grids, the scheme should formulated
 \end_inset
 
 where 
-\begin_inset Formula $J$
+\begin_inset Formula $|J_{ij}|$
 \end_inset
 
- is the Jacobian, and 
+ is the determinant of Jacobian, and 
 \begin_inset Formula $\Delta x$
 \end_inset
 
