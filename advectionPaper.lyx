@@ -1978,7 +1978,7 @@ Non-orthogonal, dimensionally split scheme
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/V_c1_100x100.pdf
+	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours.pdf
 	lyxscale 50
 	width 49text%
 
@@ -2284,7 +2284,7 @@ Non-orthogonal, dimensionally split scheme
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/V_c10_100x100.pdf
+	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_10_TcontoursBig.pdf
 	lyxscale 50
 	width 49text%
 
