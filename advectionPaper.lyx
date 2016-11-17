@@ -1157,7 +1157,7 @@ X_{C}(\phi)=-\frac{1}{\Delta x}\left(|J|_{w}u_{w}\phi_{w}-|J|_{e}u_{e}\phi_{e}\r
 The advective operator is calculated in a similar manner as 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "L04"
+key "Lin04"
 
 \end_inset
 
