@@ -4652,7 +4652,7 @@ name "fig:deformResults"
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -4844,7 +4844,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3 
 \size footnotesize
-(0.64)
+(0.624)
 \end_layout
 
 \end_inset
@@ -4920,7 +4920,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3
 \size footnotesize
- (0.32)
+ (0.321)
 \end_layout
 
 \end_inset
@@ -4987,7 +4987,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 5.17
 \size footnotesize
- (0.16)
+ (0.161)
 \end_layout
 
 \end_inset
@@ -4998,7 +4998,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3 
 \size footnotesize
-(0.16)
+(0.162)
 \end_layout
 
 \end_inset
@@ -5074,7 +5074,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3
 \size footnotesize
- (0.08)
+ (0.081)
 \end_layout
 
 \end_inset
@@ -5476,7 +5476,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 1.03
 \size footnotesize
- (0.008)
+ (0.011)
 \end_layout
 
 \end_inset
@@ -5728,7 +5728,7 @@ s second-order, independent of the mesh type.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -5985,7 +5985,7 @@ reference "fig:deformational_dt"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -6411,7 +6411,7 @@ reference "tab:iterations"
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
