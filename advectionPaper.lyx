@@ -151,17 +151,18 @@ Dimensionally split advection schemes are attractive for atmospheric modelling
  due to their efficiency and accuracy in each spatial dimension.
  Accurate long time steps can be achieved without significant cost using
  the flux form semi-Lagrangian technique.
- However we show that errors and instabilities can occur when using split
- schemes on non-orthogonal grids such as the cubed sphere or over steep
- terrain.
+ Test cases are chosen in order to accentuate the errors associated with
+ dimension splitting on distorted grids, such as those that might occur
+ over orography or on a cubed sphere.
+ However errors due to grid distortions are found to be small and the dimensiona
+lly split scheme retains accuracy in comparison to a lower order, fully
+ multi-dimensional scheme.
  
 \end_layout
 
 \begin_layout Abstract
-Errors on distorted meshes can be eliminated by using a genuinely multi-dimensio
-nal advection scheme.
- We present a multi-dimensional, method of lines scheme with implicit time-stepp
-ing which is stable for very large Courant numbers.
+We present a genuinely multi-dimensional, method of lines scheme with implicit
+ time-stepping which is stable for very large Courant numbers.
  Results are compared with the one-dimensional Piecewise Parabolic Method,
  extended to two dimensions using COSMIC splitting.
 \end_layout
@@ -178,11 +179,10 @@ ns to mimic those of a cubed sphere or over terrain.
 \begin_layout Abstract
 The dimensionally split scheme is very accurate on orthogonal meshes and
  retains accuracy when long time-steps are used.
- When mesh distortions are modest, the split scheme continues to perform
- well but at changes in distortion, the split scheme loses accuracy and
- stability.
- In contrast, the multi-dimensional scheme is almost entirely insensitive
- to mesh distortion and asymptotes to second-order accuracy at high resolution.
+ In the presence of large mesh distortions the accuracy only decreases a
+ little.
+ The multi-dimensional scheme is almost entirely insensitive to mesh distortion
+ and asymptotes to second-order accuracy at high resolution.
  As is expected for implicit time-stepping, phase errors occur when using
  long time-steps but the spatially well resolved features are advected at
  the correct speed and the multi-dimensional scheme is always stable.
@@ -254,9 +254,9 @@ Boundedness, monotonicity, positivity and maintaining correlations between
 \begin_layout Standard
 Four properties are listed together in the final item because they will
  not be addressed in this paper.
- In this paper, we address the issue of finding conservative, accurate,
- efficient advection schemes for logically rectangular, non-orthogonal grids
- which are stable in the presence of large Courant numbers.
+ In this paper, we address the issue of conservative, accurate, efficient
+ advection schemes for logically rectangular, non-orthogonal grids which
+ are stable in the presence of large Courant numbers.
  These schemes would be particularly relevant for cubed-sphere meshes and
  for terrain following grids.
  Another novel aspect of this paper is that, for simplicity, we test advection
@@ -352,7 +352,7 @@ key "SLF+02"
 
 \end_inset
 
- or to use floating Lagrangian vertical coordinates 
+ or to use floating Lagrangian vertical co-ordinates 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Lin04"
@@ -372,8 +372,8 @@ key "KUJ14"
 \end_layout
 
 \begin_layout Standard
-First-order errors on distorted meshes can be eliminated by using genuinely
- multi-dimensional advection schemes.
+Dimension splitting errors on distorted meshes can be eliminated by using
+ genuinely multi-dimensional advection schemes.
  These can be either FFSL 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -614,21 +614,21 @@ key "CW84"
 
 \lang british
  which uses the flux-form semi-Lagrangian approach extended to long time-steps
- 
+ following 
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "LLM95"
 
 \end_inset
 
- and the COSMIC splitting technique 
+ with COSMIC splitting 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "LLM96"
 
 \end_inset
 
-.
+ to extend PPM to two dimensions.
  The multi-dimensional scheme uses the method of lines approach (treating
  space and time independently).
  The second-order accurate spatial discretistaion of 
@@ -676,19 +676,6 @@ https://github.com/hertzsprung/AtmosFOAM
 \end_inset
 
 .
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{One url with links to both codes}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -881,13 +868,13 @@ key "LLM95"
 \end_inset
 
  is the trajectory.
- Hence, the Courant number in computational domain is 
+ Hence, the Courant number is 
 \begin_inset Formula $c=\frac{x_{ce}-x_{cd}}{\Delta t}$
 \end_inset
 
 .
- The treatment for departure points is to avoid a discontinuity in the coordinat
-e transformation.
+ The treatment for departure points is to avoid a discontinuity in the co-ordina
+te transformation.
  Then for 
 \begin_inset Formula $u>0$
 \end_inset
@@ -1112,7 +1099,8 @@ reference "eq:PPMflux"
 \begin_inset Formula $u_{w}$
 \end_inset
 
- are dependent variables and 
+ are dependent variables.
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "LR96"
@@ -1147,49 +1135,43 @@ reference "eq:COSMIC_A"
 \end_layout
 
 \begin_layout Standard
+Grid distortions can be included with a co-ordinate transform with Jacobian
+ 
+\begin_inset Formula $J$
+\end_inset
 
+:
 \lang english
-Two dimensional advection equation in flux-form on non-orthogonal mesh is:
-\end_layout
 
-\begin_layout Standard
-
-\lang english
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial\phi}{\partial t}+|J|\frac{\partial|J|^{-1}u\phi}{\partial x}+|J|\frac{\partial|J|^{-1}v\phi}{\partial y}=0.
+\frac{\partial|J|^{-1}\phi}{\partial t}+\frac{\partial|J|^{-1}u\phi}{\partial x}+\frac{\partial|J|^{-1}v\phi}{\partial y}=0.
 \end{equation}
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-The Jacobian is then defined on the flux, the conservative operator 
+\lang british
+The conservative operators 
 \begin_inset Formula $X_{c}$
 \end_inset
 
- is then:
-\end_layout
+ and 
+\begin_inset Formula $Y_{c}$
+\end_inset
 
-\begin_layout Standard
-
+ are then:
 \lang english
+
 \begin_inset Formula 
-\begin{equation}
-X_{C}(\phi)=-\frac{1}{\Delta x}\left(|J|_{w}u_{w}\phi_{w}-|J|_{e}u_{e}\phi_{e}\right).Y_{C}(\phi)=-\frac{1}{\Delta y}\left(|J|_{n}v_{n}\phi_{n}-|J|_{s}v_{s}\phi_{s}\right)\label{eq:COSMICupdate-2}
-\end{equation}
+\begin{eqnarray}
+X_{C}(\phi) & = & -\frac{1}{\Delta x}\left(|J|_{w}u_{w}\phi_{w}-|J|_{e}u_{e}\phi_{e}\right)\label{eq:COSMICupdate-2}\\
+Y_{C}(\phi) & = & -\frac{1}{\Delta y}\left(|J|_{n}v_{n}\phi_{n}-|J|_{s}v_{s}\phi_{s}\right)
+\end{eqnarray}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-The advective operator is calculated in a similar manner as 
+and the advective operators are calculated in a similar manner to 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Lin04"
@@ -1197,24 +1179,14 @@ key "Lin04"
 \end_inset
 
 :
-\end_layout
-
-\begin_layout Standard
-
-\lang english
 \begin_inset Formula 
-\begin{equation}
-X_{A}(\phi)=X_{C}(\phi)-\frac{\phi_{ij}}{\Delta x}\left(|J|_{w}^{-1}u_{w}-|J|_{e}^{-1}u_{e}\right).Y_{A}(\phi)=Y_{C}(\phi)-\frac{\phi_{ij}}{\Delta y}\left(|J|_{n}^{-1}v_{n}-|J|_{s}^{-1}v_{s}\right)
-\end{equation}
+\begin{eqnarray}
+X_{A}(\phi) & = & X_{C}(\phi)-\frac{\phi_{ij}}{\Delta x}\left(|J|_{w}^{-1}u_{w}-|J|_{e}^{-1}u_{e}\right)\\
+Y_{A}(\phi) & = & Y_{C}(\phi)-\frac{\phi_{ij}}{\Delta y}\left(|J|_{n}^{-1}v_{n}-|J|_{s}^{-1}v_{s}\right).
+\end{eqnarray}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
 The advective and conservative operators are combined to update 
 \begin_inset Formula $\phi_{ij}$
 \end_inset
@@ -1222,16 +1194,20 @@ The advective and conservative operators are combined to update
  at each cell by: 
 \begin_inset Formula 
 \begin{equation}
-\phi_{ij}^{(n+1)}=\phi_{ij}^{n}+|J|_{c}X_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{c}}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)+|J|_{c}Y_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{c}}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).\label{eq:COSMICupdate}
+\phi_{ij}^{(n+1)}=\phi_{ij}^{n}+|J|_{ij}X_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)+|J|_{ij}Y_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).\label{eq:COSMICupdate}
 \end{equation}
 
 \end_inset
 
- where 
-\begin_inset Formula $|J|_{c}$
+where 
+\begin_inset Formula $|J|_{ij}$
 \end_inset
 
- is the determinant of Jacobian at the center of each cell, and 
+ is the determinant of Jacobian at the center of cell 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+, and 
 \begin_inset Formula $\Delta x$
 \end_inset
 
@@ -1273,7 +1249,8 @@ key "WS14"
  combined with Crank-Nicholson in time.
  Although the interpolation uses a cubic polynomial, cell centre values
  are approximated as cell average values and face centre values are approximated
- as face average values so the method is limited to 2nd order in space.
+ as face average values so the method is limited to 2nd order accuracy in
+ space.
  The advection scheme uses Gauss's divergence theorem to approximate the
  divergence term of the advection equation:
 \begin_inset Formula 
@@ -1415,7 +1392,7 @@ reference "fig:stencil"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -1627,17 +1604,17 @@ name "sec:results"
 In order to make test cases as simple as possible without the need for incorpora
 ting spherical geometry, multi-panel meshes or non-rectangular cells, our
  computational domain consists of a periodic two-dimensional plane with
- deformations in the coordinate system (or mesh) mimicking the kind of distortio
-ns which are produced by a cubed-sphere mesh.We also use a two-dimensional
- vertical slice test case over orography using terrain following coordinates
- (or terrain following meshes).
+ deformations in the co-ordinate system (or mesh) mimicking the kind of
+ distortions which are produced by a cubed-sphere mesh.
+ We also use a two-dimensional vertical slice test case over orography using
+ terrain following co-ordinates (or terrain following meshes).
 \end_layout
 
 \begin_layout Standard
 A range of test cases are undertaken on uniform and distorted meshes using
  the dimensionally split scheme and the multi-dimensional scheme in order
  to evaluate the influences of mesh distortions, the validity of using a
- dimensionally split scheme on a distorted mesh and the scheme's accuracy
+ dimensionally split scheme on a distorted mesh and the schemes' accuracy
  and stability for long time-steps.
  
 \end_layout
@@ -1814,7 +1791,7 @@ where
 \begin_inset Formula $y$
 \end_inset
 
- coordinate locations as shown in figure 
+ co-ordinate locations as shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:cubedGrid"
@@ -1822,11 +1799,12 @@ reference "fig:cubedGrid"
 \end_inset
 
 (a) (the V mesh).
- The multi-dimensional scheme model uses Cartesian coordinates and the distorted
- V mesh rather than a non-orthogonal coordinate system on a Cartesian mesh.
+ The multi-dimensional scheme model uses Cartesian co-ordinates and the
+ distorted V mesh rather than a non-orthogonal co-ordinate system on a Cartesian
+ mesh.
  However this does not affect the numerical results assuming that the co-ordinat
 e transforms are implemented in a consistent way to the distorted mesh in
- Cartisian coordinates.
+ Cartisian co-ordinates.
  
 \end_layout
 
@@ -1956,7 +1934,8 @@ name "fig:cubedGrid"
 \end_layout
 
 \begin_layout Standard
-Results of this test case on an orthogonal mesh of 
+Results of this test case on the orthogonal and non-orthogonal (V) meshes
+ of 
 \begin_inset Formula $100\times100$
 \end_inset
 
@@ -1975,16 +1954,13 @@ reference "fig:solidBody"
  to one).
  The contours show the tracer value every 100 seconds and the colours show
  the errors summed every 100 seconds.
- On the orthogonal mesh, the dimensionally split scheme outperforms the
- multi-dimensional scheme due to the higher-order accuracy of the split
- scheme.
- The split scheme on the orthogonal mesh has errors smaller than the first
- colour value in the first 300 seconds and errors gradually increase showing
- a small phase lag near the peak of the Gaussian towards the end of the
- simulation.
- The multi-dimensional scheme shows larger error than dimensionally split
- scheme, where the phase of the Gaussian slightly lags behind the analytical
- solution.
+ The dimensionally split scheme outperforms the multi-dimensional scheme
+ on both meshes due to the higher-order accuracy of the split scheme.
+ The dimensionally split scheme introduces a small error at 300 seconds
+ where the tracer goes through the change in direction of the mesh.
+ The second-order, multi-dimensional scheme shows phase lag but errors almost
+ entirely insensitive the mesh distortions.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2179,27 +2155,6 @@ name "fig:solidBody"
 \end_layout
 
 \begin_layout Standard
-The results of the dimensionally split and multi-dimensional schemes on
- the non-orthognal mesh are also shown in figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:solidBody"
-
-\end_inset
-
-.
- The dimensionally split scheme has much larger errors on the non-orthogonal
- mesh than on the orthogonal mesh but it is still more accurate than the
- multi-dimensional scheme.
- Some oscillations are introduced at 300 seconds where the tracer goes through
- the change in direction of the mesh.
- In contrast, the multi-dimensional scheme has a similar error on the non-orthog
-onal mesh to on the orthogonal mesh due to the complete representation of
- the variation of the tracer on the mesh.
- 
-\end_layout
-
-\begin_layout Standard
 The multi-dimensional and dimensionally split schemes take very different
  approaches to handling large Courant numbers.
  The multi-dimensional scheme uses implicit time-stepping whereas the dimensiona
@@ -2246,12 +2201,12 @@ reference "fig:solidBody-dt10"
 \end_inset
 
 .
- The error of the multi-dimensional scheme is much larger than the dimensionally
- split scheme on the orthogonal mesh.
- However, the dimensionally split scheme goes unstable on the non-orthogonal
- mesh (at the change in direction of the mesh) when using a large Courant
- number whereas for the multi-dimensional scheme, errors and stability are
- not strongly affected by the non-orthogonality.
+ The error of the multi-dimensional scheme is again much larger than the
+ dimensionally split scheme on both meshes.
+ However, the dimensionally split scheme introduces oscillations on the
+ non-orthogonal mesh, particularly where the mesh changes direction whereas
+ for the multi-dimensional scheme, errors are not strongly affected by the
+ non-orthogonality.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2485,6 +2440,27 @@ name "fig:solidBody-dt10"
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+todo[inline]{Omit since no longer needed since split scheme is accurate
+ on V-mesh?}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Greyedout
+status open
+
+\begin_layout Plain Layout
 The split scheme is performing very well apart from where the orthogonality
  changes direction on the V-mesh.
  To illuminate, we also run the solid body rotation test case using the
@@ -2557,8 +2533,13 @@ where
 
 .
  We will show in the next paragraph that the smooth changes in direction
- and lower non-orthogonality means that this coordinate system leads to
+ and lower non-orthogonality means that this co-ordinate system leads to
  much smaller errors.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4171,7 +4152,7 @@ key "LSPT12"
 \end_inset
 
  direction.
- The stream function adapted to Cartesian coordinate is:
+ The stream function adapted to Cartesian co-ordinate is:
 \begin_inset Formula 
 \begin{eqnarray}
 \psi\left(x,y,t\right) & = & \frac{\hat{\psi}}{T}\left(\frac{L_{x}}{2\pi}\right)^{2}\sin^{2}\left(2\pi\left(\frac{x}{L_{x}}-\frac{t}{T}\right)\right)\cos^{2}\left(\pi\frac{y}{L_{y}}\right)\cos\left(\pi\frac{t}{T}\right)-L_{x}\frac{y}{T}
@@ -7479,7 +7460,7 @@ key "LLM96"
 Three two-dimensional advection test cases on Cartesian planes are proposed
  without the complexities of a spherical domain or multi-panel meshes but
  with distorted meshes to mimic the distortions of a cubed sphere or terrain
- following coordinates.
+ following co-ordinates.
  We therefore propose that these test cases could be used in the initial
  testing of advection schemes, before the generation of meshes on the sphere.
  The first test case is an extension of the 
