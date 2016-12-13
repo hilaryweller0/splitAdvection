@@ -3,19 +3,21 @@
 gmtPlot data/plotOrographyl2.gmt
 gmtPlot data/plotOrographylinf.gmt
 
+cd $HOME/OpenFOAM/hilary-3.0.1/run/solidBodyRotationOnPlane
+gmtPlot runAll/plotl2ConvergenceC1.gmt
+gmtPlot runAll/plotl2ConvergenceC10.gmt
+gmtPlot runAll/plotlinfConvergenceC1.gmt
+gmtPlot runAll/plotlinfConvergenceC10.gmt
+gmtPlot runAll/plotl2_dt.gmt
+gmtPlot runAll/plotlinf_dt.gmt
+cd -
 
-solidBodyRotationOnPlane/plots/l2errorsC1.eps
-solidBodyRotationOnPlane/plots/l2errorsC10.eps
-solidBodyRotationOnPlane/plots/linferrorsC1.eps
-solidBodyRotationOnPlane/plots/linferrorsC10.eps
-solidBodyRotationOnPlane/plots/l2errors_dt.eps
-solidBodyRotationOnPlane/plots/linferrors_dt.eps
-
-
-deformingAdvectionCyclic/plots/l2errors_c1.eps
-deformingAdvectionCyclic/plots/linferrors_c1.eps
-deformingAdvectionCyclic/plots/l2errors_c10.eps
-deformingAdvectionCyclic/plots/linferrors_c10.eps
-deformingAdvectionCyclic/plots/l2errors_dt.eps
-deformingAdvectionCyclic/plots/linferrors_dt.eps
+cd $HOME/OpenFOAM/hilary-3.0.1/run/deformingAdvectionCyclic
+gmtPlot runAll/plotl2_c1.gmt
+gmtPlot runAll/plotlinf_c1.gmt
+gmtPlot runAll/plotl2_c10.gmt
+gmtPlot runAll/plotlinf_c10.gmt
+gmtPlot runAll/plotl2_dt.gmt
+gmtPlot runAll/plotlinf_dt.gmt
+cd -
 
