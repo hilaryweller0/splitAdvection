@@ -1,5 +1,5 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
 \begin_document
 \begin_header
 \textclass article
@@ -46,7 +46,6 @@
 % Added by lyx2lyx
 % Added by lyx2lyx
 % Added by lyx2lyx
-\usepackage{amssymb}
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children false
@@ -57,13 +56,13 @@
 \font_roman times
 \font_sans default
 \font_typewriter default
+\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \default_output_format pdf5
 \output_sync 0
@@ -74,15 +73,24 @@
 \use_hyperref false
 \papersize a4paper
 \use_geometry true
-\use_amsmath 1
-\use_esint 1
-\use_mhchem 1
-\use_mathdots 1
-\cite_engine natbib_authoryear
+\use_package amsmath 1
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
+\justification true
 \use_refstyle 0
 \index Index
 \shortcut idx
@@ -765,7 +773,7 @@ key "CW84"
  is updated using:
 \begin_inset Formula 
 \begin{equation}
-\phi_{i}^{(n+1)}=\phi_{i}^{(n)}-\Delta t\ X_{C}\left(\phi\right)=\phi_{i}^{(n)}-\Delta t\frac{u_{i+1/2}\phi_{i+1/2}-u_{i-1/2}\phi_{i-1/2}}{\Delta x}\label{PPMgauss}
+\phi_{i}^{(n+1)}=\phi_{i}^{(n)}-X_{C}\left(\phi\right)=\phi_{i}^{(n)}-\frac{u_{i+1/2}\phi_{i+1/2}-u_{i-1/2}\phi_{i-1/2}}{\Delta x}\label{PPMgauss}
 \end{equation}
 
 \end_inset
@@ -845,6 +853,7 @@ key "LLM95"
 \end_inset
 
 .
+
  The Courant number is calculated from the departure points 
 \begin_inset Formula $x_{d}$
 \end_inset
@@ -887,6 +896,7 @@ key "LLM95"
 .
  The treatment for departure points is to avoid a discontinuity in the coordinat
 e transformation.
+
  Then for 
 \begin_inset Formula $u>0$
 \end_inset
@@ -906,7 +916,7 @@ e transformation.
  is: 
 \begin_inset Formula 
 \begin{equation}
-\phi_{i-1/2}=\frac{M_{i-1/2}-M_{i-c_{N}-1/2}}{\Delta x}+\frac{1}{\Delta x}\int_{x_{i}-c_{r}\Delta x}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
+u_{i-\frac{1}{2}}\phi_{i-\frac{1}{2}}=M_{i-1/2}-M_{i-c_{N}-1/2}+\int_{x_{i}-c_{r}\Delta x}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
 \end{equation}
 
 \end_inset
@@ -927,6 +937,12 @@ M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.\label{eq:cumulativeMass}
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
 For stability, the time-step is restricted by the deformational Courant
  number:
 \begin_inset Formula 
@@ -1136,33 +1152,95 @@ reference "eq:COSMIC_A"
 \end_inset
 
 ).
- The advective and conservative operators are combined to update 
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Two dimensional advection equation in flux-form on non-orthogonal mesh is:
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi}{\partial t}+|J|\frac{\partial|J|^{-1}u\phi}{\partial x}+|J|\frac{\partial|J|^{-1}v\phi}{\partial y}=0.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Jacobian is then defined on the flux, the conservative operator 
+\begin_inset Formula $X_{c}$
+\end_inset
+
+ is then:
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Formula 
+\begin{equation}
+X_{C}(\phi)=-\frac{1}{\Delta x}\left(|J|_{w}u_{w}\phi_{w}-|J|_{e}u_{e}\phi_{e}\right).Y_{C}(\phi)=-\frac{1}{\Delta y}\left(|J|_{n}v_{n}\phi_{n}-|J|_{s}v_{s}\phi_{s}\right)\label{eq:COSMICupdate-2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+The advective operator is calculated in a similar manner as 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lin04"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset Formula 
+\begin{equation}
+X_{A}(\phi)=X_{C}(\phi)-\frac{\phi_{ij}}{\Delta x}\left(|J|_{w}^{-1}u_{w}-|J|_{e}^{-1}u_{e}\right).Y_{A}(\phi)=Y_{C}(\phi)-\frac{\phi_{ij}}{\Delta y}\left(|J|_{n}^{-1}v_{n}-|J|_{s}^{-1}v_{s}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+The advective and conservative operators are combined to update 
 \begin_inset Formula $\phi_{ij}$
 \end_inset
 
  at each cell by: 
 \begin_inset Formula 
 \begin{equation}
-\phi_{ij}^{(n+1)}=\phi_{ij}^{n}+X_{{\scriptscriptstyle C}}\left(\phi_{ij}^{(n)}+\frac{1}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)+Y_{C}\left(\phi_{ij}^{(n)}+\frac{1}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).\label{eq:COSMICupdate}
+\phi_{ij}^{(n+1)}=\phi_{ij}^{n}+|J|_{c}X_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{c}}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)+|J|_{c}Y_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{c}}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).\label{eq:COSMICupdate}
 \end{equation}
 
 \end_inset
 
-To incorporate the change in non-orthogonal grids, the scheme should formulated
- as:
-\begin_inset Formula 
-\begin{eqnarray}
-\phi_{ij}^{(n+1)} & =\phi_{ij}^{n}+|J_{ij}| & \Biggl\{ X\left(\frac{1}{|J_{ij}|}\left(\phi_{ij}^{(n)}+\frac{|J_{ij}|}{2}Y_{A}\left(\frac{\phi_{ij}^{(n)}}{|J_{ij}|}\right)\right)\right)\label{eq:COSMICupdate-1}\\
- &  & +Y_{C}\left(\frac{1}{|J_{ij}|}\left(\phi_{ij}^{(n)}+\frac{|J_{ij}|}{2}X_{A}\left(\frac{\phi_{ij}^{(n)}}{|J_{ij}|}\right)\right)\right)\Biggr\}.
-\end{eqnarray}
-
+ where 
+\begin_inset Formula $|J|_{c}$
 \end_inset
 
-where 
-\begin_inset Formula $|J_{ij}|$
-\end_inset
-
- is the determinant of Jacobian, and 
+ is the determinant of Jacobian at the center of each cell, and 
 \begin_inset Formula $\Delta x$
 \end_inset
 
@@ -1374,7 +1452,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Stencils of upwind-biased cells for interpolating onto face 
@@ -1786,9 +1864,9 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -1853,7 +1931,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Two non-orthogonal meshes on a plane with 
@@ -1927,9 +2005,9 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2072,7 +2150,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2233,9 +2311,9 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2378,7 +2456,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2611,9 +2689,9 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2774,7 +2852,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with spatial resolution of the 
@@ -2869,9 +2947,9 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2940,7 +3018,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with temporal resolution of the 
@@ -3191,10 +3269,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
+<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="14text%">
 <column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -3690,7 +3768,7 @@ unstable
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -3868,9 +3946,9 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -3937,7 +4015,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence of the 
@@ -4224,7 +4302,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 The non-orthognal mesh/co-ordinate system for the deformational flow with
@@ -4291,10 +4369,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
+<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="3text%">
 <column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -4585,7 +4663,7 @@ Multi-dimensional
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the deformational flow test case after 1, 2, 3, 4 and 5 time
@@ -4618,19 +4696,19 @@ name "fig:deformResults"
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="14" columns="7">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -4810,7 +4888,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3 
 \size footnotesize
-(0.64)
+(0.624)
 \end_layout
 
 \end_inset
@@ -4886,7 +4964,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3
 \size footnotesize
- (0.32)
+ (0.321)
 \end_layout
 
 \end_inset
@@ -4953,7 +5031,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 5.17
 \size footnotesize
- (0.16)
+ (0.161)
 \end_layout
 
 \end_inset
@@ -4964,7 +5042,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3 
 \size footnotesize
-(0.16)
+(0.162)
 \end_layout
 
 \end_inset
@@ -5040,7 +5118,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 10.3
 \size footnotesize
- (0.08)
+ (0.081)
 \end_layout
 
 \end_inset
@@ -5442,7 +5520,7 @@ Maximum Courant numbers
 \begin_layout Plain Layout
 1.03
 \size footnotesize
- (0.008)
+ (0.011)
 \end_layout
 
 \end_inset
@@ -5606,7 +5684,7 @@ Maximum Courant numbers
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Resolutions, time-steps and Courant numbers for the non-orthogonal meshes
@@ -5694,14 +5772,14 @@ s second-order, independent of the mesh type.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -5842,7 +5920,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with resolution of the 
@@ -5951,14 +6029,14 @@ reference "fig:deformational_dt"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -6025,7 +6103,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Variation of 
@@ -6377,20 +6455,20 @@ reference "tab:iterations"
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="6">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -6878,7 +6956,7 @@ Iterations per time-step orthogonal/non-orthogonal
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Number of solver iterations per time-step of the multi-dimensional scheme
@@ -6943,11 +7021,11 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -7282,7 +7360,7 @@ Split
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Total number of multiply operations per cell per time-step for different
