@@ -1,5 +1,5 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 474
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass article
@@ -47,6 +47,8 @@
 % Added by lyx2lyx
 % Added by lyx2lyx
 % Added by lyx2lyx
+% Added by lyx2lyx
+\usepackage{amssymb}
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children false
@@ -57,13 +59,13 @@
 \font_roman times
 \font_sans default
 \font_typewriter default
-\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \default_output_format pdf5
 \output_sync 0
@@ -74,24 +76,15 @@
 \use_hyperref false
 \papersize a4paper
 \use_geometry true
-\use_package amsmath 1
-\use_package amssymb 2
-\use_package cancel 1
-\use_package esint 1
-\use_package mathdots 1
-\use_package mathtools 1
-\use_package mhchem 1
-\use_package stackrel 1
-\use_package stmaryrd 1
-\use_package undertilde 1
-\cite_engine natbib
-\cite_engine_type authoryear
-\biblio_style plainnat
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine natbib_authoryear
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\justification true
 \use_refstyle 0
 \index Index
 \shortcut idx
@@ -841,21 +834,25 @@ key "LLM95"
 \end_inset
 
 .
- The velocity are derived from stream function: 
 \end_layout
 
 \begin_layout Standard
+
+\lang english
+The velocity is derived from a stream function and the Jacobian of the co-ordina
+te transform: 
+\lang british
+
 \begin_inset Formula 
 \[
-u=-\frac{|J|_{w}\Delta\psi}{\Delta y}\qquad v=-\frac{|J|_{s}\Delta\psi}{\Delta x}
+\left(\begin{array}{c}
+u\\
+v
+\end{array}\right)=J\left(\nabla\times\bm{\Psi}\right)
 \]
 
 \end_inset
 
- 
-\end_layout
-
-\begin_layout Standard
 
 \lang english
 Then for 
@@ -898,12 +895,6 @@ M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.\label{eq:cumulativeMass}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
 For stability, the time-step is restricted by the deformational Courant
  number:
 \begin_inset Formula 
@@ -1375,7 +1366,7 @@ reference "fig:stencil"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -1403,7 +1394,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Stencils of upwind-biased cells for interpolating onto face 
@@ -1654,9 +1645,8 @@ where
 \end_inset
 
 .
- The initial tracer distribution takes a Gaussian distribution in order
- to ensure that all advection schemes achieve their theoretical order of
- accuracy:
+ The initial tracer takes a Gaussian distribution in order to ensure that
+ all advection schemes achieve their theoretical order of accuracy:
 \begin_inset Formula 
 \begin{equation}
 \phi(\mathbf{x})=\exp\left(-\frac{1}{2}\frac{|\mathbf{x}-\mathbf{x}_{\phi}|^{2}}{r_{\phi}^{2}}\right)\label{eq:7}
@@ -1781,10 +1771,9 @@ reference "fig:cubedGrid"
 
 \end_inset
 
-(a) (the V mesh).
- The multi-dimensional scheme model uses Cartesian co-ordinates and the
- distorted V mesh rather than a non-orthogonal co-ordinate system on a Cartesian
- mesh.
+.
+ The multi-dimensional scheme model uses Cartesian co-ordinates and a distorted
+ mesh rather than a non-orthogonal co-ordinate system on a Cartesian mesh.
  However this does not affect the numerical results assuming that the co-ordinat
 e transforms are implemented in a consistent way to the distorted mesh in
  Cartisian co-ordinates.
@@ -1814,36 +1803,6 @@ status open
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-(a) V mesh
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-(b) quadratic
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
 	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf
 	lyxscale 50
@@ -1855,38 +1814,11 @@ status open
 
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
+\begin_layout Plain Layout
+\begin_inset Caption
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/quadratic_mesh.pdf
-	lyxscale 50
-	width 49text%
-	height 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Two non-orthogonal meshes on a plane with 
+Two non-orthogonal mesh on a plane with 
 \begin_inset Formula $50\times50$
 \end_inset
 
@@ -1894,9 +1826,8 @@ Two non-orthogonal meshes on a plane with
 \begin_inset Formula $120^{\text{o}}$
 \end_inset
 
-.
- (a) Designed to have similar angles to a cubed-sphere mesh.
- (b) avoids abrupt changes in orthogonality 
+ designed to have similar angles to a cubed-sphere mesh.
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:cubedGrid"
@@ -1917,8 +1848,8 @@ name "fig:cubedGrid"
 \end_layout
 
 \begin_layout Standard
-Results of this test case on the orthogonal and non-orthogonal (V) meshes
- of 
+Results of this test case on the orthogonal and non-orthogonal meshes of
+ 
 \begin_inset Formula $100\times100$
 \end_inset
 
@@ -1940,7 +1871,8 @@ reference "fig:solidBody"
  The dimensionally split scheme outperforms the multi-dimensional scheme
  on both meshes due to the higher-order accuracy of the split scheme.
  The dimensionally split scheme introduces a small error at 300 seconds
- where the tracer goes through the change in direction of the mesh.
+ where the tracer goes through the change in direction of the mesh which
+ would be ameliorated if we were using monotonicity constraints.
  The second-order, multi-dimensional scheme shows phase lag but errors almost
  entirely insensitive the mesh distortions.
  
@@ -1950,14 +1882,14 @@ reference "fig:solidBody"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2100,7 +2032,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2235,14 +2167,14 @@ reference "fig:solidBody-dt10"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2385,7 +2317,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2415,109 +2347,6 @@ name "fig:solidBody-dt10"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Omit since no longer needed since split scheme is accurate
- on V-mesh?}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Plain Layout
-The split scheme is performing very well apart from where the orthogonality
- changes direction on the V-mesh.
- To illuminate, we also run the solid body rotation test case using the
- split scheme using a co-ordinate system with smoothly varying non-orthogonality
-, as shown in fig 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:cubedGrid"
-
-\end_inset
-
-(b).
- This mesh uses the following quadratic function for 
-\begin_inset Formula $f$
-\end_inset
-
- in place of eqn (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:f_for_Vmesh"
-
-\end_inset
-
-):
-\begin_inset Formula 
-\begin{equation}
-f=\frac{1}{\sqrt{3}x_{m}}\left(x-x_{m}\right)^{2}+y_{m}-\frac{x_{m}}{4\sqrt{3}}.
-\end{equation}
-
-\end_inset
-
-This function gives a maximum mesh angle of 
-\begin_inset Formula $90+\tan^{-1}1/\sqrt{3}=120{}^{o}$
-\end_inset
-
- at the edges of the domain but only 
-\begin_inset Formula $90+\tan^{-1}1/(2\sqrt{3})=106^{o}$
-\end_inset
-
- at 
-\begin_inset Formula $x=x_{m}\pm x_{m}/2$
-\end_inset
-
-, 
-\begin_inset Formula $y=0$
-\end_inset
-
- at the tracer maximum.
- Due to stability problems on this quadratic mesh the velocity field has
- been re-defined so that it ramps down to zero at the boundaries (outside
- the region of significant tracer concentrations) according to the streamfunctio
-n:
-\begin_inset Formula 
-\begin{equation}
-\Psi=\begin{cases}
-Ar^{2} & \ \text{ for }r\le r_{1}\\
-2Ar_{1}(r-r_{1}/2) & \ \text{ for }r>r_{1}
-\end{cases}
-\end{equation}
-
-\end_inset
-
-where 
-\begin_inset Formula $r=|\mathbf{x}-\mathbf{x}_{c}|$
-\end_inset
-
- and 
-\begin_inset Formula $r_{1}=3900$
-\end_inset
-
-.
- We will show in the next paragraph that the smooth changes in direction
- and lower non-orthogonality means that this co-ordinate system leads to
- much smaller errors.
 \end_layout
 
 \end_inset
@@ -2608,11 +2437,11 @@ reference "fig:solidBodyConverge"
  On both orthogonal and non-orthogonal meshes, the multi-dimensional scheme
  has second order convergence once errors are low enough to avoid error
  saturation (stable errors are bounded at around one).
- With a large Courant number, the multi-dimensional scheme is less accurate
- due to phase errors of the implicit time-stepping.
- The dimensionally split scheme is affected by both the Courant number and
- the orthogonality of the meshes.
- On the orthogonal meshes, the dimensionally split scheme has third order
+ With a large Courant number, both schemes are less accurate.
+ For the multi-dimensional scheme, this is due to phase errors of the implicit
+ time-stepping whereas for the multi-dimensional scheme it is due to errors
+ in calculating the departure point.
+ On the orthogonal mesh, the dimensionally split scheme has third order
  accuracy for the Courant number close to one and second order accuracy
  for the larger Courant number 
 \begin_inset CommandInset citation
@@ -2623,30 +2452,23 @@ key "CW84,LLM96"
 \end_inset
 
 .
- On both non-orthogonal meshes, the dimensionally split scheme reduce to
- less than first order of accuracy for the small Courant number and for
- the V mesh the dimensionally split scheme is unstable for the large Courant
- number.
- The smooth, quadratic mesh gives accuracy almost as good as the orthogonal
- mesh at coarse resolution but at higher resolution, for the small Courant
- number, the dimensionally split scheme becomes zeroth order accurate (inconsist
-ent).
- 
+ On the non-orthogonal mesh, the dimensionally split scheme converges with
+ second order accuracy for both Courant numbers.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2807,7 +2629,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence with spatial resolution of the 
@@ -2876,20 +2698,30 @@ ing, has errors reducing as time-step increases, up to a Courant number
 \begin_inset Formula $\Delta t=2\ \text{s}$
 \end_inset
 
-) on the orthogonal grid whereas the multi-dimensional scheme, which uses
- the method of lines to treat space and time separately, always has error
- reducing as time-steps reduces.
- Again we see that error is insensitive to orthogonality for the multi-dimension
-al scheme whereas the split scheme is unstable for a Courant number greater
- than 1 (
-\begin_inset Formula $\Delta t>1\ \text{s}$
-\end_inset
-
-) on the non-orthogonal V-mesh.
+) whereas the multi-dimensional scheme, which uses the method of lines to
+ treat space and time separately, always has error reducing as time-steps
+ reduces.
  The flux-form semi-Lagrangian technique discretises space and time together
  and the error is not very sensitive to time-step.
  However, the shorter the time-step, the more time-steps need to be taken
  so errors can actually accumulate more by taking more time-steps.
+ (This is consistent with the order of accuracy of semi-Lagrangian being
+ 
+\begin_inset Formula $\Delta x^{p}/\Delta t$
+\end_inset
+
+ for interpolation using polynomials of degree 
+\begin_inset Formula $p$
+\end_inset
+
+, as described by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Dur10"
+
+\end_inset
+
+.)
 \end_layout
 
 \begin_layout Standard
@@ -2902,9 +2734,9 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2973,7 +2805,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence with temporal resolution of the 
@@ -3040,9 +2872,9 @@ name "fig:solidBodyConverge-dt"
 
 \begin_layout Standard
 In summary, the dimensionally split scheme has excellent behaviour at large
- and small Courant numbers on the orthogonal meshes but is prone to first-order
- errors, inconsistency and instability on the non-orthogonal meshes, particularl
-y where the mesh changes direction.
+ and small Courant numbers on the orthogonal meshes with up to third order
+ convergence for small Courant numbers and the errors increase and order
+ of convergence decreases on non-orthogonal meshes.
  In contrast, the multi-dimensional scheme is insensitive to the orthogonality,
  second-order accurate and suffers from phase errors at large Courant numbers.
  
@@ -3219,15 +3051,15 @@ with initial tracer centre,
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="3">
-<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
+<features tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="14text%">
 <column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -3723,7 +3555,7 @@ unstable
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -3852,7 +3684,7 @@ reference "fig:horizontalAdvectionWithDt"
  to 3), both schemes give accurate results with the dimensionally split
  scheme tending to give oscillations, the multi-dimensional scheme producing
  diffusion and overall the split scheme is a little more accurate.
- For larger Courant numbers, when the deformatinal Courant number is greater
+ For larger Courant numbers, when the deformational Courant number is greater
  than one, the split scheme is unstable while the multi-dimensional scheme
  produces large phase errors due to the errors associated with implicit
  time-stepping.
@@ -3883,27 +3715,24 @@ reference "fig:horizontalAdvectConverge"
  These simulations all use a maximum Courant number less than one, a horizontal
  Courant number of 0.25 and a maximum deformational Courant number of about
  0.2.
- Both schemes give similar accuracy at the coarsest three resolutions, convergin
-g with second-order accuracy, but at higher resolution, the split scheme
- converges much more slowly whereas the multi-dimensional scheme continues
- to converge with second-order accuracy.
- 
+ Both schemes give similar accuracy with higher convergence with resolution
+ for the dimensionally split scheme.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -3970,7 +3799,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence of the 
@@ -4257,7 +4086,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 The non-orthognal mesh/co-ordinate system for the deformational flow with
@@ -4324,10 +4153,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
-<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
+<features tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="3text%">
 <column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -4618,7 +4447,7 @@ Multi-dimensional
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Results of the deformational flow test case after 1, 2, 3, 4 and 5 time
@@ -4656,14 +4485,14 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="14" columns="7">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -5639,7 +5468,7 @@ Maximum Courant numbers
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Resolutions, time-steps and Courant numbers for the non-orthogonal meshes
@@ -5732,9 +5561,9 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -5875,7 +5704,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence with resolution of the 
@@ -5989,9 +5818,9 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -6058,7 +5887,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Variation of 
@@ -6417,13 +6246,13 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="6">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -6911,7 +6740,7 @@ Iterations per time-step orthogonal/non-orthogonal
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Number of solver iterations per time-step of the multi-dimensional scheme
@@ -6976,11 +6805,11 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="4">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -7315,7 +7144,7 @@ Split
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Total number of multiply operations per cell per time-step for different
