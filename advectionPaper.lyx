@@ -853,28 +853,8 @@ key "LLM95"
 \begin_inset Formula $x_{d}=x-u\Delta t$
 \end_inset
 
- and the departure cell is 
-\begin_inset Formula $i_{d}=i-c_{N}-1$
-\end_inset
-
- for 
-\begin_inset Formula $u>0$
-\end_inset
-
- and 
-\begin_inset Formula $i_{d}=i-c_{N}$
-\end_inset
-
- for 
-\begin_inset Formula $u<0$
-\end_inset
-
 .
- Then for 
-\begin_inset Formula $u>0$
-\end_inset
-
- the flux through 
+ The flux through 
 \begin_inset Formula $x_{i-1/2}$
 \end_inset
 
