@@ -869,7 +869,7 @@ key "LLM95"
  is: 
 \begin_inset Formula 
 \begin{equation}
-u_{i-\frac{1}{2}}\phi_{i-\frac{1}{2}}=\int_{x_{i}-x_{d}}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
+u_{i-\frac{1}{2}}\phi_{i-\frac{1}{2}}=\frac{1}{\Delta t}\int_{x_{i}-x_{d}}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
 \end{equation}
 
 \end_inset
