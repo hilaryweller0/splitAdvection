@@ -853,8 +853,32 @@ key "LLM95"
 \begin_inset Formula $x_{d}=x-u\Delta t$
 \end_inset
 
+ and the departure cell, for cell edge 
+\begin_inset Formula $i-\frac{1}{2}$
+\end_inset
+
+, is 
+\begin_inset Formula $i_{d}=i-c_{N}-1$
+\end_inset
+
+ for 
+\begin_inset Formula $u>0$
+\end_inset
+
+ and 
+\begin_inset Formula $i_{d}=i-c_{N}$
+\end_inset
+
+ for 
+\begin_inset Formula $u<0$
+\end_inset
+
 .
- The flux through 
+ Then for 
+\begin_inset Formula $u>0$
+\end_inset
+
+ the flux through 
 \begin_inset Formula $x_{i-1/2}$
 \end_inset
 
@@ -869,7 +893,23 @@ key "LLM95"
  is: 
 \begin_inset Formula 
 \begin{equation}
-u_{i-\frac{1}{2}}\phi_{i-\frac{1}{2}}=\frac{1}{\Delta t}\int_{x_{i}-x_{d}}^{x_{i-1/2}}p(x)\ dx\label{eq:PPMflux}
+u_{i-\frac{1}{2}}\phi_{i-\frac{1}{2}}=\frac{1}{\Delta t}\int_{x_{d}}^{x_{i-1/2}}p(x)\ dx=\frac{1}{\Delta t}(M_{i-1/2}-M_{i-c_{N}-1/2}+\int_{x_{i}-c_{r}\Delta x}^{x_{i-1/2}}p(x)\ dx)\label{eq:PPMflux}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $M_{i-1/2}$
+\end_inset
+
+ is the cumulative mass from the start point to position 
+\begin_inset Formula $x_{i-1/2}$
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{equation}
+M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.\label{eq:cumulativeMass}
 \end{equation}
 
 \end_inset
