@@ -3682,8 +3682,8 @@ reference "fig:horizontalAdvectionWithDt"
  solution.
  For horizontal Courant numbers less than one (maximum Courant number up
  to 3), both schemes give accurate results with the dimensionally split
- scheme tending to give oscillations, the multi-dimensional scheme producing
- diffusion and overall the split scheme is a little more accurate.
+ scheme tending to give oscillations and the multi-dimensional scheme producing
+ more diffusion.
  For larger Courant numbers, when the deformational Courant number is greater
  than one, the split scheme is unstable while the multi-dimensional scheme
  produces large phase errors due to the errors associated with implicit
@@ -3836,6 +3836,10 @@ name "fig:horizontalAdvectConverge"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3867,13 +3871,19 @@ reference "fig:horizontalAdvectConverge"
  first-order accurate for the higher mountain.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 In summary, the dimensionally split scheme has good accuracy over orography
  for modest Courant numbers but is unstable when the deformational Courant
- number is greater than one and has errors worse than first-order accurate
- when distortions over orography become large whereas the multi-dimensional
- scheme retains second-order accuracy regardless of Courant number, resolution
- or mesh distortion and is stable even for large deformational Courant numbers.
+ number is greater than one.
+ and has errors worse than first-order accurate when distortions over orography
+ become large whereas the multi-dimensional scheme retains second-order
+ accuracy regardless of Courant number, resolution or mesh distortion and
+ is stable even for large deformational Courant numbers.
 \end_layout
 
 \begin_layout Standard
