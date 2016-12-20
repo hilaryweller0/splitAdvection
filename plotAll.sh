@@ -21,3 +21,6 @@ gmtPlot runAll/plotl2_dt.gmt
 gmtPlot runAll/plotlinf_dt.gmt
 cd -
 
+cd YumengsGraphics/deformationalData
+./plots.sh
+cd -

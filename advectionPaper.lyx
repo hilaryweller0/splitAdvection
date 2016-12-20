@@ -3879,11 +3879,10 @@ reference "fig:horizontalAdvectConverge"
 \begin_layout Standard
 In summary, the dimensionally split scheme has good accuracy over orography
  for modest Courant numbers but is unstable when the deformational Courant
- number is greater than one.
- and has errors worse than first-order accurate when distortions over orography
- become large whereas the multi-dimensional scheme retains second-order
- accuracy regardless of Courant number, resolution or mesh distortion and
- is stable even for large deformational Courant numbers.
+ number is greater than one whereas the multi-dimensaional scheme with implicit
+ time-stepping is stable for all Courant numbers.
+ The multi-dimensional scheme converges with second-order accuracy and the
+ dimensionally split scheme converges faster.
 \end_layout
 
 \begin_layout Standard
@@ -4024,9 +4023,6 @@ where
 \begin_layout Standard
 A mesh with distortion similar to a cubed-sphere is defined by the co-ordinate
  transform:
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{ccc}
@@ -4143,15 +4139,11 @@ reference "fig:deformResults"
  The tracer is stretched out, wound up, advected around and then wound back
  into its original position with some numerical errors.
  Both advection schemes preserve fine filaments but suffer from some dispersion
- errors which generate oscillations around zero behind sharp gradients in
- the direction of the flow since neither scheme is monotonic or positive
+ errors which generate small oscillations around zero behind sharp gradients
+ in the direction of the flow since neither scheme is monotonic or positive
  preserving.
- The multi-dimensional scheme produces smooth errors in the final tracer
- field whereas the split scheme produces and maintains large dispersion
- errors but only in a few isolated places, where tracer passes over changes
- in orthogonality of the mesh, leading to some grid-scale grid imprinting
- in the final tracer field.
- 
+ The dimensionally split scheme returns the tracer to a more accurate final
+ solution.
 \end_layout
 
 \begin_layout Standard
@@ -5544,29 +5536,21 @@ reference "fig:deformationalConverge"
  All of the schemes give first-order convergence with resolution at coarse
  resolutions due to error saturation (if the scheme is stable, errors are
  bounded above by about one).
- At higher resolution, the split scheme on the orthogonal mesh converges
- with nearly third-order accuracy whereas the multi-dimensional scheme approache
-s second-order, independent of the mesh type.
- The split scheme on the non-orthogonal mesh has similar accuracy to the
- multi-dimensional scheme at coarse resolution but has errors that increase
- with resolution at higher resolution, probably due to a slowly growing
- instability.
- For large Courant numbers (maximum close to 10), both schemes converge
- with first-order accuracy and the split scheme on the orthogonal mesh is
- much more accurate than the multi-dimensional scheme.
- However the multi-dimensional scheme accuracy is not dependent on the mesh
- type whereas the split scheme is unstable on a non-orthogonal mesh for
- large Courant numbers.
- Once spatial and temporal resolution are sufficient to avoid error saturation,
- the mulitdimensional scheme converges with the theoretic second-order accuracy
- for the small and large Courant numbers.
+ At higher resolution, the split scheme converges with nearly third-order
+ accuracy for both meshes whereas the multi-dimensional scheme approaches
+ second-order.
+ For large Courant numbers (maximum close to 10), the split scheme converge
+ with first-order accuracy for both mesh types whereas the multi-dimensional
+ scheme is much less accurate but approaches second-order accuracy at high
+ resolution.
+ Neither scheme is strongly sensitive to the mesh distortions.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -5771,18 +5755,27 @@ reference "tab:res_Courant"
  numbers always less than 0.32).
  This demonstrates potentially useful properties of the flux-form semi-Lagrangia
 n time-stepping used by the split scheme.
- Errors reduce for longer time-steps using the split scheme on an orthogonal
- mesh since space and time are discretised together and so, for sufficiently
- small time-steps, errors per time-step are not very dependent on the time-step
- size.
- Therefore taking a longer time-step means fewer time-steps and so should
- reduced errors.
+ Ignoring errors in calculating the departure point, semi-Lagrangian schemes
+ have errors proportional to 
+\begin_inset Formula $\Delta t^{-1}$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Dur10"
+
+\end_inset
+
+ which explains the reduction in error as time-step increases for the split
+ scheme.
  Once the maximum Courant number reaches 1 or 2 (
 \begin_inset Formula $\Delta t=0.01$
 \end_inset
 
  or 0.02), errors of the split scheme do grow with the time-step, due to
- the deformational nature of the flow.
+ the deformational nature of the flow and errors in calculating the departure
+ points.
  In contrast, using the multi-dimensional scheme which uses method of lines
  time-stepping, errors always increase as the time-step is increased.
  Comparisons between schemes in figures 
@@ -5813,10 +5806,7 @@ reference "fig:deformational_dt"
  multi-dimensional scheme (method of lines) gets more accurate with lower
  Courant numbers whereas the split scheme (semi-Lagrangian) gets less accurate
  since more time-steps have to be taken.
- The split scheme is stable for all time-steps used on the orthogonal mesh
- which is expected since the deformational Courant number is less than one.
- However the split scheme is unstable for Courant number larger than 2 on
- the non-orthogonal mesh.
+ Both schemes are stable for all time-steps considered.
 \end_layout
 
 \begin_layout Standard
@@ -5938,11 +5928,10 @@ name "fig:deformational_dt"
 
 \begin_layout Standard
 In summary, the dimensionally split scheme has good accuracy for deformational
- flow at modest Courant number when using an orthogonal grid but suffers
- from instabilities on the non-orthogonal grid, either at high resolution
- or at large Courant numbers.
- In contrast the multi-dimensional scheme retains stability regardless of
- Courant number, orthogonality or resolution.
+ flow independent of grid orthogonality.
+ The multi-dimensional scheme is competitive at small Courant numbers but
+ the semi-Lagrangian nature of the split scheme means that errors are very
+ low for Courant numbers close to one.
  
 \end_layout
 
