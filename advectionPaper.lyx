@@ -255,8 +255,8 @@ Boundedness, monotonicity, positivity and maintaining correlations between
 \end_layout
 
 \begin_layout Standard
-Four properties are listed together in the final item because they will
- not be addressed in this paper.
+Four (important) properties are listed together in the final item because
+ they will not be addressed in this paper.
  In this paper, we address the issue of conservative, accurate, efficient
  advection schemes for logically rectangular, non-orthogonal grids which
  are stable in the presence of large Courant numbers.
@@ -411,9 +411,9 @@ key "IK04,LNU10,ZWS04"
  the Courant number, the more cells the upstream swept volume would need
  to overlap with.
  This technique therefore offers no advantage over using a smaller time-step.
- MOL multi-dimensional schemes could be extended to work with Courant numbers
+ MOL multi-dimensional schemes can be extended to work with Courant numbers
  larger than one by using implicit time-stepping.
- This would increase the computational cost per tracer advected since the
+ This will increase the computational cost per tracer advected since the
  solution of a matrix equation would be needed for every advected tracer.
  Two other disadvantages of implicit time-stepping are the large phase errors
  when long time-steps are used 
@@ -595,12 +595,12 @@ We present two conservative advection schemes suitable for long time-steps
 
 \end_inset
 
-where dependent variable 
+where the dependent variable 
 \begin_inset Formula $\phi$
 \end_inset
 
  is advected by velocity field 
-\begin_inset Formula $\mathbf{u}$
+\begin_inset Formula $\mathbf{u}(\mathbf{x},t)$
 \end_inset
 
 .
@@ -717,7 +717,7 @@ key "CW84"
 \begin_inset Formula $\Delta x$
 \end_inset
 
- and time-step 
+, and time-step, 
 \begin_inset Formula $\Delta t$
 \end_inset
 
@@ -847,7 +847,7 @@ key "LLM95"
 \end_inset
 
  is thus computed as 
-\begin_inset Formula $x_{d}=x_{i-\frac{1}{2}}-u\Delta t$
+\begin_inset Formula $x_{d}=x_{i-\frac{1}{2}}-u_{i-\frac{1}{2}}\Delta t$
 \end_inset
 
  and the departure cell, for cell edge 
@@ -859,7 +859,7 @@ key "LLM95"
 \end_inset
 
  for 
-\begin_inset Formula $u>0$
+\begin_inset Formula $u_{i-\frac{1}{2}}>0$
 \end_inset
 
  and 
@@ -867,12 +867,12 @@ key "LLM95"
 \end_inset
 
  for 
-\begin_inset Formula $u<0$
+\begin_inset Formula $u_{i-\frac{1}{2}}<0$
 \end_inset
 
 .
  Then for 
-\begin_inset Formula $u>0$
+\begin_inset Formula $u_{i-\frac{1}{2}}>0$
 \end_inset
 
  the flux through 
@@ -1155,7 +1155,7 @@ Grid distortions can be included with a co-ordinate transform with Jacobian
 \begin_inset Formula $J$
 \end_inset
 
-:
+ by solving:
 \lang english
 
 \begin_inset Formula 
@@ -1840,7 +1840,7 @@ For the multi-dimensional scheme, fixed value boundary conditions of
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -2159,6 +2159,8 @@ reference "fig:solidBody-dt10"
 .
  The error of the multi-dimensional scheme is again much larger than the
  dimensionally split scheme on both meshes.
+ The dimensionally split scheme is accurate at large Courant numbers despite
+ the first-order calculation of departure points.
  However, the dimensionally split scheme introduces oscillations on the
  non-orthogonal mesh, particularly where the mesh changes direction whereas
  for the multi-dimensional scheme, errors are not strongly affected by the
@@ -2481,7 +2483,7 @@ reference "fig:solidBodyConverge"
  With a large Courant number, both schemes are less accurate.
  For the multi-dimensional scheme, this is due to phase errors of the implicit
  time-stepping whereas for the multi-dimensional scheme it is due to errors
- in calculating the departure point.
+ in calculating the departure point and trajectory.
  On the orthogonal mesh, the dimensionally split scheme has third order
  accuracy for the Courant number close to one and second order accuracy
  for the larger Courant number 
@@ -2960,8 +2962,7 @@ key "SLF+02"
 \end_inset
 
  horizontal advection over orography test case for a range of resolutions
- and Courant numbers for the dimensionally split and multi-dimensional schemes
- and results for a version of the test case with higher orography.
+ and Courant numbers for the dimensionally split and multi-dimensional schemes.
 \end_layout
 
 \begin_layout Standard
@@ -5581,10 +5582,19 @@ reference "fig:deformationalConverge"
  accuracy for both meshes whereas the multi-dimensional scheme approaches
  second-order.
  For large Courant numbers (maximum close to 10), the split scheme converge
- with first-order accuracy for both mesh types whereas the multi-dimensional
- scheme is much less accurate but approaches second-order accuracy at high
- resolution.
- Neither scheme is strongly sensitive to the mesh distortions.
+ with first-order accuracy for both mesh types due to the crude estimation
+ of the departure point (secn 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:PPM"
+
+\end_inset
+
+) whereas the multi-dimensional scheme is much less accurate but approaches
+ second-order accuracy at high resolution.
+ The dimensionally split scheme is sensitive to mesh distortions only for
+ large Courant numbers.
+ 
 \end_layout
 
 \begin_layout Standard
