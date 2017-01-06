@@ -1,5 +1,5 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 474
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass article
@@ -50,6 +50,8 @@
 % Added by lyx2lyx
 % Added by lyx2lyx
 % Added by lyx2lyx
+% Added by lyx2lyx
+\usepackage{amssymb}
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children false
@@ -60,13 +62,13 @@
 \font_roman times
 \font_sans default
 \font_typewriter default
-\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \default_output_format pdf5
 \output_sync 0
@@ -77,24 +79,15 @@
 \use_hyperref false
 \papersize a4paper
 \use_geometry true
-\use_package amsmath 1
-\use_package amssymb 2
-\use_package cancel 1
-\use_package esint 1
-\use_package mathdots 1
-\use_package mathtools 1
-\use_package mhchem 1
-\use_package stackrel 1
-\use_package stmaryrd 1
-\use_package undertilde 1
-\cite_engine natbib
-\cite_engine_type authoryear
-\biblio_style plainnat
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine natbib_authoryear
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\justification true
 \use_refstyle 0
 \index Index
 \shortcut idx
@@ -288,9 +281,8 @@ key "LR96,LLM96,BS99,PL07,KNK15"
 \end_inset
 
 .
- Inherent conservation and accurate long time steps can be achieved without
- significant cost by using the flux form semi-Lagrangian (FFSL or forward
- in time) technique 
+ Inherent conservation is guaranteed by using the flux form semi-Lagrangian
+ (FFSL or forward in time) technique 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg. "
@@ -300,10 +292,27 @@ key "Smo82,CW84"
 
  which integrates the dependent variable over a swept distance upstream
  of every face in order to calculate fluxes in and out of cells.
- This is done without remapping which can be an expensive procedure, finding
+ Accurate long time steps can be achieved without significant cost by using
+ calculating cumulative mass fluxes along the domain 
+\lang english
+
+\begin_inset CommandInset citation
+LatexCommand citep
+key "LLM95"
+
+\end_inset
+
+.
+ 
+\lang british
+This is done without remapping which can be an expensive procedure, finding
  a conservative map between fields on overlapping meshes.
- One-dimensional schemes can be used with operator splitting to create dimension
-ally split, second-order accurate multi-dimensional schemes 
+\lang english
+.
+ 
+\lang british
+One-dimensional schemes can be used with operator splitting to create dimensiona
+lly split, second-order accurate multi-dimensional schemes 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
@@ -1148,12 +1157,12 @@ key "Lin04"
 \end_layout
 
 \begin_layout Standard
-Grid distortions can be included with a co-ordinate transform with Jacobian
- 
+Grid distortions can be included in the advection equation with a co-ordinate
+ transform with Jacobian 
 \begin_inset Formula $J$
 \end_inset
 
- by solving:
+:
 \lang english
 
 \begin_inset Formula 
@@ -1165,20 +1174,25 @@ Grid distortions can be included with a co-ordinate transform with Jacobian
 
 
 \lang british
-The conservative operators 
+The operators 
 \begin_inset Formula $X_{c}$
 \end_inset
 
- and 
+, 
 \begin_inset Formula $Y_{c}$
 \end_inset
 
+ 
+\begin_inset Formula $X_{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{A}$
+\end_inset
+
  are then:
-\end_layout
-
-\begin_layout Standard
-
 \lang english
+
 \begin_inset Formula 
 \begin{align}
 X_{C}(\phi)=-\frac{1}{\Delta x}\left(|J|_{w}^{-1}u_{w}\phi_{w}-|J|_{e}^{-1}u_{e}\phi_{e}\right) &  & Y_{C}(\phi)=-\frac{1}{\Delta y}\left(|J|_{n}^{-1}v_{n}\phi_{n}-|J|_{s}^{-1}v_{s}\phi_{s}\right)\label{eq:COSMIC_A-1}\\
@@ -1187,17 +1201,11 @@ X_{A}(\phi)=X_{c}(\phi)-\frac{\phi_{ij}}{\Delta x}\left(|J|_{w}^{-1}u_{w}-|J|_{e
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-The advective and conservative operators are combined to update 
+which are combined to update 
 \begin_inset Formula $\phi_{ij}$
 \end_inset
 
- at each cell by: 
+ in each cell by: 
 \begin_inset Formula 
 \begin{equation}
 \phi_{ij}^{(n+1)}=\phi_{ij}^{n}+|J|_{ij}X_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)+|J|_{ij}Y_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).\label{eq:COSMICupdate}
@@ -1426,7 +1434,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Stencils of upwind-biased cells for interpolating onto face 
@@ -1843,7 +1851,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Two non-orthogonal mesh on a plane with 
@@ -1915,9 +1923,9 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2060,7 +2068,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2202,9 +2210,9 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2347,7 +2355,7 @@ Non-orthogonal, multi-dimensional scheme
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2462,7 +2470,7 @@ reference "fig:solidBodyConverge"
 \begin_inset Formula $5/6$
 \end_inset
 
- of one revolution.
+ of one revolution in order to avoid error cancellation.
  On both orthogonal and non-orthogonal meshes, the multi-dimensional scheme
  has second order convergence once errors are low enough to avoid error
  saturation (stable errors are bounded at around one).
@@ -2495,9 +2503,9 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2658,7 +2666,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence with spatial resolution of the 
@@ -2763,9 +2771,9 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -2834,7 +2842,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence with temporal resolution of the 
@@ -3084,10 +3092,10 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="3">
-<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
+<features tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="14text%">
 <column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -3583,7 +3591,7 @@ unstable
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -3758,9 +3766,9 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -3827,7 +3835,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence of the 
@@ -4120,7 +4128,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 The non-orthognal mesh/co-ordinate system for the deformational flow with
@@ -4183,10 +4191,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
-<features rotate="0" tabularvalignment="middle" tabularwidth="100line%">
+<features tabularvalignment="middle" tabularwidth="100line%">
 <column alignment="center" valignment="middle" width="3text%">
 <column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -4477,7 +4485,7 @@ Multi-dimensional
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Results of the deformational flow test case after 1, 2, 3, 4 and 5 time
@@ -4515,14 +4523,14 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="14" columns="7">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -5498,7 +5506,7 @@ Maximum Courant numbers
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Resolutions, time-steps and Courant numbers for the non-orthogonal meshes
@@ -5592,9 +5600,9 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -5735,7 +5743,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Convergence with resolution of the 
@@ -5855,9 +5863,9 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -5924,7 +5932,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Variation of 
@@ -6282,13 +6290,13 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="6">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -6776,7 +6784,7 @@ Iterations per time-step orthogonal/non-orthogonal
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Number of solver iterations per time-step of the multi-dimensional scheme
@@ -6841,11 +6849,11 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="4">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -7180,7 +7188,7 @@ Split
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
+\begin_inset Caption
 
 \begin_layout Plain Layout
 Total number of multiply operations per cell per time-step for different
@@ -7265,9 +7273,9 @@ name "sec:concs"
 \begin_layout Standard
 We examine the errors associated with using a dimensionally split advection
  scheme and a multi-dimensional advection scheme on distorted meshes.
- The dimensionally split scheme is very accurate on orthogonal meshes but
- looses accuracy and stability on highly distorted meshes, particularly
- for large Courant numbers where there are abrupt changes in non-orthogonality.
+ The dimensionally split scheme is very accurate on orthogonal meshes and
+ only looses a little accuracy on highly distorted meshes, despite a first-order
+ departure point calculation.
  The multi-dimensional scheme with implicit time-stepping is less accurate
  on orthogonal meshes than the dimensionally split scheme but the accuracy
  is not sensitive to mesh distortions and the stability is less sensitive
@@ -7294,7 +7302,8 @@ key "LLM96"
  PPM is third-order accurate in one dimension and COSMIC splitting enables
  second-order accuracy in two orthogonal directions.
  PPM is a flux-form semi-Lagrangian scheme and so can handle large Courant
- numbers accurately without significant additional computational cost.
+ numbers accurately without significant additional computational cost, with
+ a time-step restriction based on the deformational Courant number.
  The second-order accurate multi-dimensional scheme is split in space and
  time (method of lines) and uses a cubic polynomial fit over a stencil of
  cells for spatial discretisation and trapezoidal implicit in time to retain
@@ -7346,8 +7355,7 @@ The dimensionally split scheme is extremely accurate on orthogonal meshes
  and retains accuracy when long time-steps are used.
  However on distorted meshes, particularly at changes in direction such
  as those that appear at cube sphere edges or over orography, the split
- scheme loses accuracy and stability, with errors converging at less that
- first-order accuracy or diverging.
+ scheme loses some accuracy.
  In contrast, the multi-dimensional scheme is almost entirely insensitive
  to mesh distortion and asymptotes to second-order accuracy at high resolution.
  As is expected for implicit time-stepping, phase errors occur when using
@@ -7359,8 +7367,8 @@ The dimensionally split scheme is extremely accurate on orthogonal meshes
 The matrix solver associated with the implicit time-stepping of the multi-dimens
 ional scheme means that it is always considerably more expensive than the
  split scheme with cost increasing with Courant number.
- We point out that we haven't investigated sensitivity to solver and pre-conditi
-oner and it may be possible to do  better.
+ We haven't investigated sensitivity to solver and pre-conditioner and it
+ may be possible to do  better.
  But the flux-form semi-Lagrangian method enables long time-steps without
  any matrix solutions and this will always be difficult to beat.
  It is possible to use the multi-dimensional scheme with explicit time-stepping
@@ -7370,8 +7378,7 @@ oner and it may be possible to do  better.
 \end_layout
 
 \begin_layout Standard
-The conclusions of this paper are different but not inconsistent with those
- of 
+The conclusions of this paper are consistent with those of 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "KNK15"
@@ -7381,7 +7388,9 @@ key "KNK15"
  who found a dimensionally split scheme to be as accurate as a multi-dimensional
  scheme on a cubed-sphere mesh with special interpolations so that the dimension
 ally split scheme could cope with the cube edges.
- When dimensionally split schemes are used on cubed sphere meshes, they
+ In addition, we find that special treatment is not needed at cubed-sphere
+ edges to maintain accuracy when using dimension splitting.
+  When dimensionally split schemes are used on cubed sphere meshes, they
  do usually have special interpolations at cube edges 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -7396,13 +7405,9 @@ key "LR96"
 \end_layout
 
 \begin_layout Standard
-In summary, if meshes can be kept sufficiently smooth, the dimensionally
- split scheme will be hard to beat, especially if large Courant numbers
- are needed.
- However if meshes have large distortions such as those that occur at the
- edges of a cubed sphere or over steep orography, the multi-dimensional
- scheme retains accuracy and stability, and large Courant numbers can be
- handled using implicit time-stepping.
+The dimensionally split scheme is hard to beat, providing close the third-order
+ accuracy even in the presence of grid distortions and can be very cheaply
+ extended for large Courant numbers.
 \end_layout
 
 \begin_layout Standard
