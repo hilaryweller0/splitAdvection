@@ -2,7 +2,7 @@
 \lyxformat 413
 \begin_document
 \begin_header
-\textclass article
+\textclass qjrms4
 \begin_preamble
 \newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
 \usepackage { fancybox}
@@ -10,50 +10,12 @@
 
 \usepackage{todonotes}
 
-\renewcommand{\floatpagefraction}{0.95}
-\renewcommand{\textfraction}{0.1}
-\renewcommand{\topfraction}{1}
-\renewcommand{\bottomfraction}{1}
-
-%\RequirePackage{tweaklist}
-%\renewcommand{\itemhook}
-%{
-%    \setlength{\topsep}{3pt}
-%    \setlength{\parskip}{0pt}
-%    \setlength{\parsep}{0pt}
-%    \setlength{\partopsep}{0pt}
-%    \setlength{\itemsep}{0pt}
-%    \setlength{\labelwidth}{10pt}
-%    \setlength{\leftmargin}{\labelwidth}
-%}
-
-%\renewcommand{\enumhook}
-%{
-%    \setlength{\topsep}{3pt}
-%    \setlength{\parskip}{0pt}
-%    \setlength{\parsep}{0pt}
-%    \setlength{\partopsep}{0pt}
-%    \setlength{\itemsep}{3pt}
-%    \setlength{\labelwidth}{10pt}
-%    \setlength{\leftmargin}{\labelwidth}
-%}
-
-%\renewcommand{\descriptionlabel}[1]{\parbox{\leftmargin}{\raggedleft #1.~}}
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
-% Added by lyx2lyx
 \usepackage{amssymb}
+
+\usepackage{lineno}
+\linenumbers
 \end_preamble
+\options times,doublespace
 \use_default_options false
 \maintain_unincluded_children false
 \language british
@@ -79,7 +41,7 @@
 \spacing single
 \use_hyperref false
 \papersize a4paper
-\use_geometry true
+\use_geometry false
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -117,24 +79,6 @@
 
 \begin_body
 
-\begin_layout Title
-Dimension Splitting and a Long Time-Step Multi-Dimensional Scheme for Atmospheri
-c Transport
-\end_layout
-
-\begin_layout Author
-Yumeng Chen, Hilary Weller, Stephen Pring and James Shaw
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset toc
-LatexCommand tableofcontents
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Standard
 \begin_inset ERT
 status open
@@ -143,15 +87,108 @@ status open
 
 
 \backslash
-listoftodos
+title{Dimension Splitting and a Long Time-Step Multi-Dimensional Scheme
+ for Atmospheric Transport}
 \end_layout
 
-\end_inset
+\begin_layout Plain Layout
 
+
+\backslash
+author{Yumeng Chen,
+\backslash
+affil{a} Hilary Weller,
+\backslash
+affil{b}
+\backslash
+corrauth
+\backslash
+ Stephen Pring
+\backslash
+affil{c} and James Shaw
+\backslash
+affil{b}}
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Plain Layout
+
+
+\backslash
+runningheads{Y.
+ Chen, H.
+ Weller, S.
+ Pring and J.
+ Shaw}{Dimension splitting for Advection}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+address{
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+affilnum{a}Universit
+\backslash
+"at Hamburg
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+affilnum{b}Meteorology, University of Reading 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+affilnum{c}Met Office, UK}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+corraddr{E-mail: <h.weller@reading.ac.uk>}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{abstract}
+\backslash
+normalfont
+\end_layout
+
+\begin_layout Plain Layout
+
 Dimensionally split advection schemes are attractive for atmospheric modelling
  due to their efficiency and accuracy in each spatial dimension.
  Accurate long time steps can be achieved without significant cost using
@@ -164,7 +201,12 @@ Dimensionally split advection schemes are attractive for atmospheric modelling
  very large Courant numbers.
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
 Two-dimensional advection test cases on Cartesian planes are proposed that
  avoid the complexities of a spherical domain or multi-panel meshes.
  These are solid body rotation, horizontal advection over orography and
@@ -173,13 +215,18 @@ Two-dimensional advection test cases on Cartesian planes are proposed that
  or to mimic the distortions of a cubed sphere.
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
 Such mesh distortions are expected to accentuate the errors associated with
  dimension splitting, however, the dimensionally split scheme is very accurate
  on orthogonal meshes and accuracy decreases only a little in the presence
  of large mesh distortions.
- The dimensionally split scheme retains accuracy when long time-steps are
- used.
+ The dimensionally split scheme also loses some accuracy when long time-steps
+ are used.
  The multi-dimensional scheme is almost entirely insensitive to mesh distortions
  and asymptotes to second-order accuracy at high resolution.
  As is expected for implicit time-stepping, phase errors occur when using
@@ -187,13 +234,88 @@ Such mesh distortions are expected to accentuate the errors associated with
  the correct speed and the multi-dimensional scheme is always stable.
 \end_layout
 
-\begin_layout Abstract
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
 A naive estimate of computational cost (number of multiplies) reveals that
  the implicit scheme is  the most expensive, particularly for large Courant
  numbers.
  If the multi-dimensional scheme is used instead with explicit time-stepping,
  the Courant number is restricted to less than one but the cost becomes
  similar to the dimensionally split scheme.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{abstract}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+keywords{
+\end_layout
+
+\begin_layout Plain Layout
+
+Multi-dimensional; advection; stability; accuracy; long time-steps
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+tableofcontents
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+listoftodos
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+onecolumn
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -588,13 +710,6 @@ reference "sec:concs"
 .
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Transport Schemes
 \begin_inset CommandInset label
@@ -695,26 +810,13 @@ status open
 
 \begin_layout Plain Layout
 
-https://github.com/hertzsprung/AtmosFOAM
+https://github.com/AtmosFOAM/
 \end_layout
 
 \end_inset
 
 .
  
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-todo[inline]{Check that git repos are up to date and add test-cases}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -1437,22 +1539,8 @@ status collapsed
 \begin_layout Plain Layout
 \noindent
 \align center
-\begin_inset External
-	template XFig
-	filename figs/cubicUpCPCstencil.fig
-	scale 50
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset External
-	template XFig
-	filename figs/hexStencil.fig
-	scale 50
+\begin_inset Graphics
+	filename stencils.pdf
 
 \end_inset
 
@@ -1633,13 +1721,6 @@ reference "sub:cost"
 
 .
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -1886,7 +1967,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf
+	filename solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf
 	lyxscale 50
 	width 49text%
 	height 49text%
@@ -1967,146 +2048,8 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Orthogonal, dimensionally split scheme
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Non-orthogonal, dimensionally split scheme
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Orthogonal, multi-dimensional scheme
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Non-orthogonal, multi-dimensional scheme
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_legends_Tdiff.eps
-	width 90line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename sbrc1.pdf
 
 \end_inset
 
@@ -2254,146 +2197,8 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Orthogonal, dimensionally split scheme
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Non-orthogonal, dimensionally split scheme
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_10_TcontoursBig.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_10_TcontoursBig.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Orthogonal, multi-dimensional scheme
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Non-orthogonal, multi-dimensional scheme
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_10_TcontoursBig.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_10_TcontoursBig.pdf
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_legends_TdiffBig_Tdiff.eps
-	width 90line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename sbrc10.pdf
 
 \end_inset
 
@@ -2549,164 +2354,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- errors, convergence with 
-\begin_inset Formula $\Delta x$
-\end_inset
-
- for 
-\begin_inset Formula $c\approx1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- errors, convergence with 
-\begin_inset Formula $\Delta x$
-\end_inset
-
- for 
-\begin_inset Formula $c\approx1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_plots_l2errorsC1.eps
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_plots_linferrorsC1.eps
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- errors, convergence with 
-\begin_inset Formula $\Delta x$
-\end_inset
-
- for 
-\begin_inset Formula $c\approx10$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- errors, convergence with 
-\begin_inset Formula $\Delta x$
-\end_inset
-
- for 
-\begin_inset Formula $c\approx10$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_plots_l2errorsC10.eps
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_plots_linferrorsC10.eps
-	lyxscale 50
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename sbr_dx.pdf
 
 \end_inset
 
@@ -2817,72 +2466,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- errors
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- errors
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_plots_l2errors_dt.eps
-	lyxscale 80
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/solidBodyRotationOnPlane_plots_linferrors_dt.eps
-	lyxscale 80
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename sbr_dt.pdf
 
 \end_inset
 
@@ -2964,13 +2549,6 @@ In summary, the dimensionally split scheme has excellent behaviour at large
  converges with second-order and suffers from phase errors at large Courant
  numbers.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -3145,503 +2723,11 @@ with initial tracer centre,
 \begin_inset Float figure
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
-<column alignment="center" valignment="middle" width="14text%">
-<column alignment="center" valignment="top" width="42text%">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dimensionally split
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Multi-dimensional
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=25\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 0.74
-\end_layout
-
-\begin_layout Plain Layout
-horiz 
-\begin_inset Formula $c$
-\end_inset
-
- =0.25
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $c_{d}=0.22$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 998bp 442bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=50\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 1.48
-\end_layout
-
-\begin_layout Plain Layout
-horiz 
-\begin_inset Formula $c$
-\end_inset
-
- =0.5
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $c_{d}=0.44$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 998bp 442bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=100\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 2.96
-\end_layout
-
-\begin_layout Plain Layout
-horiz 
-\begin_inset Formula $c$
-\end_inset
-
- =1
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $c_{d}=0.87$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 998bp 442bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=200\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 5.93
-\end_layout
-
-\begin_layout Plain Layout
-horiz 
-\begin_inset Formula $c$
-\end_inset
-
- =2
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $c_{d}=1.75$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 39text%
-	height 20text%
-	BoundingBox 0bp 0bp 998bp 442bp
-	clip
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=500\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 14.8
-\end_layout
-
-\begin_layout Plain Layout
-horiz 
-\begin_inset Formula $c$
-\end_inset
-
- =5
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $c_{d}=4.4$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-unstable
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt500CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\Delta t=1000\ $
-\end_inset
-
-s
-\end_layout
-
-\begin_layout Plain Layout
-max 
-\begin_inset Formula $c$
-\end_inset
-
- = 29.6
-\end_layout
-
-\begin_layout Plain Layout
-horiz 
-\begin_inset Formula $c$
-\end_inset
-
- =10
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $c_{d}=8.7$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-unstable
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt1000CN_up_10000_Tall.pdf
-	lyxscale 50
-	width 42text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/vSlice_horizontalAdvection_orography_legends_Tall_TdiffAll.pdf
-	lyxscale 50
-	width 85text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename overMountains.pdf
 
 \end_inset
 
@@ -3851,70 +2937,8 @@ status collapsed
 \begin_layout Plain Layout
 \noindent
 \align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- error
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/orography_l2errors.eps
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/orography_linferrors.eps
-	width 49text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename overMountains_dx.pdf
 
 \end_inset
 
@@ -4007,13 +3031,6 @@ In summary, the dimensionally split scheme has good accuracy over orography
  for all Courant numbers.
  The multi-dimensional scheme second-order convergent and the dimensionally
  split scheme converges faster.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -4197,18 +3214,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_120x60_0_TUmesh.pdf
-	width 100text%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_legends_Tmesh_T.pdf
-	width 100text%
+	filename deform_init.pdf
 
 \end_inset
 
@@ -4277,305 +3283,8 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="3">
-<features tabularvalignment="middle" tabularwidth="100line%">
-<column alignment="center" valignment="middle" width="3text%">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $t$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dimensionally split
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Multi-dimensional
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T1.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_1_T.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T2.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_2_T.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T3.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_3_T.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T4.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_4_T.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename YumengsGraphics/deformationalData/plots/T5.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_5_T.png
-	lyxscale 25
-	width 49text%
-	special valign=m
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_legends_T.pdf
-	width 98text%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename deform.pdf
 
 \end_inset
 
@@ -4616,7 +3325,7 @@ name "fig:deformResults"
 \begin_inset Float table
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -5695,144 +4404,8 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- error, 
-\begin_inset Formula $c\le1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error, 
-\begin_inset Formula $c\le1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_plots_l2errors_c1.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_plots_linferrors_c1.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- error, 
-\begin_inset Formula $c\le10$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error, 
-\begin_inset Formula $c\le10$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_plots_l2errors_c10.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_plots_linferrors_c10.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename deform_dx.pdf
 
 \end_inset
 
@@ -5955,73 +4528,11 @@ reference "fig:deformational_dt"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{2}$
-\end_inset
-
- error
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\ell_{\infty}$
-\end_inset
-
- error
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_plots_l2errors_dt.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename HilarysGraphics/deformingAdvectionCyclic_plots_linferrors_dt.pdf
-	width 48line%
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+	filename deform_dt.pdf
 
 \end_inset
 
@@ -7346,13 +5857,6 @@ There is considerable flexibility in the solver configuration: the number
  than having the higher-order correction entirely a deferred correction
  on first-order upwind, but such a change would need to ensure that the
  matrix remains diagonally dominant.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
