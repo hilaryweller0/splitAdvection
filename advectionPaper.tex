@@ -1,14 +1,11 @@
 %% LyX 2.0.8.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass[12pt,a4paper,english,british]{qjrms4}
+\documentclass[12pt,a4paper,english,british,times,doublespace]{qjrms4}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
-\usepackage[utf8]{luainputenc}
+\usepackage[latin9]{inputenc}
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
-\usepackage{color}
-\usepackage{array}
-\usepackage{verbatim}
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -23,9 +20,6 @@
 
 %% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
-%% A simple dot to overcome graphicx limitations
-\newcommand{\lyxdot}{.}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
@@ -36,62 +30,42 @@
 
 \usepackage{amssymb}
 
+\usepackage{lineno}
+%\linenumbers
+
 \makeatother
 
 \usepackage{babel}
 \begin{document}
+\title{Dimension Splitting and a Long Time-Step Multi-Dimensional Scheme for Atmospheric Transport}
+\author{Yumeng Chen,\affil{a} Hilary Weller,\affil{b}\corrauth\ Stephen Pring\affil{c} and James Shaw\affil{b}}
 
-\title{Dimension Splitting and a Long Time-Step Multi-Dimensional Scheme
-for Atmospheric Transport}
+\runningheads{Y. Chen, H. Weller, S. Pring and J. Shaw}{Dimension splitting for Advection}
 
+\address{
+\affilnum{a}Universit\"at Hamburg\\
+\affilnum{b}Meteorology, University of Reading \\
+\affilnum{c}Met Office, UK}
+\corraddr{E-mail: <h.weller@reading.ac.uk>}
 
-\author{Yumeng Chen, Hilary Weller, Stephen Pring and James Shaw}
+\begin{abstract}\normalfont
+Dimensionally split advection schemes are attractive for atmospheric modelling due to their efficiency and accuracy in each spatial dimension. Accurate long time steps can be achieved without significant cost using the flux-form semi-Lagrangian technique. The dimensionally split scheme used in this paper is constructed from the one-dimensional Piecewise Parabolic Method and extended to two dimensions using COSMIC splitting. The dimensionally split scheme is compared with a genuinely multi-dimensional, method of lines scheme with implicit time-stepping which is stable for very large Courant numbers.
 
-%\maketitle
-\begin{comment}
-\tableofcontents{}
+Two-dimensional advection test cases on Cartesian planes are proposed that avoid the complexities of a spherical domain or multi-panel meshes. These are solid body rotation, horizontal advection over orography and deformational flow. The test cases use distorted meshes either to represent sloping terrain or to mimic the distortions of a cubed sphere.
 
-\listoftodos
-\end{comment}
+Such mesh distortions are expected to accentuate the errors associated with dimension splitting, however, the dimensionally split scheme is very accurate on orthogonal meshes and accuracy decreases only a little in the presence of large mesh distortions. The dimensionally split scheme also loses some accuracy when long time-steps are used. The multi-dimensional scheme is almost entirely insensitive to mesh distortions and asymptotes to second-order accuracy at high resolution. As is expected for implicit time-stepping, phase errors occur when using long time-steps but the spatially well resolved features are advected at the correct speed and the multi-dimensional scheme is always stable.
 
-\begin{abstract}
-Dimensionally split advection schemes are attractive for atmospheric
-modelling due to their efficiency and accuracy in each spatial dimension.
-Accurate long time steps can be achieved without significant cost
-using the flux-form semi-Lagrangian technique. The dimensionally split
-scheme used in this paper is constructed from the one-dimensional
-Piecewise Parabolic Method and extended to two dimensions using COSMIC
-splitting. The dimensionally split scheme is compared with a genuinely
-multi-dimensional, method of lines scheme with implicit time-stepping
-which is stable for very large Courant numbers.
-
-Two-dimensional advection test cases on Cartesian planes are proposed
-that avoid the complexities of a spherical domain or multi-panel meshes.
-These are solid body rotation, horizontal advection over orography
-and deformational flow. The test cases use distorted meshes either
-to represent sloping terrain or to mimic the distortions of a cubed
-sphere.
-
-Such mesh distortions are expected to accentuate the errors associated
-with dimension splitting, however, the dimensionally split scheme
-is very accurate on orthogonal meshes and accuracy decreases only
-a little in the presence of large mesh distortions. The dimensionally
-split scheme retains accuracy when long time-steps are used. The multi-dimensional
-scheme is almost entirely insensitive to mesh distortions and asymptotes
-to second-order accuracy at high resolution. As is expected for implicit
-time-stepping, phase errors occur when using long time-steps but the
-spatially well resolved features are advected at the correct speed
-and the multi-dimensional scheme is always stable.
-
-A naive estimate of computational cost (number of multiplies) reveals
-that the implicit scheme is  the most expensive, particularly for
-large Courant numbers. If the multi-dimensional scheme is used instead
-with explicit time-stepping, the Courant number is restricted to less
-than one but the cost becomes similar to the dimensionally split scheme.
+A naive estimate of computational cost (number of multiplies) reveals that the implicit scheme is  the most expensive, particularly for large Courant numbers. If the multi-dimensional scheme is used instead with explicit time-stepping, the Courant number is restricted to less than one but the cost becomes similar to the dimensionally split scheme.
 \end{abstract}
-\begin{keywords}
-hello
-\end{keywords}
+
+\keywords{
+Multi-dimensional; advection; stability; accuracy; long time-steps
+}
+\maketitle
+
+%\tableofcontents
+%\listoftodos
+\onecolumn
 
 
 \section{Introduction}
@@ -415,7 +389,7 @@ both stencils are calculated. }
 
 \begin{figure}
 \noindent \begin{centering}
-\scalebox{0.5}[0.5]{\input{figs/cubicUpCPCstencil.pstex_t}}\hfill{}\scalebox{0.5}[0.5]{\input{figs/hexStencil.pstex_t}}
+\includegraphics{stencils}
 \par\end{centering}
 
 \caption{Stencils of upwind-biased cells for interpolating onto face $f$ using
@@ -564,7 +538,7 @@ boundaries so these boundary conditions do not affect the accuracy.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.49\textwidth,height=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh}
+\includegraphics[width=0.49\textwidth,height=0.49\textwidth]{solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh}
 \par\end{centering}
 
 \caption{Two non-orthogonal mesh on a plane with $50\times50$ mesh points
@@ -587,20 +561,9 @@ constraints. The second-order, multi-dimensional scheme shows phase
 lag but errors are almost entirely insensitive the mesh distortions. 
 
 \begin{figure}
-\begin{tabular}{cc}
-Orthogonal, dimensionally split scheme & Non-orthogonal, dimensionally split scheme\tabularnewline
-\includegraphics[width=0.49\textwidth]{YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours} & \includegraphics[width=0.49\textwidth]{YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours}\tabularnewline
-Orthogonal, multi-dimensional scheme & Non-orthogonal, multi-dimensional scheme\tabularnewline
-\includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours} & \includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours}\tabularnewline
-\multicolumn{2}{c}{\includegraphics[width=0.9\linewidth]{HilarysGraphics/solidBodyRotationOnPlane_legends_Tdiff}}\tabularnewline
-\end{tabular}
+\includegraphics{sbrc1.png}
 
-\caption{Results of the solid body rotation test case on orthogonal and non-orthogonal
-meshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=1\text{ s}$
-giving a maximum Courant number of around 1. The contours show the
-tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors.
-The dashed contour shows the initial conditions. The min and max text
-in each plot gives the minimum and maximum errors. \label{fig:solidBody}}
+\caption{Results of the solid body rotation test case on orthogonal and non-orthogonal meshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=1\text{ s}$ giving a maximum Courant number of around 1. The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors. The dashed contour shows the initial conditions. The min and max text in each plot gives the minimum and maximum errors. \label{fig:solidBody}}
 \end{figure}
 
 
@@ -633,20 +596,9 @@ a much more realistic speed, supporting the results shown in figure
 \ref{fig:solidBody-dt10}. 
 
 \begin{figure}
-\begin{tabular}{cc}
-Orthogonal, dimensionally split scheme & Non-orthogonal, dimensionally split scheme\tabularnewline
-\includegraphics[width=0.49\textwidth]{YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_10_TcontoursBig} & \includegraphics[width=0.49\textwidth]{YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_10_TcontoursBig}\tabularnewline
-Orthogonal, multi-dimensional scheme & Non-orthogonal, multi-dimensional scheme\tabularnewline
-\includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_10_TcontoursBig} & \includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_10_TcontoursBig}\tabularnewline
-\multicolumn{2}{c}{\includegraphics[width=0.9\linewidth]{HilarysGraphics/solidBodyRotationOnPlane_legends_TdiffBig_Tdiff}}\tabularnewline
-\end{tabular}
+\includegraphics{sbrc10.png}
 
-\caption{Results of the solid body rotation test case on orthogonal and non-orthogonal
-meshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=10\text{ s}$
-giving a maximum Courant number of around 10. The contours show the
-tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors.
-The dashed contour shows the initial conditions. The min and max text
-in each plot gives the minimum and maximum errors. \label{fig:solidBody-dt10}}
+\caption{Results of the solid body rotation test case on orthogonal and non-orthogonalmeshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=10\text{ s}$ giving a maximum Courant number of around 10. The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors. The dashed contour shows the initial conditions. The min and max text in each plot gives the minimum and maximum errors. \label{fig:solidBody-dt10}}
 \end{figure}
 
 
@@ -682,17 +634,10 @@ order converges for both Courant numbers.
 
 \begin{figure}
 \begin{centering}
-\begin{tabular}{cc}
-$\ell_{2}$ errors, convergence with $\Delta x$ for $c\approx1$ & $\ell_{\infty}$ errors, convergence with $\Delta x$ for $c\approx1$\tabularnewline
-\includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_plots_l2errorsC1} & \includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_plots_linferrorsC1}\tabularnewline
-$\ell_{2}$ errors, convergence with $\Delta x$ for $c\approx10$ & $\ell_{\infty}$ errors, convergence with $\Delta x$ for $c\approx10$\tabularnewline
-\includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_plots_l2errorsC10} & \includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_plots_linferrorsC10}\tabularnewline
-\end{tabular}
+\includegraphics{sbr_dx}
 \par\end{centering}
 
-\caption{Convergence with spatial resolution of the $\ell_{2}$ and $\ell_{\infty}$
-errors for the solid body rotation test case at $t=500\ \text{seconds}$
-($5/6$ of one revolution) on orthogonal and non-orthogonal meshes
+\caption{Convergence with spatial resolution of the $\ell_{2}$ and $\ell_{\infty}$ errors for the solid body rotation test case at $t=500\ \text{seconds}$ ($5/6$ of one revolution) on orthogonal and non-orthogonal meshes
 using multi-dimensional and dimensionally split schemes. \label{fig:solidBodyConverge} }
 \end{figure}
 
@@ -715,18 +660,10 @@ of degree $p$, as described by \citet{Dur10}.)
 
 \begin{figure}
 \begin{centering}
-\begin{tabular}{cc}
-$\ell_{2}$ errors & $\ell_{\infty}$ errors\tabularnewline
-\includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_plots_l2errors_dt} & \includegraphics[width=0.49\textwidth]{HilarysGraphics/solidBodyRotationOnPlane_plots_linferrors_dt}\tabularnewline
-\end{tabular}
+\includegraphics{sbr_dt}
 \par\end{centering}
 
-\caption{Convergence with temporal resolution of the $\ell_{2}$ and $\ell_{\infty}$
-errors for the solid body rotation test case at $t=500\ \text{seconds}$
-($5/6$ of one revolution) using orthogonal and non-orthogonal meshes
-of $100\times100$ cells using multi-dimensional and dimensionally
-split schemes. Maximum Courant numbers range from $c=0.25$ (for $\Delta t=0.25\ \text{s})$
-to $ $$c=10$ (for $\Delta t=10\ \text{s})$. \label{fig:solidBodyConverge-dt} }
+\caption{Convergence with temporal resolution of the $\ell_{2}$ and $\ell_{\infty}$errors for the solid body rotation test case at $t=500\ \text{seconds}$ ($5/6$ of one revolution) using orthogonal and non-orthogonal meshes of $100\times100$ cells using multi-dimensional and dimensionally split schemes. Maximum Courant numbers range from $c=0.25$ (for $\Delta t=0.25\ \text{s})$ to $ $$c=10$ (for $\Delta t=10\ \text{s})$. \label{fig:solidBodyConverge-dt} }
 \end{figure}
 
 
@@ -791,59 +728,11 @@ and halfwidths $A_{x}=25\text{ km}$, $A_{z}=9\text{ km}$. At time
 $t=5000\text{ s}$ the tracer is above the mountain and the simulation
 finishes at $t=10,000\text{ s}$ by which time the analytic solution
 is centred at $(50\text{km },8\text{km})$.
+
 \begin{figure}
-\begin{tabular*}{1\linewidth}{@{\extracolsep{\fill}}>{\centering}m{0.14\textwidth}>{\centering}p{0.42\textwidth}c}
- & Dimensionally split & Multi-dimensional\tabularnewline
-$\Delta t=25\ $s
+\includegraphics{overMountains.png}
 
-max $c$ = 0.74
-
-horiz $c$ =0.25
-
-$c_{d}=0.22$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall}\tabularnewline
-$\Delta t=50\ $s
-
-max $c$ = 1.48
-
-horiz $c$ =0.5
-
-$c_{d}=0.44$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall}\tabularnewline
-$\Delta t=100\ $s
-
-max $c$ = 2.96
-
-horiz $c$ =1
-
-$c_{d}=0.87$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall}\tabularnewline
-$\Delta t=200\ $s
-
-max $c$ = 5.93
-
-horiz $c$ =2
-
-$c_{d}=1.75$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall}\tabularnewline
-$\Delta t=500\ $s
-
-max $c$ = 14.8
-
-horiz $c$ =5
-
-$c_{d}=4.4$ & unstable & \includegraphics[width=0.42\textwidth,valign=m]{HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt500CN_up_10000_Tall}\tabularnewline
-$\Delta t=1000\ $s
-
-max $c$ = 29.6
-
-horiz $c$ =10
-
-$c_{d}=8.7$ & unstable & \includegraphics[width=0.42\textwidth,valign=m]{HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt1000CN_up_10000_Tall}\tabularnewline
-\multicolumn{3}{c}{\includegraphics[width=0.85\textwidth]{HilarysGraphics/vSlice_horizontalAdvection_orography_legends_Tall_TdiffAll}}\tabularnewline
-\end{tabular*}
-
-\caption{Tracer contours after 0, 5000 and 10000s for the horizontal advection
-over orography and errors in colour. Different plots use different
-time-steps. Spatial resolution is $\Delta x=1\ $km, $\Delta z=500\ $m.
-Maximum Courant numbers, horizontal Courant number, $c$, and maximum
-deformational Courant number, $c_{d}$ are also given. \label{fig:horizontalAdvectionWithDt}}
+\caption{Tracer contours after 0, 5000 and 10000s for the horizontal advection over orography and errors in colour. Different plots use different time-steps. Spatial resolution is $\Delta x=1\ $km, $\Delta z=500\ $m. Maximum Courant numbers, horizontal Courant number, $c$, and maximum deformational Courant number, $c_{d}$ are also given. \label{fig:horizontalAdvectionWithDt}}
 \end{figure}
 
 
@@ -886,17 +775,10 @@ the dimensionally split scheme having faster convergence with resolution.
 
 \begin{figure}
 \noindent \begin{centering}
-\begin{tabular}{cc}
-$\ell_{2}$ error & $\ell_{\infty}$ error\tabularnewline
-\includegraphics[width=0.49\textwidth]{HilarysGraphics/orography_l2errors} & \includegraphics[width=0.49\textwidth]{HilarysGraphics/orography_linferrors}\tabularnewline
-\end{tabular}
+\includegraphics{overMountains_dx}
 \par\end{centering}
 
-\caption{Convergence of the $\ell_{2}$ and $\ell_{\infty}$ error metrics
-for horizontal advection over a 3000m and a 6000m mountains after
-10,000s for the dimensionally split (PPM) scheme and multi-dimensional
-MOL scheme, all using a horizontal Courant number of 0.25. Lines also
-show theoretical first- and second-order convergence are also shown.
+\caption{Convergence of the $\ell_{2}$ and $\ell_{\infty}$ error metricsfor horizontal advection over a 3000m and a 6000m mountains after 10,000s for the dimensionally split (PPM) scheme and multi-dimensional MOL scheme, all using a horizontal Courant number of 0.25. Lines also show theoretical first- and second-order convergence are also shown.
 \label{fig:horizontalAdvectConverge}}
 \end{figure}
 
@@ -965,12 +847,9 @@ The initial conditions and a $120\times60$ mesh with distortion defined
 by this co-ordinate transform is shown in figure \ref{fig:deformGrid}. 
 
 \begin{figure}
-\includegraphics[width=1\textwidth]{HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_120x60_0_TUmesh}
+\includegraphics{deform_init}
 
-\includegraphics[width=1\textwidth]{HilarysGraphics/deformingAdvectionCyclic_legends_Tmesh_T}
-
-\caption{The non-orthognal mesh/co-ordinate system for the deformational flow
-with $120\times60$ cells and the initial tracer conditions.\label{fig:deformGrid}}
+\caption{The non-orthognal mesh/co-ordinate system for the deformational flow with $120\times60$ cells and the initial tracer conditions.\label{fig:deformGrid}}
 \end{figure}
 
 
@@ -988,19 +867,9 @@ preserving. The dimensionally split scheme returns the tracer to a
 more accurate final solution.
 
 \begin{figure}
-\begin{tabular*}{1\linewidth}{@{\extracolsep{\fill}}>{\centering}m{0.03\textwidth}cc}
-$t$ & Dimensionally split & Multi-dimensional\tabularnewline
-1 & \includegraphics[width=0.49\textwidth,valign=m]{YumengsGraphics/deformationalData/plots/T1} & \includegraphics[width=0.49\textwidth,valign=m]{HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_1_T}\tabularnewline
-2 & \includegraphics[width=0.49\textwidth,valign=m]{YumengsGraphics/deformationalData/plots/T2} & \includegraphics[width=0.49\textwidth,valign=m]{HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_2_T}\tabularnewline
-3 & \includegraphics[width=0.49\textwidth,valign=m]{YumengsGraphics/deformationalData/plots/T3} & \includegraphics[width=0.49\textwidth,valign=m]{HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_3_T}\tabularnewline
-4 & \includegraphics[width=0.49\textwidth,valign=m]{YumengsGraphics/deformationalData/plots/T4} & \includegraphics[width=0.49\textwidth,valign=m]{HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_4_T}\tabularnewline
-5 & \includegraphics[width=0.49\textwidth,valign=m]{YumengsGraphics/deformationalData/plots/T5} & \includegraphics[width=0.49\textwidth,valign=m]{HilarysGraphics/deformingAdvectionCyclic_nonOrthogW_c1_480x240_5_T}\tabularnewline
-\multicolumn{3}{c}{\includegraphics[width=0.98\textwidth]{HilarysGraphics/deformingAdvectionCyclic_legends_T}}\tabularnewline
-\end{tabular*}
+\includegraphics{deform.png}
 
-\caption{Results of the deformational flow test case after 1, 2, 3, 4 and 5
-time units on the non-orthogonal meshes of 480$\times$240 cells using
-the multi-dimensional and split schemes. \label{fig:deformResults}}
+\caption{Results of the deformational flow test case after 1, 2, 3, 4 and 5 time units on the non-orthogonal meshes of 480$\times$240 cells using the multi-dimensional and split schemes. \label{fig:deformResults}}
 \end{figure}
 
 
@@ -1072,16 +941,9 @@ split scheme is sensitive to mesh distortions only for large Courant
 numbers. 
 
 \begin{figure}
-\begin{tabular}{cc}
-$\ell_{2}$ error, $c\le1$ & $\ell_{\infty}$ error, $c\le1$\tabularnewline
-\includegraphics[width=0.48\linewidth]{HilarysGraphics/deformingAdvectionCyclic_plots_l2errors_c1} & \includegraphics[width=0.48\linewidth]{HilarysGraphics/deformingAdvectionCyclic_plots_linferrors_c1}\tabularnewline
-$\ell_{2}$ error, $c\le10$ & $\ell_{\infty}$ error, $c\le10$\tabularnewline
-\includegraphics[width=0.48\linewidth]{HilarysGraphics/deformingAdvectionCyclic_plots_l2errors_c10} & \includegraphics[width=0.48\linewidth]{HilarysGraphics/deformingAdvectionCyclic_plots_linferrors_c10}\tabularnewline
-\end{tabular}
+\includegraphics{deform_dx}
 
-\caption{Convergence with resolution of the $\ell_{2}$ and $\ell_{\infty}$
-errors for the deformational flow on orthogonal and non-orthogonal
-meshes using multi-dimensional and dimensionally split schemes. \label{fig:deformationalConverge} }
+\caption{Convergence with resolution of the $\ell_{2}$ and $\ell_{\infty}$ errors for the deformational flow on orthogonal and non-orthogonal meshes using multi-dimensional and dimensionally split schemes. \label{fig:deformationalConverge} }
 \end{figure}
 
 
@@ -1111,16 +973,9 @@ more time-steps have to be taken. Both schemes are stable for all
 time-steps considered.
 
 \begin{figure}
-\begin{tabular}{cc}
-$\ell_{2}$ error & $\ell_{\infty}$ error\tabularnewline
-\includegraphics[width=0.48\linewidth]{HilarysGraphics/deformingAdvectionCyclic_plots_l2errors_dt} & \includegraphics[width=0.48\linewidth]{HilarysGraphics/deformingAdvectionCyclic_plots_linferrors_dt}\tabularnewline
-\end{tabular}
+\includegraphics{deform_dt}
 
-\caption{Variation of $\ell_{2}$ and $\ell_{\infty}$ errors with time-step
-for the deformational flow on orthogonal and non-orthogonal meshes
-of $120\times60$ cells using multi-dimensional and dimensionally
-split schemes. Different time-steps give maximum Courant numbers of
-0.25, 0.5, 1, 2, 5 and 10. \label{fig:deformational_dt} }
+\caption{Variation of $\ell_{2}$ and $\ell_{\infty}$ errors with time-step for the deformational flow on orthogonal and non-orthogonal meshes of $120\times60$ cells using multi-dimensional and dimensionally split schemes. Different time-steps give maximum Courant numbers of 0.25, 0.5, 1, 2, 5 and 10. \label{fig:deformational_dt} }
 \end{figure}
 
 

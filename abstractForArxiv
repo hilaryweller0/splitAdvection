@@ -1,0 +1,11 @@
+Dimensionally split advection schemes are attractive for atmospheric modelling due to their efficiency and accuracy in each spatial dimension. Accurate long time-steps can be achieved without significant cost using the flux-form semi-Lagrangian technique. The dimensionally split scheme used here is constructed from the one-dimensional Piecewise Parabolic Method and extended to two dimensions using COSMIC splitting. The dimensionally split scheme is compared with a genuinely multi-dimensional, method of lines scheme with implicit time-stepping which is stable for large Courant numbers.
+
+Two-dimensional advection test cases on Cartesian planes are proposed that avoid the complexities of a spherical domain or multi-panel meshes. These are solid body rotation, horizontal advection over orography and deformational flow. The test cases use distorted meshes either to represent sloping terrain or to mimic the distortions of a cubed sphere.
+
+Such mesh distortions are expected to accentuate the errors associated with dimension splitting, however, the dimensionally split scheme is very accurate on orthogonal meshes and accuracy decreases only a little in the presence of large mesh distortions. The dimensionally split scheme also loses some accuracy when long time-steps are used. The multi-dimensional scheme is almost entirely insensitive to mesh distortions and asymptotes to second-order accuracy at high resolution. As is expected for implicit time-stepping, phase errors occur when using long time-steps but the spatially well resolved features are advected at the correct speed and the multi-dimensional scheme is always stable.
+
+An estimate of computational cost reveals that the implicit scheme is the most expensive, particularly for large Courant numbers. If the multi-dimensional scheme is used instead with explicit time-stepping, the cost becomes similar to the dimensionally split scheme.
+
+A naive
+(number of multiplies)
+the Courant number is restricted to less than one but
