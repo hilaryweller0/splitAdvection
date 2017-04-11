@@ -1,0 +1,47 @@
+%% LyX 2.0.8.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,a4paper,english,british,times,doublespace]{qjrms4}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{esint}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\pdfpageheight\paperheight
+\pdfpagewidth\paperwidth
+
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+
+\usepackage{todonotes}
+
+\usepackage{amssymb}
+
+\usepackage{lineno}
+%\linenumbers
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+Q: quasi-uniform resolution doesn't help better exploit modern architectures; they're largely orthogonal concepts. Quasi-uniform resolution just improves the global time step restriction.
+
+A: Quasi-uniform resolution indeed help better exploit modern architectures. The lat-lon grid leads to convergence of resolution toward poles and restricts the time stepping. These problems are usually solved by semi-implicit semi-Lagrangian schemes. The modern computers use increasing number of cores and the efficiency is limited by the scalability. Implicit solvers and semi-Lagrangian advection result in massive data communications \citep{ST12}, which limits the scalability around poles.
+
+\bibliographystyle{abbrvnat}
+\bibliography{numerics}
+
+\end{document}
