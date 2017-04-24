@@ -1,0 +1,16 @@
+Sorry for my late response, I have put the data into the data directory
+and write the mesh based on x_m and y_m in lyx. I should note that I
+made a bit change in the quadratic function and it looks more consistent
+with the piecewise linear function. f=(x-x_m)^2/sqrt(3)/x_m +
+y_m-x_m/4*np.sqrt(3), such that we get mesh like the PDF file in the
+attachments.
+
+This mesh leads to a denser grids at the upper right and upper left
+boundaries.
+
+For large Courant number, the scheme is stable for dt = 20 and dt = 10,
+but unstable for dt = 5, dx = 50. I suspect the instability arise from
+the denser mesh at the boundaries with high resolution (see the high
+error region near the boundaries) as I observe similar behavior at high
+resolution of dx = 25 in small Courant number.
+

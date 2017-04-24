@@ -1,0 +1,5 @@
+QJRMS
+
+INITIAL SUBMISSION
+
+LATEX USERS: For reviewing purposes you must upload a single .pdf that you have generated from your source files. You must use the File Designation "Main Document" from the dropdown box. In addition you should upload your TeX source files, including all figure files and any .bib or .bbl files. For all the source files you should use the File Designation "Supplemental Material not for review". If you use the QJ class files when preparing your manuscript please ensure you use qjrms4.cls; please DO NOT use qjrms2.cls or qjrms3.cls. A link to the class files can be found in the LaTex Class File page in the Special Features section of the journal home page. If you supply the bibliography as a sub-file, please make sure it is uploaded with the main files. A link to a bibtex file is also provided in the LaTex Class File page in the Special Features section of the journal home page. 

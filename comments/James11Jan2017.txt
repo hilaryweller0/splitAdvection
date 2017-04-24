@@ -1,0 +1,227 @@
+My comments are below.  Most are just typos and suggestions for rewording.  I've used regex notation s/foo/bar/ as short-hand for "replace 'foo' with 'bar'".
+
+
+Thanks everyone, James
+
+HW: I have added cirations to your paper
+
+General comments
+----------------
+
+- be consistent and choose "grid" or "mesh".  There is a mixture of both at the moment.
+
+HW: Thanks. Going with "mesh"
+
+- we often say "second-order accurate" but we have only measured convergence, not derived the order of accuracy from an analysis.  As I understand it, convergence is measured, accuracy is derived analytically?
+
+HW: Thanks. Fixed.
+
+Major comments
+--------------
+
+- In my opinion, the abstract introduces the test cases too soon.  I've reordered and slightly reworded the abstract as follows: 
+
+Dimensionally split advection schemes are attractive for atmospheric modelling due to their efficiency and accuracy in each spatial dimension.  Accurate long time steps can be achieved without significant cost using the flux form semi-Lagrangian technique.  The dimensionally split scheme used in this paper is constructed from the one-dimensional Piecewise Parabolic Method and extended to two dimensions using COSMIC splitting.  The dimensionally split scheme is compared with a genuinely multi-dimensional, method of lines scheme with implicit time-stepping which is stable for very large Courant numbers.
+
+Two-dimensional advection test cases on Cartesian planes are proposed that avoid the complexities of a spherical domain or multi-panel meshes.  These are solid body rotation, horizontal advection over orography and deformational flow.  The test cases use distorted meshes either to represent sloping terrain or to mimic the distortions of a cubed sphere.
+
+Such mesh distortions are expected to accentuate the errors associated with dimension splitting, however, the dimensionally split scheme is very accurate on orthogonal meshes and accuracy decreases only a little in the presence of large mesh distortions.  The dimensionally split scheme retains accuracy when long time-steps are used.  The multi-dimensional scheme is almost entirely insensitive to mesh distortions and asymptotes to second-order accuracy at high resolution.  As is expected for implicit time-stepping, phase errors occur when using long time-steps but the spatially well resolved features are advected at the correct speed and the multi-dimensional scheme is always stable.
+
+A naive estimate of computational cost (number of multiplies) reveals that the implicit scheme is the most expensive, particularly for large Courant numbers. If the multi-dimensional scheme is used instead with explicit time-stepping, the Courant number is restricted to less than one but the cost becomes similar to the dimensionally split scheme.
+
+286 words (QJRMetS maximum is 300)
+
+
+Minor comments
+--------------
+
+- "One-dimensional schemes can be used with operator splitting to create dimensionally split, second-order accurate multidimensional schemes" -- I know what you mean, but is it confusing to use the term "multidimensional" here?
+
+HW: Changed to:
+"One-dimensional schemes can be used with operator splitting to create dimensionally split, second-order accurate schemes (eg Leonard et al., 1996) on logically rectangular, multidimensional meshes."
+
+- "and the difficult of applying limiters" -- I'd suggest s/applying limiters/achieving monotonicity/ because it's consistent with the sentence that follows
+
+HW: Done
+
+- "This is in contrast to semi-Lagrangian or FFSL schemes ..." do you mean grid-point semi-Lagrangian as opposed to conservative semi-Lagrangian?
+
+HW: No, conservative SL should also maintain accuracy with long time-steps.
+
+- "... the conservative semi-Lagrangian technique that they describe is less computationally expensive" -- than what?
+
+HW: Good question. I have removed the comparison.
+
+- "... without the need for a mesh of the sphere" -- maybe just say, "... without the need for spherical meshes"
+
+HW: done
+
+- "We therefore propose some modifications of existing test cases to use distorted meshes, or distorted co-ordinate systems, on a plane."  -- I'd insert "on a logically rectangular, two-dimensional plane", then delete the next sentence that starts, "These are challenging to dimensionally split schemes ..."
+
+HW: done
+
+- "... all on the maximally distorted basic terrain following grid" -- add "(section 3.2)" and "for a periodic rectangular plane (section 3.3)"
+
+HW: done
+
+    - Equation 7 is probably already correct and I got myself confused, but shouldn't the upper bound on the final integral by x_{i-c_N-1/2}?  I see Nigel also commented on this integral.
+
+HW: Yes, I think so. And I think that the lower bound should be x_d
+
+- section 2.2 and elsewhere: you say that COSMIC limits us to second-order
+
+HW: Yes, that is in the COSMIC paper.
+
+- section 2.3.1, "two-dimensional mesh with horizonal and vertical Courant numbers" -- seems confusing to use c_x and c_y then refer to horizonal and vertical, since x and y are usually both horizontal.  Also, typo in 'horizonal'
+
+HW: Fixed
+
+- section 3.1, boundary conditions are confusing, you refer to into/out of the domain, but there is no flow through any inlet/outlet, only rotation?
+
+HW: The domain is square and the velocity field is circular so there is flow in and out.
+
+- equation 26, doesn't this need square rooting?
+
+HW: Fixed
+
+- section 3.2, "... and the simulation finishes at t=10,000s" -- append ", by which time the analytic solution is centred at (50km, 9km)"
+
+HW: Done
+
+- section 3.2 convergence tests, is the aspect ratio dx:dz:dt preserved?  Should probably say so.
+
+HW: Done
+
+- section 3.2 last setence, perhaps instead say "The multi-dimensional scheme is second-order convergent and the dimensionally split scheme converges faster"
+
+HW: done
+
+- Figure 9, axes are in degrees, but the domain size is specified in radians in the text
+
+HW: Cannot easily make gmt use radians in the axes so removed tick labels instead
+
+- Figure 10, is it easy to vertically centre the 1..5 labels?  It wasn't immediately obvious which label applied to which panel.
+
+HW: done
+
+- section 3.4.2, starting from "Table 2 shows that the total number..." -- I'd reword this as follows:
+
+Table 2 shows that the number of iterations per time-step reduces slightly as resolution increases.
+The total number of iterations for a complete simulation is reduced by using larger Courant numbers because the number of iterations per time-step increases less than linearly with increasing Courant numbers.
+In fact, simulations with larger Courant numbers are considerably cheaper because there are fewer evaluations of the right hand side of the matrix equation.
+
+HW: done
+
+- final para of section 3.4.2, I've reworded this as follows:
+
+There is considerable flexibility in the solver configuration: the number of outer iterations per time-step determines how frequently the high-order correction on the right hand side of the matrix equation is updated, and the solver tolerance per outer iteration could be modified by using a weaker tolerance on all but the final matrix solve per time-step.  These options have not been explored.  It may also be beneficial to create more non-zero matrix entries rather than having the higher-order correction entirely a deferred correction on first-order upwind, but such a change would need to ensure that the matrix remains diagonally dominant.
+
+HW: Thanks. Used
+
+- section 4, "examine order of accuracy" -- see general comment, maybe convergence, not accuracy?
+
+HW: done
+
+- "We haven't investigated sensitivity to solver and pre-conditioner" -- append "choices"
+
+HW: done
+
+- section 4 final sentence, "providing close the third-order" -- typo: s/the/to, also may be better to avoid single-sentence paragraph
+
+HW: done
+
+
+Typos and grammar
+-----------------
+
+- "Four (important) properties are listed together in the final item because they will not be addressed in this paper" -- I suggested s/in this paper/here/ to avoid repetition with the sentence that follows, "In this paper, we address ..."
+
+HW: done
+
+- "Accurate long time steps can be achieved without significant cost by using calculating ... " remove "using"
+
+HW: done
+
+- "This is done without remapping" has two full stops
+
+HW: done
+
+- "[with conservative re-mapping Iske and Kaser, 2004 ..." for consistency include an 'e.g.': "[with conservative re-mapping, e.g. Iske and Kaser, 2004"
+
+HW: done
+
+- "The long time-step permitting, dimensionally split scheme and the long time-step permitting multi-dimensional schemes are defined ..." -- s/schemes/scheme/ (there's only one multi-dimensional scheme)
+
+HW: done
+
+- "and finally a modification of the deformational flow test case" -- add commas "and, finally, a modification..."
+
+HW: Removed "finally"
+
+- "final conclusions drawn" -- change to "final conclusions are drawn"
+
+HW: done
+
+- "are the values of phi, u and v and in at athe cell boundaries" -- remove "and in"
+
+HW: done
+
+- "extend PPM to two spatial dimensions then the phi_{n,s,e,w}" -- remove "the"
+
+HW: done
+
+- "[following Lashley, 2002])" -- remove spurious closing parenthesis
+
+HW: done
+
+- "implemented in a consistent way to the distorted mesh in Cartisian" -- should be "Cartesian"
+
+HW: done
+
+- "\Delta x and \Delta y is always the cell size in uniform computational domain" -- perhaps change to "\Delta x and \Delta y give the cell size in the uniform computational domain"
+
+HW: done
+
+- "phase lag but errors almost entirely insensitive" -- insert "but errors are almost"
+
+HW: done
+
+- section 3.2, "Both schemes give similar accuracy with higher convergence with resolution..." -- replace this sentence with "Both schemes give similar accuracy with the dimensionally split scheme having faster convergence with resolution"
+
+HW: done
+
+- "whereas the multi-dimensaional" -- typo in "dimensaional"
+
+HW: done
+
+- Figure 7 caption -- finish with "are also given."
+
+HW: done
+
+- p. 21, "the split scheme converge with first-order accuracy" -- should be "converges"
+
+HW: done
+
+- "secn 2.1" -- use "section 2.1"
+
+HW: done
+
+- section 4 -- "and only looses a little accuracy" -- should be "loses"
+
+HW: done
+
+- "with COSMIC splitting [Leonard et al., 1996] to extend it" -- I'd suggest s/to extend/that extends/
+
+HW: done
+
+- "The third test cases is the" -- use singular "case"
+
+HW: done
+
+- references section, "A. St-Cyr1" -- spurious '1'?
+- Gal-Chen & Somerville 1975 -- capitalise "Navier--Stokes"
+- Lin 2004 -- capitalise "Lagrangian"
+- OpenFOAM -- two words "open source"
+
+HW: done
+

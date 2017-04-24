@@ -1,0 +1,24 @@
+From Ram:
+
+(1) The reference "Kattal" should be  corrected to "Katta" 
+(2) On page 29, the reference "Lin and Rood, 1996"  is incorrect. The cubed-sphere geometry 
+   did not "exist"   those days!   
+You might want to refer "Putman & Lin (JCP, 2007)," their more recent work instead. 
+
+(3) One major focus  of your study is dimensional splitting. However, the cascade-interpolation based SL
+      advection comes in this class, where the splitting is done along a sequence of
+  1D hybrid (Lag/Eulerian) coordinates  for a multi-dimensional problem.  This reduces the complexity of 3D
+transport  from  O(N^3) to O(N).    Splitting error for such scheme is negligible even for large Courant numbers, moreover it doesn't depend on grid orthogonality. 
+ I think it is worth mentioning  about such schemes in the introduction. 
+
+ See the recent work appeared in JCP 2015 by Russians, their  scheme is pretty impressive.
+"3D Conservative Cascade Semi-Lagrangian Transport Scheme Using Reduced Latitude-Longitude Grid"
+by Vladimir Shashkin, Rostislav Fadeev &  Mikhail Tolstykh. 
+
+Another Example is  the SLICE scheme by Zerroukat et al.  
+
+Both of these schemes are based on my own old paper: 
+
+    R. Nair, J. Scroggs, F. Semazzi, Efficient conservative global transport schemes for climate and atmospheric chemistry models, Mon. Wea. Rev. 130 (2002) 2059 – 2073. 
+
+ 

@@ -1,0 +1,78 @@
+Thanks for sight of this revised version (the one sent on Friday). It is looking good with a lot of improvements. I have a few possible corrections/suggestions/questions:
+
+1) Equation (6): It seems to me that the j subscripts should be i's (or else the j's need to be defined)?
+
+HW: done
+
+2) Top of page 6: Perhaps worth inserting signed into '...number into a *signed* integer part...'.
+
+HW: done
+
+3) Equation (7): It seems to me that the limits of the last integral are not right? I was expecting the integral to be from (x_{i_d})+1/2-(c_r)*dx to (x_{i_d})+1/2.
+
+HW: The limits in eqn 7 don't look correct but Nigel's limits don't look correct either.
+
+4) The equation for the stream function is an unpleasant mix of coordinate independent notation on the RHS and coordinate dependent vector notation on the LHS.
+
+HW: Fixed new eqn 9 and new eqn 22
+
+5) Equations (10) & (11): I believe that in the definition of Y_C the signs of nu_n phi_n and nu_s phi_s should be swapped. And also in the definition of X_A the signs of u_w and u_e should be swapped. To see this note that if phi=constant then X_A and Y_A should vanish, at present they don't.
+
+HW: I have changed a lot of signs in eqns 10 and 11 (new eqns 11 and 12). Yumeng, please check. For consistency, I have also changed a sign in eqn 3 and eqns 14 and 15.
+
+6) The errors in (10) and (11) are replicated in (13) and (14).
+
+HW: Yup, hopefully fixed these too.
+
+7) Equation (15): Given the definition of X_C implied by equation (3), the plus signs on the RHS of (15) should be minus signs?
+
+HW: I have kept eqn 16 as it is and changed signs elsewhere.
+
+8) Equation (17): Worth saying why the y^3 term is omitted?
+
+HW: done
+
+9) It would perhaps be interesting for the reader to know what the specific form of (17) is for a one dimensional regular mesh, does it correspond to/resemble some other standard 1D scheme in that case?
+
+HW: This would be a good idea. Will come back to this.
+
+10) Just before (18): It would be worth explaining why this weighting factor does not affect accuracy. Would it if instead of 1000, infinity were used, ie the extra terms were eliminated? I would imagine that the choice of the size of this scaling factor must affect something to do with accuracy, so if not the formal accuracy then presumably it affects the coefficient in front of the error term??
+
+HW: I have added:
+"Mathematically, an arbitrarily large value of the weight can be used to ensure that the fit goes exactly through the upwind and downwind cell. However if a value too large is used, the singular value problem becomes ill conditioned. We do not use any of the other stabilisation procedures or described by Shaw et al. (2017)"
+
+11) Second para on page 11 starting "For the multi...": why are different boundary conditions used for the two schemes? What impact does this have on the results?
+
+HW: I have changed this paragraph to:
+"For the dimensionally split scheme, bi-periodic boundary conditions are applied. For the multi-dimensional scheme, it was more straightforward to impose fixed value boundary conditions of \phi=0 where the velocity is into the domain and zero normal gradient where the velocity is out of the domain. However \phi  remains almost zero near the boundaries so these boundary conditions do not affect the accuracy."
+
+12) Penultimate para of page 14: The reduction in accuracy for the split scheme is ascribed ("...is due to...") to the departure point calculation. Could not the second-order splitting error also be a contributing factor that will get worse at larger time steps?
+
+HW: Changed to:
+"for the multi-dimensional scheme the first-order errors in calculating the departure point and trajectory will be emerging and there could also be significant errors from the second-order COSMIC splitting."
+
+13) Section 3.2: It would be worth giving the maximum slope of the hills.
+
+HW: Added:
+"These values give a maximum terrain gradient of around 45^{o}."
+
+14) Just after (29): 'frequency' --> 'wavelength'.
+
+HW: done
+
+15) End of section 3.2: It would be worth saying which shear term is responsible for violating the deformational Courant number (I believe it is du/dx).
+
+HW: Do you mean du/dz where the velocity goes to zero near the ground? I have added:
+
+"The term responsible for the large deformational Courant number is du/dz where the velocity shears from u_{0}=10 m/s at z=z_{2} to zero at z=z_{1}."
+
+16) Figure 7: It would be nice to add the velocity profile.
+
+HW: Agreed. I'm afraid I won't have the time for a while. Readers can see Schar et al. See what reviewers say.
+
+17)Section 3.4.2: There's a reference that appears simply as '2016'?
+
+HW: fixed
+
+It occurred to me that it might be a nice MSc project for someone to pick up the split code for the orography test and investigate various possible sensitivities, e.g. to: a) different velocity profiles (I think in this case the wind is going from its max value to its min value over one grid cell (in the coordinate system)); b) a second-order departure point calculation (related to point (a)); c) alternative splitting approaches, e.g. instead of (XZ+ZX)/2, the alternating XZ, ZX one, or either of the Strang schemes X^1/2 Z X^1/2 or Z^1/2 X Z^1/2. There might even be a short follow-up note in that?
+
