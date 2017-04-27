@@ -1,4 +1,4 @@
-%% LyX 2.0.8.1 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[12pt,a4paper,english,british,times,doublespace]{qjrms4}
 \usepackage{mathptmx}
@@ -6,11 +6,15 @@
 \usepackage[latin9]{inputenc}
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
+\usepackage{color}
 \usepackage{url}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{esint}
 \usepackage[authoryear]{natbib}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
 
 \makeatletter
 
@@ -28,10 +32,9 @@
 
 \usepackage{todonotes}
 
-\usepackage{amssymb}
 
 \usepackage{lineno}
-%\linenumbers
+\linenumbers
 
 \makeatother
 
@@ -108,29 +111,36 @@ the dependent variable over a swept distance upstream of every face
 in order to calculate fluxes in and out of cells. Accurate long time
 steps can be achieved without significant cost by calculating cumulative
 mass fluxes along the domain \foreignlanguage{english}{\citep{LLM95}.
-}This is done without remapping which can be an expensive procedure,
-finding a conservative map between fields on overlapping meshes\foreignlanguage{english}{.
+}This is done without remapping \textcolor{red}{on each cell a long
+trajectory} which can be an expensive procedure\textcolor{red}{\sout{,
+finding a conservative map between fields on overlapping meshes}}\foreignlanguage{english}{.
 }One-dimensional schemes can be used with operator splitting to create
 dimensionally split, second-order accurate schemes \citep[eg][]{LLM96}
 on logically rectangular, multidimensional meshes. Dimensionally split
-schemes have been found to give good accuracy on non-orthogonal meshes
-such as the cubed-sphere \citep{PL07,KNK15} with special treatment
-over cube edges. \citet{PL07} use the average of two one-sided schemes
-at cube edges whereas \citet{KNK15} create ghost cells outside each
-cube panel boundary. Without this special treatment, dimensionally
-split schemes do not account properly for mesh distortion and errors
-may occur. Accuracy between second and fourth order was found in practice
-on a range of test cases on the cubed-sphere by \citet{KNK15}. 
+schemes have been found to give good accuracy \textcolor{red}{for
+Courant number less than one }on non-orthogonal meshes such as the
+cubed-sphere\textcolor{red}{{} }\textcolor{red}{\sout{\mbox{\citep{PL07}}}}\textcolor{red}{{}
+}with special treatment over cube edges. \citet{PL07} use the average
+of two one-sided schemes at cube edges \textcolor{red}{\sout{whereas
+\mbox{\citet{KNK15}} create ghost cells outside each cube panel boundary}}.
+\textcolor{red}{\citet{WNQ14} reported large error growth around
+cube edges for large Courant number using an alternating Strang splitting.}
+Without this special treatment, dimensionally split schemes do not
+account properly for mesh distortion and errors may occur. Accuracy
+between second and fourth order was found in practice on a range of
+test cases on the cubed-sphere by \citet{KNK15}. 
 
 The same problems occur when using dimensionally split schemes over
 orography since terrain following layers become non-orthogonal over
 orography and special treatment cannot be used everywhere where there
 is orography. A common solution has been to make the terrain following
-layers as smooth as possible, reducing non-orthogonality \citep[eg][]{SLF+02}
-or to use floating Lagrangian vertical co-ordinates \citep{Lin04}.
-Dimension splitting may account for some of the errors over orography
-reported by \citet{KUJ14} although they do not cite this as a reason
-for errors.
+layers as smooth as possible, reducing non-orthogonality \citep[eg][]{SLF+02}\textcolor{red}{{}
+away from the orography and increase the distortion around the orography
+}or to use floating Lagrangian vertical co-ordinates \citep{Lin04},
+\textcolor{red}{which} \textcolor{red}{incurs error from remapping
+between grids}. Dimension splitting may account for some of the errors
+over orography reported by \citet{KUJ14} although they do not cite
+this as a reason for errors.
 
 Dimension splitting errors on distorted meshes can be eliminated by
 using genuinely multi-dimensional advection schemes. These can be
@@ -149,16 +159,18 @@ time-step. MOL multi-dimensional schemes can be extended to work with
 Courant numbers larger than one by using implicit time-stepping. This
 will increase the computational cost per tracer advected since the
 solution of a matrix equation would be needed for every advected tracer.
-Two other disadvantages of implicit time-stepping are the large phase
-errors when long time-steps are used \citep[eg][]{DB12,LWW14} and
-the difficulty of achieving monotonicity. This is in contrast to semi-Lagrangian
-or FFSL schemes which maintain accuracy with long time-steps \citep{Pur76,PS84,LLM95}
-although monotonocity with long time-steps is still challenging \citep{Bott10}.
-Conservative semi-Lagrangian naturally extends to long time-steps
-but the conservative remapping is complicated and expensive, particularly
-on non-rectangular meshes and will not be investigated here. \citet{LUJ+14}
-described how the FFSL technique with a long time-step can be made
-equivalent to the conservative semi-Lagrangian.
+\textcolor{black}{Two} other disadvantages of implicit time-stepping
+are the large phase errors when long time-steps are used \citep[eg][]{DB12,LWW14}\textcolor{red}{\sout{,
+the difficulty of achieving monotonicity}} and \textcolor{red}{the
+inconvinient for parallelization due to linear solvers}. This is in
+contrast to semi-Lagrangian or FFSL schemes which maintain accuracy
+with long time-steps \citep{Pur76,PS84,LLM95} although monotonocity
+with long time-steps is still challenging \citep{Bott10}. Conservative
+semi-Lagrangian naturally extends to long time-steps but the conservative
+remapping is complicated and expensive, particularly on non-rectangular
+meshes and will not be investigated here. \citet{LUJ+14} described
+how the FFSL technique with a long time-step can be made equivalent
+to the conservative semi-Lagrangian.
 
 It is therefore not clear what approach should be taken for achieving
 long time-steps when advecting multiple tracers on distorted meshes.
@@ -170,13 +182,16 @@ implicit MOL scheme using large and small Courant numbers.
 The theoretical properties of dimensionally split advection schemes
 are often tested on uniform, orthogonal meshes \citep[eg][]{LLM96}.
 On the cubed-sphere, special treatment is needed for the cube edges
-\citep[eg][]{LR96,KNK15}. Developing a transport scheme to the extent
-that it can be used on a multi-panel cubed-sphere with special treatment
-of cube edges is a considerable undertaking. Hence there is a need
-for more challenging advection test cases which are simpler to implement,
-without the need for spherical meshes. We therefore propose some modifications
-of existing test cases to use distorted meshes, or distorted co-ordinate
-systems, on a logically rectangular, two-dimensional plane. 
+\textcolor{red}{for finite volume schemes}\citep[eg][]{LR96,KNK15}
+\textcolor{red}{while less effort is needed for element-based method
+like finite element method or discontinuous Garlerkin method (reference?)}.
+Developing a transport scheme to the extent that it can be used on
+a multi-panel cubed-sphere with special treatment of cube edges is
+a considerable undertaking. Hence there is a need for more challenging
+advection test cases which are simpler to implement, without the need
+for spherical meshes. We therefore propose some modifications of existing
+test cases to use distorted meshes, or distorted co-ordinate systems,
+on a logically rectangular, two-dimensional plane. 
 
 The long time-step permitting, dimensionally split scheme and the
 long time-step permitting multi-dimensional scheme are defined in
@@ -187,12 +202,12 @@ body rotation test case of \citet{LLM96} modified to use a mesh (or
 co-ordinate system) with distortions similar to a cubed-sphere (section
 \ref{sub:solidRotate}), the horizontal advection test case over orography
 \citep{SLF+02}, examining sensitivity to time-step, resolution and
-mountain height, all on the maximally distorted basic terrain following
-mesh (section \ref{sub:overOrog}) and a modification of the deformational
-flow test case of \citet{LSPT12} for a periodic rectangular plane
-(section \ref{sub:deformFlow}). Some estimates are made of computational
-cost in section \ref{sub:cost} and final conclusions are drawn in
-section \ref{sec:concs}.
+mountain height, all on the \textcolor{red}{highly} distorted basic
+terrain following mesh (section \ref{sub:overOrog}) and a modification
+of the deformational flow test case of \citet{LSPT12} for a periodic
+rectangular plane (section \ref{sub:deformFlow}). Some estimates
+are made of computational cost in section \ref{sub:cost} and final
+conclusions are drawn in section \ref{sec:concs}.
 
 
 \section{Transport Schemes\label{sec:models}}
@@ -256,7 +271,7 @@ p_{i+1/2}=\frac{7}{12}(\phi_{i}+\phi_{i+1})-\frac{1}{12}(\phi_{i+2}+\phi_{i-1})
 \end{equation}
 }
 
-%
+\selectlanguage{english}%
 In order to cope with long time-steps, we follow \citet{LLM95} and
 divide the Courant number into a signed integer part, $c_{N}$, and
 a remainder, $c_{r}$. The departure point of location $x_{i-\frac{1}{2}}$
@@ -321,7 +336,7 @@ $v_{s}$, $u_{e}$ and $u_{w}$ are dependent variables. Instead of
 using cell centered velocity \citep{LR96} or upwind velocity \citep{LLM96},
 the advective operators are calculated in a similar manner to \citet{Lin04}.
 
-%
+\selectlanguage{british}%
 Mesh distortions can be included in the advection equation with a
 co-ordinate transform with Jacobian $J$:\foreignlanguage{english}{
 \begin{equation}
@@ -389,7 +404,7 @@ both stencils are calculated. }
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics{stencils}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{stencils.pdf}
 \par\end{centering}
 
 \caption{Stencils of upwind-biased cells for interpolating onto face $f$ using
@@ -538,7 +553,7 @@ boundaries so these boundary conditions do not affect the accuracy.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.49\textwidth,height=0.49\textwidth]{solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh}
+\includegraphics[width=0.49\textwidth,height=0.49\textwidth,bb = 0 0 200 100, draft, type=eps]{solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf}
 \par\end{centering}
 
 \caption{Two non-orthogonal mesh on a plane with $50\times50$ mesh points
@@ -561,9 +576,14 @@ constraints. The second-order, multi-dimensional scheme shows phase
 lag but errors are almost entirely insensitive the mesh distortions. 
 
 \begin{figure}
-\includegraphics{sbrc1.png}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{sbrc1.pdf}
 
-\caption{Results of the solid body rotation test case on orthogonal and non-orthogonal meshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=1\text{ s}$ giving a maximum Courant number of around 1. The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors. The dashed contour shows the initial conditions. The min and max text in each plot gives the minimum and maximum errors. \label{fig:solidBody}}
+\caption{Results of the solid body rotation test case on orthogonal and non-orthogonal
+meshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=1\text{ s}$
+giving a maximum Courant number of around 1. The contours show the
+tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors.
+The dashed contour shows the initial conditions. The min and max text
+in each plot gives the minimum and maximum errors. \label{fig:solidBody}}
 \end{figure}
 
 
@@ -596,9 +616,14 @@ a much more realistic speed, supporting the results shown in figure
 \ref{fig:solidBody-dt10}. 
 
 \begin{figure}
-\includegraphics{sbrc10.png}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{sbrc10.pdf}
 
-\caption{Results of the solid body rotation test case on orthogonal and non-orthogonalmeshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=10\text{ s}$ giving a maximum Courant number of around 10. The contours show the tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors. The dashed contour shows the initial conditions. The min and max text in each plot gives the minimum and maximum errors. \label{fig:solidBody-dt10}}
+\caption{Results of the solid body rotation test case on orthogonal and non-orthogonal
+meshes every 100 seconds for meshes of $100\times100$ cells and $\Delta t=10\text{ s}$
+giving a maximum Courant number of around 10. The contours show the
+tracer value from 0.1 every 0.1 to 0.9 and the colours show the errors.
+The dashed contour shows the initial conditions. The min and max text
+in each plot gives the minimum and maximum errors. \label{fig:solidBody-dt10}}
 \end{figure}
 
 
@@ -634,10 +659,12 @@ order converges for both Courant numbers.
 
 \begin{figure}
 \begin{centering}
-\includegraphics{sbr_dx}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{sbr_dx.pdf}
 \par\end{centering}
 
-\caption{Convergence with spatial resolution of the $\ell_{2}$ and $\ell_{\infty}$ errors for the solid body rotation test case at $t=500\ \text{seconds}$ ($5/6$ of one revolution) on orthogonal and non-orthogonal meshes
+\caption{Convergence with spatial resolution of the $\ell_{2}$ and $\ell_{\infty}$
+errors for the solid body rotation test case at $t=500\ \text{seconds}$
+($5/6$ of one revolution) on orthogonal and non-orthogonal meshes
 using multi-dimensional and dimensionally split schemes. \label{fig:solidBodyConverge} }
 \end{figure}
 
@@ -660,10 +687,15 @@ of degree $p$, as described by \citet{Dur10}.)
 
 \begin{figure}
 \begin{centering}
-\includegraphics{sbr_dt}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{sbr_dt.pdf}
 \par\end{centering}
 
-\caption{Convergence with temporal resolution of the $\ell_{2}$ and $\ell_{\infty}$errors for the solid body rotation test case at $t=500\ \text{seconds}$ ($5/6$ of one revolution) using orthogonal and non-orthogonal meshes of $100\times100$ cells using multi-dimensional and dimensionally split schemes. Maximum Courant numbers range from $c=0.25$ (for $\Delta t=0.25\ \text{s})$ to $ $$c=10$ (for $\Delta t=10\ \text{s})$. \label{fig:solidBodyConverge-dt} }
+\caption{Convergence with temporal resolution of the $\ell_{2}$ and $\ell_{\infty}$
+errors for the solid body rotation test case at $t=500\ \text{seconds}$
+($5/6$ of one revolution) using orthogonal and non-orthogonal meshes
+of $100\times100$ cells using multi-dimensional and dimensionally
+split schemes. Maximum Courant numbers range from $c=0.25$ (for $\Delta t=0.25\ \text{s})$
+to $ $$c=10$ (for $\Delta t=10\ \text{s})$. \label{fig:solidBodyConverge-dt} }
 \end{figure}
 
 
@@ -681,10 +713,12 @@ Courant numbers.
 Non-orthogonal meshes (or co-ordinate systems) are usually necessary
 for representing orography which could be a challenge for dimensionally
 split schemes. Horizontal-vertical split schemes are commonly used
-in this context \citep[eg.][]{DEE+12,WGZ+13}. We present results
-of the \citet{SLF+02} horizontal advection over orography test case
-for a range of resolutions and Courant numbers for the dimensionally
-split and multi-dimensional schemes.
+in this context \citep[eg.][]{DEE+12,WGZ+13} \textcolor{red}{since
+most weather/climate models use higher resolution in the vertical
+compared with horizontal}. We present results of the \citet{SLF+02}
+horizontal advection over orography test case for a range of resolutions
+and Courant numbers for the dimensionally split and multi-dimensional
+schemes.
 
 All simulations use basic terrain following co-ordinates \citep[BTF,][]{GCS75}
 in order to present a challenging test case that maximises the non-orthogonality.
@@ -730,9 +764,13 @@ finishes at $t=10,000\text{ s}$ by which time the analytic solution
 is centred at $(50\text{km },8\text{km})$.
 
 \begin{figure}
-\includegraphics{overMountains.png}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{overMountains.pdf}
 
-\caption{Tracer contours after 0, 5000 and 10000s for the horizontal advection over orography and errors in colour. Different plots use different time-steps. Spatial resolution is $\Delta x=1\ $km, $\Delta z=500\ $m. Maximum Courant numbers, horizontal Courant number, $c$, and maximum deformational Courant number, $c_{d}$ are also given. \label{fig:horizontalAdvectionWithDt}}
+\caption{Tracer contours after 0, 5000 and 10000s for the horizontal advection
+over orography and errors in colour. Different plots use different
+time-steps. Spatial resolution is $\Delta x=1\ $km, $\Delta z=500\ $m.
+Maximum Courant numbers, horizontal Courant number, $c$, and maximum
+deformational Courant number, $c_{d}$ are also given. \label{fig:horizontalAdvectionWithDt}}
 \end{figure}
 
 
@@ -775,10 +813,14 @@ the dimensionally split scheme having faster convergence with resolution.
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics{overMountains_dx}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{overMountains_dx.pdf}
 \par\end{centering}
 
-\caption{Convergence of the $\ell_{2}$ and $\ell_{\infty}$ error metricsfor horizontal advection over a 3000m and a 6000m mountains after 10,000s for the dimensionally split (PPM) scheme and multi-dimensional MOL scheme, all using a horizontal Courant number of 0.25. Lines also show theoretical first- and second-order convergence are also shown.
+\caption{Convergence of the $\ell_{2}$ and $\ell_{\infty}$ error metrics
+for horizontal advection over a 3000m and a 6000m mountains after
+10,000s for the dimensionally split (PPM) scheme and multi-dimensional
+MOL scheme, all using a horizontal Courant number of 0.25. Lines also
+show theoretical first- and second-order convergence are also shown.
 \label{fig:horizontalAdvectConverge}}
 \end{figure}
 
@@ -847,9 +889,10 @@ The initial conditions and a $120\times60$ mesh with distortion defined
 by this co-ordinate transform is shown in figure \ref{fig:deformGrid}. 
 
 \begin{figure}
-\includegraphics{deform_init}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{deform_init.pdf}
 
-\caption{The non-orthognal mesh/co-ordinate system for the deformational flow with $120\times60$ cells and the initial tracer conditions.\label{fig:deformGrid}}
+\caption{The non-orthognal mesh/co-ordinate system for the deformational flow
+with $120\times60$ cells and the initial tracer conditions.\label{fig:deformGrid}}
 \end{figure}
 
 
@@ -867,9 +910,11 @@ preserving. The dimensionally split scheme returns the tracer to a
 more accurate final solution.
 
 \begin{figure}
-\includegraphics{deform.png}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{deform.pdf}
 
-\caption{Results of the deformational flow test case after 1, 2, 3, 4 and 5 time units on the non-orthogonal meshes of 480$\times$240 cells using the multi-dimensional and split schemes. \label{fig:deformResults}}
+\caption{Results of the deformational flow test case after 1, 2, 3, 4 and 5
+time units on the non-orthogonal meshes of 480$\times$240 cells using
+the multi-dimensional and split schemes. \label{fig:deformResults}}
 \end{figure}
 
 
@@ -941,9 +986,11 @@ split scheme is sensitive to mesh distortions only for large Courant
 numbers. 
 
 \begin{figure}
-\includegraphics{deform_dx}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{deform_dx.pdf}
 
-\caption{Convergence with resolution of the $\ell_{2}$ and $\ell_{\infty}$ errors for the deformational flow on orthogonal and non-orthogonal meshes using multi-dimensional and dimensionally split schemes. \label{fig:deformationalConverge} }
+\caption{Convergence with resolution of the $\ell_{2}$ and $\ell_{\infty}$
+errors for the deformational flow on orthogonal and non-orthogonal
+meshes using multi-dimensional and dimensionally split schemes. \label{fig:deformationalConverge} }
 \end{figure}
 
 
@@ -973,9 +1020,13 @@ more time-steps have to be taken. Both schemes are stable for all
 time-steps considered.
 
 \begin{figure}
-\includegraphics{deform_dt}
+\includegraphics[bb = 0 0 200 100, draft, type=eps]{deform_dt.pdf}
 
-\caption{Variation of $\ell_{2}$ and $\ell_{\infty}$ errors with time-step for the deformational flow on orthogonal and non-orthogonal meshes of $120\times60$ cells using multi-dimensional and dimensionally split schemes. Different time-steps give maximum Courant numbers of 0.25, 0.5, 1, 2, 5 and 10. \label{fig:deformational_dt} }
+\caption{Variation of $\ell_{2}$ and $\ell_{\infty}$ errors with time-step
+for the deformational flow on orthogonal and non-orthogonal meshes
+of $120\times60$ cells using multi-dimensional and dimensionally
+split schemes. Different time-steps give maximum Courant numbers of
+0.25, 0.5, 1, 2, 5 and 10. \label{fig:deformational_dt} }
 \end{figure}
 
 
@@ -1227,16 +1278,16 @@ of \citet{LSPT12} adapted to a planar, Cartesian domain and a distorted
 mesh. We use the version of this test case with smooth initial conditions
 (the sum of two Gaussians) in order to examine order of convergence.
 
-The dimensionally split scheme is extremely accurate on orthogonal
-meshes and retains accuracy when long time-steps are used. However
-on distorted meshes, particularly at changes in direction such as
-those that appear at cube sphere edges or over orography, the split
-scheme loses some accuracy. In contrast, the multi-dimensional scheme
-is almost entirely insensitive to mesh distortion and asymptotes to
-second-order convergence at high resolution. As is expected for implicit
-time-stepping, phase errors occur when using long time-steps but the
-spatially well resolved features are advected at the correct speed
-and the multi-dimensional scheme is always stable.
+The dimensionally split scheme is \textcolor{red}{\sout{extremely}}
+accurate on orthogonal meshes and retains accuracy when long time-steps
+are used. However on distorted meshes, particularly at changes in
+direction such as those that appear at cube sphere edges or over orography,
+the split scheme loses some accuracy. In contrast, the multi-dimensional
+scheme is almost entirely insensitive to mesh distortion and asymptotes
+to second-order convergence at high resolution. As is expected for
+implicit time-stepping, phase errors occur when using long time-steps
+but the spatially well resolved features are advected at the correct
+speed and the multi-dimensional scheme is always stable.
 
 The matrix solver associated with the implicit time-stepping of the
 multi-dimensional scheme means that it is always considerably more
@@ -1256,17 +1307,13 @@ the dimensionally split scheme could cope with the cube edges. In
 addition, we find that special treatment is not needed at cubed-sphere
 edges to maintain accuracy when using dimension splitting.  When dimensionally
 split schemes are used on cubed-sphere meshes, they do usually have
-special interpolations at cube edges \citep[eg][]{LR96}. However
+special interpolations at cube edges \citet[eg][]{PL07}. However
 orography is everywhere and so special treatment over steep orography
 would not be practical.
 
 The dimensionally split scheme is hard to beat, providing close to
 third-order convergence even in the presence of mesh distortions and
 can be very cheaply extended for large Courant numbers.
-
-\section*{Acknowledgements}
-
-Thanks to Nigel Wood of the UK Met Office for advice and proof reading. Weller acknowledges support from NERC grant NE/K006797/1.
 
 \bibliographystyle{abbrvnat}
 \bibliography{numerics}

@@ -1,6 +1,4 @@
-%% LyX 2.0.8.1 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
-\documentclass[12pt,a4paper,english,british,times,doublespace]{qjrms4}
+\documentclass[12pt,a4paper]{article}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
@@ -11,15 +9,6 @@
 \usepackage{graphicx}
 \usepackage{esint}
 \usepackage[authoryear]{natbib}
-
-\makeatletter
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
-\pdfpageheight\paperheight
-\pdfpagewidth\paperwidth
-
-%% Because html converters don't know tabularnewline
-\providecommand{\tabularnewline}{\\}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
@@ -35,155 +24,163 @@
 
 \makeatother
 
-\usepackage{babel}
+% \usepackage{babel}
 \begin{document}
-Q: Might want to say "distorted, non-orthogonal meshes" to make it's clear that you are indeed directly testing non-orthogonality.
+\begin{description}
+\item [Page 1, Line 41]: Might want to say ``distorted, non-orthogonal meshes'' to make it's clear that you are indeed directly testing non-orthogonality.
 
-Yumeng: Changed as suggested.
+\item [Yumeng]: Changed as suggested.
 
-Q: quasi-uniform resolution doesn't help better exploit modern architectures; they're largely orthogonal concepts. Quasi-uniform resolution just improves the global time step restriction.
+\item [Page 2, Line 4]: quasi-uniform resolution doesn't help better exploit modern architectures; they're largely orthogonal concepts. Quasi-uniform resolution just improves the global time step restriction.
 
-Yumeng: Quasi-uniform resolution indeed help better exploit modern architectures. The lat-lon grid leads to convergence of resolution toward poles and restricts the time stepping. These problems are usually solved by semi-implicit semi-Lagrangian schemes. The modern computers use increasing number of cores and the efficiency is limited by the scalability. Implicit solvers and semi-Lagrangian advection result in massive data communications \citep{ST12}, which limits the scalability around poles.
+\item [Yumeng]: Quasi-uniform resolution indeed help better exploit modern architectures. The lat-lon grid leads to convergence of resolution toward poles and restricts the time stepping. These problems are usually solved by semi-implicit semi-Lagrangian schemes. The modern computers use increasing number of cores and the efficiency is limited by the scalability. Implicit solvers and semi-Lagrangian advection result in massive data communications \citep{ST12}, which limits the scalability around poles.
 
-Q: I feel the strong need for a caveat here. I appreciate the desire to create a simpler test case not involving spherical geometry, because the cubed-sphere really is easy to mess up. However, my personal experience is that dimensional splitting  on the cubed-sphere incurs significantly more error compared to dimensional splitting on a plane. This could potentially be because spherical geometry coupled with non-orthogonality incurs more splitting error than non-orthogonality alone. Without directly confirming the applicability of this framework to the cubed-sphere by correlating error measures between them, I think the authors need to qualify more clearly that this applicability remains a *hypothesis.*
+\item [Page 2, Line 27]: I feel the strong need for a caveat here. I appreciate the desire to create a simpler test case not involving spherical geometry, because the cubed-sphere really is easy to mess up. However, my personal experience is that dimensional splitting  on the cubed-sphere incurs significantly more error compared to dimensional splitting on a plane. This could potentially be because spherical geometry coupled with non-orthogonality incurs more splitting error than non-orthogonality alone. Without directly confirming the applicability of this framework to the cubed-sphere by correlating error measures between them, I think the authors need to qualify more clearly that this applicability remains a *hypothesis.*
 
-Yumeng: The error on the sphere indeed is larger than on the plane for dimensionally splitting scheme, even on the lat-lon grid. On cubed sphere, the mesh around corner of each panel has abrupt changes and is not differentiable. \cite{TN17} implemented shallow water equations on generalized curvilinear coordinate on the plane as a test before the implementation on the sphere. The comparison between plane and non-orthogonal mesh with abrupt change is to show the difference between orthogonal grid and non-orthogonal grid, which has similar feature as cubed sphere. The test certainly cannot be equivalent to the comparison between orthogonal lat-lon grid and cubed-sphere grid.
+\item [Yumeng]: The error on the sphere indeed is larger than on the plane for dimensionally splitting scheme, even on the lat-lon grid. On cubed sphere, the mesh around corner of each panel has abrupt changes and is not differentiable. \cite{TN17} implemented shallow water equations on generalized curvilinear coordinate on the plane as a test before the implementation on the sphere. The comparison between plane and non-orthogonal mesh with abrupt change is to show the difference between orthogonal grid and non-orthogonal grid, which has similar feature as cubed sphere. The test certainly cannot be equivalent to the comparison between orthogonal lat-lon grid and cubed-sphere grid.
 
-Q: Why would remapping otherwise be needed? This sounds like Yin-Yang kind of stuff. If so, please explicitly mention that.
+\item [Page 2, Line 40]: Why would remapping otherwise be needed? This sounds like Yin-Yang kind of stuff. If so, please explicitly mention that.
 
-Yumeng:  The remapping here refers to integrating the reconstruction function to get the mass fluxes along the trajectory of each cell face. The cumulative mass technique \citep{CW84,LLM95} avoids the mass calculation along the trajectory and we just need to get the integral at departure cell with simple add/subtraction from cumulative mass. We did not remap between different grids like Yin-Yang.
+\item [Yumeng]:  The remapping here refers to integrating the reconstruction function to get the mass fluxes along the trajectory of each cell face. The cumulative mass technique \citep{CW84,LLM95} avoids the mass calculation along the trajectory and we just need to get the integral at departure cell with simple add/subtraction from cumulative mass. We did not remap between different grids like Yin-Yang.
 
-Q: temporally second-order accurate
+\item [Page 2, Line 43]: temporally second-order accurate
 
-Yumeng: changed as suggested
+\item [Yumeng]: changed as suggested
 
-Q: There's another paper that actually does do dimensional splitting on the cubed-sphere:
+\item [Page 2, Line 45]: The scheme in this paper isn't really dimensionally split, only the *reconstruction* is. Katta et al use dimensionally split sweeps to create a genuinely multi-dimensional interpolant (minus a few of the cross terms), and then they evolve in a genuinely multi-dimensional way. This is an important distinction because (1) they do not incur time error in the same way as truly split schemes and (2) they include a diagonal sweep for some of the cross terms, whereas truly split schemes generally do not.
+
+\item [Yumeng]: Agreed. We deleted the reference and the description herein.
+
+
+\item [Page 2, Line 46]: There's another paper that actually does do dimensional splitting on the cubed-sphere:
 
 <http://journals.ametsoc.org/doi/abs/10.1175/MWR-D-13-00048.1>
 
 And they incur very large L-inf errors when the advected shape passes cubed-sphere corners. Their errors are smaller with their Strang carry-over scheme than one would experience with an alternating Strang splitting, but the errors are still quite high. Also, these errors at the cubed-sphere corners reduce significantly at smaller time steps, as expected, but it puts a bit of a damper on the desire to use larger time steps.
 
-Yumeng: 
+\item [Yumeng]: 
 On this paper, on page 460: 
-"It is difficult to design a numerical scheme that preserves a constant field in the dimensional splitting framework.
-It is our ongoing work to design a nonsplitting SLDG scheme that preserves the constant field when the velocity field is nondivergent." 
+``It is difficult to design a numerical scheme that preserves a constant field in the dimensional splitting framework. It is our ongoing work to design a nonsplitting SLDG scheme that preserves the constant field when the velocity field is nondivergent.'' 
 Is this because of the filter or the splitting? How is the performance of the scheme under 1-D divergnet flow, because the 2-D non-divergent field could lead to 1-D divergent flow in each dimension.
 
-On page 464, "It is clear that the second order of convergence is observed, which comes from the splitting error."
+On page 464, ``It is clear that the second order of convergence is observed, which comes from the splitting error.''
 I believe in solid body rotation test case on Cartesian grid, the splitting error is zero in COSMIC splitting if the splitting scheme is 2nd order in time. So I think the splitting scheme is not comparable to the COSMIC splitting.
 
-On page 469, "This is an indication that such error comes from the dimensional splitting, and there exists a certain symmetry property for different dimensional-splitting orderings. Such symmetry property, together with the symmetry of the cosine bell profile, may contribute to the dropping of the $l_\infty$ error after the cosine bell passed the corner."
+On page 469, ``This is an indication that such error comes from the dimensional splitting, and there exists a certain symmetry property for different dimensional-splitting orderings. Such symmetry property, together with the symmetry of the cosine bell profile, may contribute to the dropping of the $l_\infty$ error after the cosine bell passed the corner.''
 If this is the reason for the large error, COSMIC splitting may give a better results as COSMIC splitting get a symmetric results by averaging two splitting scheme.
 
-Q: It's important to note that all Schar et al did was compress all of the errors to the lowest few levels, where the metric Jacobian determinants vary even more.
+\item [Page 2, Line 55]: It's important to note that all Schar et al did was compress all of the errors to the lowest few levels, where the metric Jacobian determinants vary even more.
 
-A: ??
+\item [Yumeng]: We add words here as suggested.
 
-Q: Remapping is where the error in incurred here. The advantage is that one can do that less often with floating layers.
+\item [Page 2, Line 57]: Remapping is where the error in incurred here. The advantage is that one can do that less often with floating layers.
 
-A: ??
+\item [Yumeng]: We add words here as suggested.
 
-Q: Ullrich & Norman, 2012 QJRMS performed a multi-dimensional FFSL method with hyperdiffusion out to a CFL of roughly 2.5
+\item [Page 3, Line 4]: Ullrich \& Norman, 2012 QJRMS performed a multi-dimensional FFSL method with hyperdiffusion out to a CFL of roughly 2.5
 
-A: ??  
+\item [Yumeng]: Not treated.
 
-Q: I'm not so sure this is true. The reconstruction cost would be the same regardless. It's the integration cost that would be proportional with CFL. Of course, as the CFL increases, integration increasingly becomes more and more of the model cost. So this is asymptotically true, but not necessarily true for more moderate CFL numbers.
+\item [Page 3, Line 7]: I'm not so sure this is true. The reconstruction cost would be the same regardless. It's the integration cost that would be proportional with CFL. Of course, as the CFL increases, integration increasingly becomes more and more of the model cost. So this is asymptotically true, but not necessarily true for more moderate CFL numbers.
 
-A: ??
+\item [Yumeng]: The cost is proportional to the CFL because the flux-form scheme for higher CFL has to integrate larger areas as the trajectory of departure cell is longer.   
 
-Q: A third disadvantage is that they require MPI_all_reduce for the linear solves, which is increasingly prohibitive in its expense on large computers.
+\item [Page 3, Line 14]: A third disadvantage is that they require MPI\_all\_reduce for the linear solves, which is increasingly prohibitive in its expense on large computers.
 
-A: ??
+\item [Yumeng]: We added statements as suggested.
 
-Q: I believe this has been solved with SSP implicit RK and SSP DIRK schemes, though, right?
+\item [Page 3, Line 14]: I believe this has been solved with SSP implicit RK and SSP DIRK schemes, though, right?
 
-A: 
+\item [Yumeng]: We deleted the relevant statement for monotonicity of method of lines schemes. 
 
-Q: It's worth mentioning that significantly less special treatment is needed for element-based schemes (e.g., Galerkin) because no halo is needed. They merely transform vector quantities at element edges that coincide with panel boundaries.
+\item [Page 3, Line 31]: It's worth mentioning that significantly less special treatment is needed for element-based schemes (e.g., Galerkin) because no halo is needed. They merely transform vector quantities at element edges that coincide with panel boundaries.
 
-A: 
+\item [Yumeng]: We added statements as suggested.
 
-Q: What do you mean by maximally? Do you mean "highly", or is something being optimized here?
+\item [Page 3, Line 45]: What do you mean by maximally? Do you mean ``highly'', or is something being optimized here?
 
-A: 
+\item [Yumeng]: We changed it to highly distorted grids. 
 
-Q: Thanks for mentioning this. Do you think using quadrature in time would be worthwhile? It'd have to be separate over each individual cell because it requires continuity, so it'd be pretty expensive
+\item [Page 5, Line 1]: Thanks for mentioning this. Do you think using quadrature in time would be worthwhile? It'd have to be separate over each individual cell because it requires continuity, so it'd be pretty expensive
 
-A: 
+\item [Yumeng]: Yes, higher order scheme for departure point would be expensive. On the other hand, the original flux-form semi-Lagrangian scheme by \citep{LR96} also just uses first order Euler. 
 
-Q: Is this done for sake of expense, since advective SL schemes only need one upwind evaluation, and not an integral; or are the other reasons for this?
+\item [Page 5, Line 27]: Is this done for sake of expense, since advective SL schemes only need one upwind evaluation, and not an integral; or are the other reasons for this?
 
-A: Using the same scheme both for inner and outer operator can avoid stability problem. PPM is a finite volume scheme. It is easier to make use of PPM in both inner and outer operator.
+\item [Yumeng]: Using the same scheme both for inner and outer operator can avoid stability problem. Such treatment makes the use of PPM in both inner and outer operator easier because finite volume scheme requires flux at cell boundaries instead of flux at cell center.
 
-Q: I find it confusing that you show a hexagonal mesh here and yet are only using rectangular meshes in the study.
+\item [Page 6, Line 15]: I find it confusing that you show a hexagonal mesh here and yet are only using rectangular meshes in the study.
 
-A: ??
+\item [Yumeng]: Leave it to Hilary.
 
-Q: Can you use a_1, a_2, etc here, because "i" has a meaning that could otherwise be confusing.
+\item [Page 6, Line 40]: Can you use $a_1$, $a_2$, etc here, because ``$i$'' has a meaning that could otherwise be confusing.
 
-A: ??
+\item [Yumeng]: Leave it to Hilary.
 
-Q: It seems to me that the implicit scheme just isn't a very good comparison point. I think it would be more helpful to see a smaller time step, fully explicit, multi-dimensional comparison point.
+\item [Page 8, Line 57]: It seems to me that the implicit scheme just isn't a very good comparison point. I think it would be more helpful to see a smaller time step, fully explicit, multi-dimensional comparison point.
 
 If the purpose of this paper were solely to introduce new test cases, I think the existing methods would be OK. But since the purpose is to also introduce a new scheme, I think having a better comparison point is important. Since for many models, the state of the art is using smaller-time-step explicit schemes, it's important to see how the accuracy compares to that.
 
-A: 
+\item [Yumeng]: When time step is 1s, the Courant number is less than one and most explicit scheme without semi-Lagrangian extension should be able to handle such Courant number. Phase error is only obvious for Courant number larger than one. In the case of $\Delta t = 1$ s, a fully explicit, multi-dimensional scheme for smaller time step will lead to similar results. 
 
-Q: Have you thought about using a more accurate implicit time stepping than CN? It would probably improve the phase errors.
+\item [Page 10, Line 55]: Have you thought about using a more accurate implicit time stepping than CN? It would probably improve the phase errors.
 
-A: 
+\item [Yumeng]: Yes, a better time stepping scheme may improve phase error, but it may also introduce a more complicated scheme. The reason we chose CN is due to the consideration of complex of implementation. The implementation difficulty of CN is comparable to COSMIC splitting with PPM. 
 
-Q: This is really a comparative statement, and I think the baseline is fairly poor.
+\item [Page 13, Line 1]: This is really a comparative statement, and I think the baseline is fairly poor.
 
-A: 
+\item [Yumeng]: As stated, the baseline is based on the complex of implementation. 
 
-Q: Does it really "maximize" the non-orthogonality or just make for a "highly" non-orthogonal test case?
+\item [Page 13, Line 19]: Does it really ``maximize'' the non-orthogonality or just make for a ``highly'' non-orthogonal test case?
 
-A: 
+\item [Yumeng]: We use such statement because the BTF has the maximum distortion compared with other terrain-following coordinate or other treatment of orography.
 
-Q: I think it's worth mentioning why we dimensionally split off the vertical: the high aspect ratio present in most weather / climate models.
+\item [Page 15, Line 36]: I think it's worth mentioning why we dimensionally split off the vertical: the high aspect ratio present in most weather/climate models.
 
-A: 
+\item [Yumeng]: We add explanation at the start of this section as suggested.
 
-Q: I'd remove words like "very" and "extremely." They aren't well-defined, and it's better to use comparative language with a clear baseline.
+\item [Page 22, Line 41]: I'd remove words like ``very'' and ``extremely.'' They aren't well-defined, and it's better to use comparative language with a clear baseline.
 
-A: 
+\item [Yumeng]: We remove the word extremely. 
 
-Q: This is the most minor, but there is a study for semi-Lagrangian dimensionally split transport on the cubed-sphere that needs to be considered and discussed: <http://journals.ametsoc.org/doi/abs/10.1175/MWR-D-13-00048.1>. Additionally, Katta et al was cited as a dimensionally split scheme, but it is not. The reconstruction is performed in dimensional sweeps, but the scheme itself is multi-dimensional.
+\item [E-mail, Reviewer 1]: This is the most minor, but there is a study for semi-Lagrangian dimensionally split transport on the cubed-sphere that needs to be considered and discussed: <http://journals.ametsoc.org/doi/abs/10.1175/MWR-D-13-00048.1>. Additionally, Katta et al was cited as a dimensionally split scheme, but it is not. The reconstruction is performed in dimensional sweeps, but the scheme itself is multi-dimensional.
 
-A: 
+\item [Yumeng]: We removed the citation and relevant description. 
 
-Q: Most importantly, to say the newly proposed dimensionally split scheme is accurate compared to multi-dimensional schemes, I believe a better comparison point is needed. Users select the scheme that gives the best results with the fewest resources. I believe the authors need to include a time-explicit semi-discrete (method of lines) multi-dimensional scheme with cubic interpolants using smaller time steps to serve as a comparison point for this scheme. I know the focus is on large time steps, but it's necessary to consider if one can, in fact, get more accuracy for a given amount of work by simply using the status quo with smaller time steps. 
+\item [E-mail, Reviewer 1]: Most importantly, to say the newly proposed dimensionally split scheme is accurate compared to multi-dimensional schemes, I believe a better comparison point is needed. Users select the scheme that gives the best results with the fewest resources. I believe the authors need to include a time-explicit semi-discrete (method of lines) multi-dimensional scheme with cubic interpolants using smaller time steps to serve as a comparison point for this scheme. I know the focus is on large time steps, but it's necessary to consider if one can, in fact, get more accuracy for a given amount of work by simply using the status quo with smaller time steps. 
 
-A: 
+\item [Yumeng]: The method of lines scheme is chosen to achieve similar amount of work as dimensionally split scheme. PPM on uniform grid only need a 4-point stencil for each cell edge in 1-D, while cubic interpolants will lead to a much larger stencil in 2-D. The results should be similar for smaller time steps as we already have tests for Courant number less than one. On the other hand, dimensionally splitting scheme only uses first-order Euler, which is less accurate than Crank-Nicolson method for method of lines scheme.
 
-Q: It is stated that results in this 2-D framework will generalize well to the cubed-sphere, but I believe that in order to truly make that statement, one would have to implement a given scheme on both meshes and then compare. My experience on the cubed-sphere mesh is that it.
+\item [E-mail, Reviewer 1]: It is stated that results in this 2-D framework will generalize well to the cubed-sphere, but I believe that in order to truly make that statement, one would have to implement a given scheme on both meshes and then compare. My experience on the cubed-sphere mesh is that it.
 
-A: 
+\item [Yumeng]: The non-orthogonal mesh has similar feature as edges at cubed-sphere: discontinuity in Jacobian. The results should be able to show a glimpse of the property of COSMIC splitting, especially for long time steps. 
 
-Q:  However, I am concerned that the comparison is somewhat limited by the fact that the multi-dimensional scheme is of lower-order than the dimensionally-split scheme. How can the lower order of accuracy of the multi-dimensional scheme justified?
+\item [E-mail, Reviewer 2]: The first questions that come to my mind when reading this paper are, ``why another advection scheme?'' and ``why another advection test case?'' given the multitude of existing schemes and tests. The demonstration of the good accuracy of standard dimensionally-split FFSL schemes is certainly useful, especially considering the well-publicized shortcomings of such methods. 
 
-A:
+\item [Yumeng]: 
 
-Q: It is also questionable how useful it is to compare advection schemes without any form of monotonicity preservation, which is a necessity for modern solvers. The effect of this is most visible in Figure 4, where the more accurate dimensionally-split scheme has more grid-scale noise than the lower-order multi-dimensional scheme, likely because of the larger implicit diffusion in the lower-order scheme. A proper monotone FFSL scheme would greatly reduce these ripples with only a modest introduction of diffusive errors.
+\item [E-mail, Reviewer 2]:  However, I am concerned that the comparison is somewhat limited by the fact that the multi-dimensional scheme is of lower-order than the dimensionally-split scheme. How can the lower order of accuracy of the multi-dimensional scheme justified?
 
-A:
+\item [Yumeng]:
 
-Q: Given that a fundamentally new scheme is not presented here, a better title might be something like, “Comparison of dimensionally-split and multi-dimensional atmospheric transport schemes for long time-steps”
+\item [E-mail, Reviewer 2]: It is also questionable how useful it is to compare advection schemes without any form of monotonicity preservation, which is a necessity for modern solvers. The effect of this is most visible in Figure 4, where the more accurate dimensionally-split scheme has more grid-scale noise than the lower-order multi-dimensional scheme, likely because of the larger implicit diffusion in the lower-order scheme. A proper monotone FFSL scheme would greatly reduce these ripples with only a modest introduction of diffusive errors.
 
-A:
+\item [Yumeng]: Yes, monotonicity preservation is important for modern solvers. The shape change is more likely to be phase error from time stepping scheme. However, it is unfair to compare scheme with limiter for FFSL with multi-dimensional scheme without proper limiter.
 
-Q: Several references to Lin and Rood (1996) should be to Putman and Lin (2007), since only PL07 uses the cubed-sphere. LR96 is designed for cartesian and lat-lon grids. Also, only LR96 uses FFSL methods, while PL07 has dropped the semi-Lagrangian extension (which was most useful near the poles of lat-lon grids). 
+\item [E-mail, Reviewer 2]: Given that a fundamentally new scheme is not presented here, a better title might be something like, ``Comparison of dimensionally-split and multi-dimensional atmospheric transport schemes for long time-steps''
 
-A: 
+\item [Yumeng]: 
 
-Q: Figure 8: Is the variation in grid spacing done while keeping the width of the orography constant?  
+\item [E-mail, Reviewer 2]: Several references to Lin and Rood (1996) should be to Putman and Lin (2007), since only PL07 uses the cubed-sphere. LR96 is designed for cartesian and lat-lon grids. Also, only LR96 uses FFSL methods, while PL07 has dropped the semi-Lagrangian extension (which was most useful near the poles of lat-lon grids). 
 
-A: 
+\item [Yumeng]: One wrong reference of this kind at last page has changed to Lin (2007).
 
-Q: Section 3.4: The discussion of computational cost of the algorithms is a very useful addition to the paper. The brief discussion of 3D extensions is also very useful.
+\item [E-mail, Reviewer 2]: Figure 8: Is the variation in grid spacing done while keeping the width of the orography constant? 
 
-A: 
+\item [Yumeng]:  Yes.(?)
+
+\item [E-mail, Reviewer 2]: Section 3.4: The discussion of computational cost of the algorithms is a very useful addition to the paper. The brief discussion of 3D extensions is also very useful.
+\end{description}
 \bibliographystyle{abbrvnat}
 \bibliography{numerics}
 

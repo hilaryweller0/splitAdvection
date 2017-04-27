@@ -1,5 +1,5 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
 \begin_document
 \begin_header
 \textclass qjrms4
@@ -10,7 +10,6 @@
 
 \usepackage{todonotes}
 
-\usepackage{amssymb}
 
 \usepackage{lineno}
 \linenumbers
@@ -25,13 +24,13 @@
 \font_roman times
 \font_sans default
 \font_typewriter default
+\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \default_output_format pdf5
 \output_sync 0
@@ -42,15 +41,24 @@
 \use_hyperref false
 \papersize a4paper
 \use_geometry false
-\use_amsmath 1
-\use_esint 1
-\use_mhchem 1
-\use_mathdots 1
-\cite_engine natbib_authoryear
+\use_package amsmath 1
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
+\justification true
 \use_refstyle 0
 \index Index
 \shortcut idx
@@ -211,8 +219,10 @@ Two-dimensional advection test cases on Cartesian planes are proposed that
  avoid the complexities of a spherical domain or multi-panel meshes.
  These are solid body rotation, horizontal advection over orography and
  deformational flow.
- The test cases use distorted meshes either to represent sloping terrain
- or to mimic the distortions of a cubed sphere.
+ The test cases use 
+\backslash
+textcolor{red}{distorted non-orthogonal meshes} either to represent sloping
+ terrain or to mimic the distortions of a cubed sphere.
 \end_layout
 
 \begin_layout Plain Layout
@@ -422,8 +432,16 @@ key "LLM95"
 .
  
 \lang british
-This is done without remapping which can be an expensive procedure, finding
- a conservative map between fields on overlapping meshes
+This is done without remapping 
+\color red
+on each cell a long trajectory
+\color inherit
+ which can be an expensive procedure
+\strikeout on
+\color red
+, finding a conservative map between fields on overlapping meshes
+\strikeout default
+\color inherit
 \lang english
 .
  
@@ -438,15 +456,26 @@ key "LLM96"
 \end_inset
 
  on logically rectangular, multidimensional meshes.
- Dimensionally split schemes have been found to give good accuracy on non-orthog
-onal meshes such as the cubed-sphere 
+ Dimensionally split schemes have been found to give good accuracy 
+\color red
+for Courant number less than one 
+\color inherit
+on non-orthogonal meshes such as the cubed-sphere
+\color red
+ 
+\strikeout on
+
 \begin_inset CommandInset citation
 LatexCommand citep
-key "PL07,KNK15"
+key "PL07"
 
 \end_inset
 
- with special treatment over cube edges.
+
+\strikeout default
+ 
+\color inherit
+with special treatment over cube edges.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -454,14 +483,33 @@ key "PL07"
 
 \end_inset
 
- use the average of two one-sided schemes at cube edges whereas 
+ use the average of two one-sided schemes at cube edges 
+\strikeout on
+\color red
+whereas 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "KNK15"
 
 \end_inset
 
- create ghost cells outside each cube panel boundary.
+ create ghost cells outside each cube panel boundary
+\strikeout default
+\color inherit
+.
+ 
+\color red
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "WNQ14"
+
+\end_inset
+
+ reported large error growth around cube edges for large Courant number
+ using an alternating Strang splitting.
+
+\color inherit
  Without this special treatment, dimensionally split schemes do not account
  properly for mesh distortion and errors may occur.
  Accuracy between second and fourth order was found in practice on a range
@@ -489,13 +537,26 @@ key "SLF+02"
 
 \end_inset
 
- or to use floating Lagrangian vertical co-ordinates 
+
+\color red
+ away from the orography and increase the distortion around the orography
+ 
+\color inherit
+or to use floating Lagrangian vertical co-ordinates 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Lin04"
 
 \end_inset
 
+, 
+\color red
+which
+\color inherit
+ 
+\color red
+incurs error from remapping between grids
+\color inherit
 .
  Dimension splitting may account for some of the errors over orography reported
  by 
@@ -549,7 +610,11 @@ key "IK04,LNU10,ZWS04"
  larger than one by using implicit time-stepping.
  This will increase the computational cost per tracer advected since the
  solution of a matrix equation would be needed for every advected tracer.
- Two other disadvantages of implicit time-stepping are the large phase errors
+ 
+\color black
+Two
+\color inherit
+ other disadvantages of implicit time-stepping are the large phase errors
  when long time-steps are used 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -558,7 +623,17 @@ key "DB12,LWW14"
 
 \end_inset
 
- and the difficulty of achieving monotonicity.
+
+\strikeout on
+\color red
+, the difficulty of achieving monotonicity
+\strikeout default
+\color inherit
+ and 
+\color red
+the inconvinient for parallelization due to linear solvers
+\color inherit
+.
  This is in contrast to semi-Lagrangian or FFSL schemes which maintain accuracy
  with long time-steps 
 \begin_inset CommandInset citation
@@ -610,6 +685,10 @@ key "LLM96"
 
 .
  On the cubed-sphere, special treatment is needed for the cube edges 
+\color red
+for finite volume schemes
+\color inherit
+
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
@@ -617,6 +696,11 @@ key "LR96,KNK15"
 
 \end_inset
 
+ 
+\color red
+while less effort is needed for element-based method like finite element
+ method or discontinuous Garlerkin method (reference?)
+\color inherit
 .
  Developing a transport scheme to the extent that it can be used on a multi-pane
 l cubed-sphere with special treatment of cube edges is a considerable undertakin
@@ -671,7 +755,11 @@ key "SLF+02"
 \end_inset
 
 , examining sensitivity to time-step, resolution and mountain height, all
- on the maximally distorted basic terrain following mesh (section 
+ on the 
+\color red
+highly
+\color inherit
+ distorted basic terrain following mesh (section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:overOrog"
@@ -1548,7 +1636,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Stencils of upwind-biased cells for interpolating onto face 
@@ -1978,7 +2066,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Two non-orthogonal mesh on a plane with 
@@ -2057,7 +2145,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2206,7 +2294,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the solid body rotation test case on orthogonal and non-orthogonal
@@ -2363,7 +2451,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with spatial resolution of the 
@@ -2475,7 +2563,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with temporal resolution of the 
@@ -2574,6 +2662,11 @@ key "DEE+12,WGZ+13"
 
 \end_inset
 
+ 
+\color red
+since most weather/climate models use higher resolution in the vertical
+ compared with horizontal
+\color inherit
 .
  We present results of the 
 \begin_inset CommandInset citation
@@ -2735,7 +2828,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Tracer contours after 0, 5000 and 10000s for the horizontal advection over
@@ -2946,7 +3039,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence of the 
@@ -3222,7 +3315,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 The non-orthognal mesh/co-ordinate system for the deformational flow with
@@ -3292,7 +3385,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Results of the deformational flow test case after 1, 2, 3, 4 and 5 time
@@ -3330,14 +3423,14 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="14" columns="7">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -4313,7 +4406,7 @@ Maximum Courant numbers
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Resolutions, time-steps and Courant numbers for the non-orthogonal meshes
@@ -4413,7 +4506,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Convergence with resolution of the 
@@ -4540,7 +4633,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Variation of 
@@ -4898,13 +4991,13 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="6">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -5392,7 +5485,7 @@ Iterations per time-step orthogonal/non-orthogonal
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Number of solver iterations per time-step of the multi-dimensional scheme
@@ -5457,11 +5550,11 @@ status collapsed
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -5796,7 +5889,7 @@ Split
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Total number of multiply operations per cell per time-step for different
@@ -5952,8 +6045,14 @@ key "LSPT12"
 \end_layout
 
 \begin_layout Standard
-The dimensionally split scheme is extremely accurate on orthogonal meshes
- and retains accuracy when long time-steps are used.
+The dimensionally split scheme is 
+\strikeout on
+\color red
+extremely
+\strikeout default
+\color inherit
+ accurate on orthogonal meshes and retains accuracy when long time-steps
+ are used.
  However on distorted meshes, particularly at changes in direction such
  as those that appear at cube sphere edges or over orography, the split
  scheme loses some accuracy.
@@ -5995,9 +6094,9 @@ ally split scheme could cope with the cube edges.
   When dimensionally split schemes are used on cubed-sphere meshes, they
  do usually have special interpolations at cube edges 
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 before "eg"
-key "LR96"
+key "PL07"
 
 \end_inset
 
