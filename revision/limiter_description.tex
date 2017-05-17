@@ -1,0 +1,62 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{esint}
+\usepackage[authoryear]{natbib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+
+\usepackage{todonotes}
+
+\usepackage{amssymb}
+
+\usepackage{lineno}
+%\linenumbers
+
+\makeatother
+
+% \usepackage{babel}
+\begin{document}
+
+We use limiters in \citep{CW84}. The equation 6 becomes:
+\begin{align} \label{eq:1}
+p_{i+\frac{1}{2}}(x) & = (1 - \eta_i)[\frac{1}{2}(p_{i+1} + p_{i}) + \frac{1}{6}(\Delta p_{i} - \Delta p_{i+1})] + \eta_i(p_{i+1} - \frac{1}{2}\Delta p_{i+1}) \nonumber \\
+p_{i-\frac{1}{2}}(x) & = (1 - \eta_i)[\frac{1}{2}(p_{i} + p_{i-1}) + \frac{1}{6}(\Delta p_{i-1} - \Delta p_{i})] + \eta_i(p_{i-1} + \frac{1}{2}\Delta p_{i-1})
+\end{align}
+where $\Delta p$ is the slope of between two cells:
+\begin{equation} 
+\Delta p_i =
+  \begin{cases}
+    \min(|\delta p_i|, 2|p_i - p_{i-1}|,2|p_{i+1} - p_{i}|)\text{sgn}(\delta p_i)      & (p_{i+1}-p_i)(p_i-p_{i-1})>0\\
+    0  & \text{ otherwise}
+  \end{cases}
+\end{equation}
+where $\delta p$ is the slope of two cells:
+\begin{equation}
+\delta p_i = \frac{1}{2}(p_{i+1} - p_{i-1})
+\end{equation}
+Another component of equation \ref{eq:1} is $\eta_i$:
+\begin{equation}
+\eta_i = \max(0,\min(\eta^{(1)}(\widetilde \eta_i-\eta^{(2)}),1)
+\end{equation}
+where
+\begin{align} \label{eq:2}
+\widetilde \eta_i &= -\frac{p_{i+2}-3p_{i+1}+3p_i-p_{i-1}}{6(p_{i+1}-p_{i-1})} \nonumber\\
+&\quad \text{if } -\delta^2 p_{i+1} \delta^2 p_{i-1}>0, |p_{i+1}-p_{i-1}|-\varepsilon \min(|p_{i+1}|,|p_{i-1}|)>0\\
+&=0 \nonumber\\&\quad \text{ otherwise,} \nonumber
+\end{align}
+In equation \ref{eq:2}, $\delta^2 p_i = \frac{p_{i+1}-2p_{i}+p_{i-1}}{6\Delta x}$. The $\eta^{(1)}=20$,$\eta^{(2)}=0.05$ and $\epsilon=0.05$
+
+\bibliographystyle{abbrvnat}
+\bibliography{numerics}
+
+\end{document}
