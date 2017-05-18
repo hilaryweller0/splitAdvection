@@ -95,8 +95,8 @@ status open
 
 
 \backslash
-title{Dimension Splitting and a Long Time-Step Multi-Dimensional Scheme
- for Atmospheric Transport}
+title{Comparison of Dimensionally-Split and Multi-Dimensional Atmospheric
+ Transport Schemes for Long Time-Steps}
 \end_layout
 
 \begin_layout Plain Layout
@@ -222,7 +222,7 @@ Two-dimensional advection test cases on Cartesian planes are proposed that
  The test cases use 
 \backslash
 textcolor{red}{distorted non-orthogonal meshes} either to represent sloping
- terrain or to mimic the distortions of a cubed sphere.
+ terrain or to mimic the distortions near cubed-sphere edges.
 \end_layout
 
 \begin_layout Plain Layout
@@ -231,9 +231,9 @@ textcolor{red}{distorted non-orthogonal meshes} either to represent sloping
 
 \begin_layout Plain Layout
 
-Such mesh distortions are expected to accentuate the errors associated with
- dimension splitting, however, the dimensionally split scheme is very accurate
- on orthogonal meshes and accuracy decreases only a little in the presence
+Mesh distortions are expected to accentuate the errors associated with dimension
+ splitting, however, the dimensionally split scheme is very accurate on
+ orthogonal meshes and accuracy decreases only a little in the presence
  of large mesh distortions.
  The dimensionally split scheme also loses some accuracy when long time-steps
  are used.
@@ -254,8 +254,10 @@ A naive estimate of computational cost (number of multiplies) reveals that
  the implicit scheme is  the most expensive, particularly for large Courant
  numbers.
  If the multi-dimensional scheme is used instead with explicit time-stepping,
- the Courant number is restricted to less than one but the cost becomes
- similar to the dimensionally split scheme.
+ the Courant number is restricted to less than 
+\backslash
+textcolor{blue}{two} but the cost becomes similar to the dimensionally split
+ scheme.
 \end_layout
 
 \begin_layout Plain Layout
@@ -457,57 +459,53 @@ key "LLM96"
 
  on logically rectangular, multidimensional meshes.
  Dimensionally split schemes have been found to give good accuracy 
-\color red
-for Courant number less than one 
-\color inherit
-on non-orthogonal meshes such as the cubed-sphere
+\strikeout on
+for Courant number less than one
+\strikeout default
 \color red
  
-\strikeout on
-
+\color inherit
+on non-orthogonal meshes such as the cubed-sphere 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "PL07"
+before "eg"
+key "GNQ14"
 
 \end_inset
 
-
-\strikeout default
  
+\color blue
+and special treatment can be applied over cube edges to improve accuracy
 \color inherit
-with special treatment over cube edges.
- 
+: 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "PL07"
 
 \end_inset
 
- use the average of two one-sided schemes at cube edges 
-\strikeout on
-\color red
-whereas 
+ use the average of two one-sided schemes at cube edges whereas 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "KNK15"
 
 \end_inset
 
- create ghost cells outside each cube panel boundary
-\strikeout default
-\color inherit
-.
+ create ghost cells outside each cube panel boundary.
  
+\strikeout on
 \color red
 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "WNQ14"
+key "GNQ14"
 
 \end_inset
 
  reported large error growth around cube edges for large Courant number
- using an alternating Strang splitting.
+ using an alternating Strang splitting
+\strikeout default
+.
 
 \color inherit
  Without this special treatment, dimensionally split schemes do not account
@@ -520,6 +518,10 @@ key "KNK15"
 
 \end_inset
 
+ 
+\color blue
+using a transport scheme with dimensionally split reconstructions
+\color inherit
 .
  
 \end_layout
@@ -684,22 +686,38 @@ key "LLM96"
 \end_inset
 
 .
- On the cubed-sphere, special treatment is needed for the cube edges 
+ On the cubed-sphere, 
+\color blue
+dimensionally split schemes need
+\color inherit
+ special treatment 
+\color blue
+at
+\color inherit
+ 
+\strikeout on
+is needed for the 
+\strikeout default
+cube edges 
+\strikeout on
 \color red
 for finite volume schemes
+\strikeout default
 \color inherit
 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
-key "LR96,KNK15"
+key "PL07,KNK15"
 
 \end_inset
 
  
+\strikeout on
 \color red
 while less effort is needed for element-based method like finite element
  method or discontinuous Garlerkin method (reference?)
+\strikeout default
 \color inherit
 .
  Developing a transport scheme to the extent that it can be used on a multi-pane
@@ -710,6 +728,11 @@ g.
  We therefore propose some modifications of existing test cases to use distorted
  meshes, or distorted co-ordinate systems, on a logically rectangular, two-dimen
 sional plane.
+ 
+\color blue
+These test cases will mimic the problems encountered at cubed-sphere edges
+ but will not give any information about errors that might occur at cubed-sphere
+ corners.
  
 \end_layout
 
@@ -829,9 +852,9 @@ where the dependent variable
 \end_inset
 
 .
- The dimensionally split scheme is the
+ The dimensionally split scheme is the piecewise parabolic method 
 \lang english
- piecewise parabolic method 
+
 \begin_inset CommandInset citation
 LatexCommand citep
 before "PPM"
@@ -869,6 +892,19 @@ key "WS14"
  is combined with implicit, Crank-Nicholson time-stepping to allow long
  time-steps.
  Neither scheme has monotonicity or positivity preservation.
+ The dimensionally split scheme is third-order accurate in one dimension
+ but the COSMIC splitting reduces the order to two.
+ The multi-dimensional scheme uses cubic interpolations but uses cell centoids
+ as Gauss points so the order of accuracy is limited to two.
+ When run explicitly, the cost of both schemes is similar (see section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:cost"
+
+\end_inset
+
+).
+ These schemes are therefore considered suitable for comparison.
  
 \end_layout
 
@@ -919,9 +955,8 @@ name "sub:PPM"
 \end_layout
 
 \begin_layout Standard
-We describe a long time-step version of PPM
-\lang english
- for solving the one-dimensional advection equation:
+We describe a long time-step version of PPM for solving the one-dimensional
+ advection equation:
 \begin_inset Formula 
 \begin{equation}
 \frac{\partial\phi}{\partial t}+\frac{\partial u\phi}{\partial x}=0.
@@ -1050,8 +1085,6 @@ p_{i+1/2}=\frac{7}{12}(\phi_{i}+\phi_{i+1})-\frac{1}{12}(\phi_{i+2}+\phi_{i-1})
 \end_layout
 
 \begin_layout Standard
-
-\lang english
 In order to cope with long time-steps, we follow 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1144,12 +1177,8 @@ y damaging for long Courant numbers, when the wrong departure cell could
 \end_layout
 
 \begin_layout Standard
-
-\lang english
 The velocity is derived from a stream function and the Jacobian of the co-ordina
 te transform: 
-\lang british
-
 \begin_inset Formula 
 \begin{equation}
 \left(\begin{array}{c}
@@ -1163,8 +1192,6 @@ v
 
 \end_inset
 
-
-\lang english
 For stability, the time-step is restricted by the deformational Courant
  number:
 \begin_inset Formula 
@@ -1189,8 +1216,6 @@ key "PS84"
 \end_layout
 
 \begin_layout Subsection
-
-\lang english
 COSMIC Splitting
 \begin_inset CommandInset label
 LatexCommand label
@@ -1202,8 +1227,6 @@ name "sub:COSMIC"
 \end_layout
 
 \begin_layout Standard
-
-\lang english
 COSMIC operator splitting 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1402,8 +1425,6 @@ The operators
 \end_inset
 
  are then:
-\lang english
-
 \begin_inset Formula 
 \begin{align}
 X_{C}(\phi)=-\frac{1}{\Delta x}\left(|J|_{e}^{-1}u_{e}\phi_{e}-|J|_{w}^{-1}u_{w}\phi_{w}\right) &  & Y_{C}(\phi)=-\frac{1}{\Delta y}\left(|J|_{n}^{-1}v_{n}\phi_{n}-|J|_{s}^{-1}v_{s}\phi_{s}\right)\label{eq:COSMIC_A-1}\\
@@ -1467,7 +1488,7 @@ key "OpenFOAM16"
  This uses a cubic upwind spatial discretisation 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "WS14,SWMD1x"
+key "WS14,SWMD17"
 
 \end_inset
 
@@ -1549,6 +1570,8 @@ reference "fig:stencil"
 
 \end_inset
 
+
+\lang british
 omitting the 
 \begin_inset Formula $y^{3}$
 \end_inset
@@ -1693,7 +1716,7 @@ key "Las02"
  
 \begin_inset CommandInset citation
 LatexCommand citet
-key "SWMD1x"
+key "SWMD17"
 
 \end_inset
 
@@ -1827,7 +1850,15 @@ In order to make test cases as simple as possible without the need for incorpora
 ting spherical geometry, multi-panel meshes or non-rectangular cells, our
  computational domain consists of a periodic two-dimensional plane with
  deformations in the co-ordinate system (or mesh) mimicking the kind of
- distortions which are produced by a cubed-sphere mesh.
+ distortions which are produced 
+\color blue
+near
+\color inherit
+ cubed-sphere 
+\color blue
+edges
+\color inherit
+.
  We also use a two-dimensional vertical slice test case over orography using
  terrain following co-ordinates (or terrain following meshes).
 \end_layout
@@ -3017,6 +3048,7 @@ reference "fig:horizontalAdvectConverge"
 \end_inset
 
 .
+ The width and height of the orography is kept constant.
  Both schemes give similar accuracy with the dimensionally split scheme
  having faster convergence with resolution.
 \end_layout
@@ -4804,7 +4836,7 @@ The number of multiplies involved in the multi-dimensional scheme includes
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg as used by"
-key "SW16"
+key "SWMD17"
 
 \end_inset
 
@@ -6010,8 +6042,19 @@ key "LLM96"
 \begin_layout Standard
 Three two-dimensional advection test cases on Cartesian planes are proposed
  without the complexities of a spherical domain or multi-panel meshes but
- with distorted meshes to mimic the distortions of a cubed-sphere or terrain
- following co-ordinates.
+ with distorted meshes to mimic the distortions 
+\color blue
+near
+\color inherit
+ cubed-sphere 
+\color blue
+edges
+\color inherit
+ or 
+\color blue
+the distortions of 
+\color inherit
+terrain following co-ordinates.
  We therefore propose that these test cases could be used in the initial
  testing of advection schemes, before the generation of meshes on the sphere.
  The first test case is an extension of the 

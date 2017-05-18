@@ -1,0 +1,17 @@
+Recommendation: Major revision
+
+The first questions that come to my mind when reading this paper are, “why another advection scheme?” and “why another advection test case?” given the multitude of existing schemes and tests. The demonstration of the good accuracy of standard dimensionally-split FFSL schemes is certainly useful, especially considering the well-publicized shortcomings of such methods. However, I am concerned that the comparison is somewhat limited by the fact that the multi-dimensional scheme is of lower-order than the dimensionally-split scheme. How can the lower order of accuracy of the multi-dimensional scheme justified?
+
+It is also questionable how useful it is to compare advection schemes without any form of monotonicity preservation, which is a necessity for modern solvers. The effect of this is most visible in Figure 4, where the more accurate dimensionally-split scheme has more grid-scale noise than the lower-order multi-dimensional scheme, likely because of the larger implicit diffusion in the lower-order scheme. A proper monotone FFSL scheme would greatly reduce these ripples with only a modest introduction of diffusive errors.
+
+Minor comments: 
+
+- Given that a fundamentally new scheme is not presented here, a better title might be something like, “Comparison of dimensionally-split and multi-dimensional atmospheric transport schemes for long time-steps”
+
+- Several references to Lin and Rood (1996) should be to Putman and Lin (2007), since only PL07 uses the cubed-sphere. LR96 is designed for cartesian and lat-lon grids. Also, only LR96 uses FFSL methods, while PL07 has dropped the semi-Lagrangian extension (which was most useful near the poles of lat-lon grids). 
+
+- Figure 8: Is the variation in grid spacing done while keeping the width of the orography constant?
+
+- Section 3.4: The discussion of computational cost of the algorithms is a very useful addition to the paper. The brief discussion of 3D extensions is also very useful.
+
+Lucas Harris

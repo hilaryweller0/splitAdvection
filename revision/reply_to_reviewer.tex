@@ -1,32 +1,53 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage{mathptmx}
-\usepackage[T1]{fontenc}
-\usepackage[latin9]{inputenc}
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
+\documentclass[12pt]{article}
+\usepackage[margin=2cm]{geometry}
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{esint}
 \usepackage[authoryear]{natbib}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
-\usepackage { fancybox}
-\usepackage[export]{adjustbox}
-
 \usepackage{todonotes}
 
-\usepackage{amssymb}
-
-\usepackage{lineno}
-%\linenumbers
-
-\makeatother
-
-% \usepackage{babel}
 \begin{document}
+
+\title{Responses to reviewer comments on artile QJ-17-0017\\
+Dimension Splitting and a Long Time-Step Multi-Dimensional Scheme for Atmospheric Transport}
+\author{Yumeng Chen \and Hilary Weller \and Stephen Pring \and and James Shaw}
+\maketitle
+
+\section*{Responses to reviewer 1}
+
 \begin{description}
+
+\item [Comment]:
+I like the subject matter, and we are certainly in need of new ways of gaining efficiency for transport algorithms and for full dynamics for that matter. I think dimensionally split semi-Lagrangian schemes could be very competitive, but I have concerns about their accuracy on the cubed-sphere (as do the authors). I like the ingenuity of the test cases as well. I have three major concerns regarding the manuscript though. I have annotated these and other concerns directly to the PDF document, which is attached to this review. I think the content is important and needed and that the manuscript should be published, but subject to what I think amount to major revisions.
+
+\item [Response]:
+Many thanks for your insightful comments. We hope that we have now addressed these concerns. 
+
+\item [Comment 1]: This is the most minor, but there is a study for semi-Lagrangian dimensionally split transport on the cubed-sphere that needs to be considered and discussed: \url{http://journals.ametsoc.org/doi/abs/10.1175/MWR-D-13-00048.1}. Additionally, Katta et al was cited as a dimensionally split scheme, but it is not. The reconstruction is performed in dimensional sweeps, but the scheme itself is multi-dimensional.
+
+\item [Response]: 
+Thank-you for pointing out the \cite{GNQ14} paper. This is now cited in the introduction. Transport errors are dominated by errors in the reconstruction so if the reconstruction is performed in dimensional sweeps, then I would describe the \cite{KNK15} scheme as using dimension splitting rather than being fully multi-dimensional. We have put a caveat in pointing out that the reconstruction is in dimensional sweeps. 
+
+\item [Comment 2]:
+It is stated that results in this 2-D framework will generalize well to the cubed-sphere, but I believe that in order to truly make that statement, one would have to implement a given scheme on both meshes and then compare. My experience on the cubed-sphere mesh is that it.
+
+\item [Response]:
+Agreed. Our test cases on a plane will highlight errors due to non-orthogonality and due to discontinuities at cube edges but cannot help to describe errors at cube corners. A sentence has been added to the introduction:
+\begin{quote}
+These test cases will mimic the problems encountered at cubed-sphere edges but will not give any information about errors that might occur at cubed-sphere corners. 
+\end{quote}
+A similar caveat has been inserted in the second paragraph of the abstract, the first paragraph of section 3 and in the third paragraph of the conclusions. 
+
+\item [Comment 3]: Most importantly, to say the newly proposed dimensionally split scheme is accurate compared to multi-dimensional schemes, I believe a better comparison point is needed. Users select the scheme that gives the best results with the fewest resources. I believe the authors need to include a time-explicit semi-discrete (method of lines) multi-dimensional scheme with cubic interpolants using smaller time steps to serve as a comparison point for this scheme. I know the focus is on large time steps, but it's necessary to consider if one can, in fact, get more accuracy for a given amount of work by simply using the status quo with smaller time steps. 
+
+\item [Response]: 
+We now compare the dimensionally split scheme with the multi-dimensional scheme when the multi-dimensional scheme is run with explicit and implicit time-stepping. New results are described in section 3. The errors of the multi-dimensional scheme (which is now described in full by \cite{SWMD17}) are insensitive to the choice of time-stepping type (implicit or explicit) for Courant numbers smaller than two. These comparisons have also revealed that the implicit solve is a small part of the total cost of the advection. This is likely because the solvers in OpenFOAM are well optimised but there are cache misses associated with the explicit part of the advection. The multi-dimensional scheme uses cubic interpolants but is not overall a third-order accurate. The multi-dimensional scheme is designed for arbitrary meshes. In order to achieve third-order accuracy on arbitrary meshes either multi-moments or Gauss points within each cell are needed. This would increase the complexity and cost significantly. The multi-dimensional scheme run explicitly has similar cost and complexity to the dimensionally split scheme. 
+
+\end{description}
+
+\section*{Responses to reviewer 1 pdf annotations}
+
+\begin{enumerate}
 \item [Page 1, Line 41]: Might want to say ``distorted, non-orthogonal meshes'' to make it's clear that you are indeed directly testing non-orthogonality.
 
 \item [Yumeng]: Changed as suggested.
@@ -143,44 +164,50 @@ If the purpose of this paper were solely to introduce new test cases, I think th
 
 \item [Yumeng]: We remove the word extremely. 
 
-\item [E-mail, Reviewer 1]: This is the most minor, but there is a study for semi-Lagrangian dimensionally split transport on the cubed-sphere that needs to be considered and discussed: <http://journals.ametsoc.org/doi/abs/10.1175/MWR-D-13-00048.1>. Additionally, Katta et al was cited as a dimensionally split scheme, but it is not. The reconstruction is performed in dimensional sweeps, but the scheme itself is multi-dimensional.
 
-\item [Yumeng]: We removed the citation and relevant description. 
+\end{enumerate}
 
-\item [E-mail, Reviewer 1]: Most importantly, to say the newly proposed dimensionally split scheme is accurate compared to multi-dimensional schemes, I believe a better comparison point is needed. Users select the scheme that gives the best results with the fewest resources. I believe the authors need to include a time-explicit semi-discrete (method of lines) multi-dimensional scheme with cubic interpolants using smaller time steps to serve as a comparison point for this scheme. I know the focus is on large time steps, but it's necessary to consider if one can, in fact, get more accuracy for a given amount of work by simply using the status quo with smaller time steps. 
+\section*{Responses to reviewer 2 (Lucas Harris)}
 
-\item [Yumeng]: The method of lines scheme is chosen to achieve similar amount of work as dimensionally split scheme. PPM on uniform grid only need a 4-point stencil for each cell edge in 1-D, while cubic interpolants will lead to a much larger stencil in 2-D. The results should be similar for smaller time steps as we already have tests for Courant number less than one. On the other hand, dimensionally splitting scheme only uses first-order Euler, which is less accurate than Crank-Nicolson method for method of lines scheme.
+\begin{enumerate}
+\item [Major comment 1]: The first questions that come to my mind when reading this paper are, ``why another advection scheme?'' and ``why another advection test case?'' given the multitude of existing schemes and tests. The demonstration of the good accuracy of standard dimensionally-split FFSL schemes is certainly useful, especially considering the well-publicized shortcomings of such methods. However, I am concerned that the comparison is somewhat limited by the fact that the multi-dimensional scheme is of lower-order than the dimensionally-split scheme. How can the lower order of accuracy of the multi-dimensional scheme justified?
 
-\item [E-mail, Reviewer 1]: It is stated that results in this 2-D framework will generalize well to the cubed-sphere, but I believe that in order to truly make that statement, one would have to implement a given scheme on both meshes and then compare. My experience on the cubed-sphere mesh is that it.
+\item [Response]: 
+Our initial motivation was to demonstrate the large errors associated with dimensionally split schemes on non-orthogonal meshes with discontinuities in co-ordinate transforms which we thought had not previously been demonstrated in the literature. We could not find these large errors despite comparing results on orthogonal and non-orthogonal meshes. 
 
-\item [Yumeng]: The non-orthogonal mesh has similar feature as edges at cubed-sphere: discontinuity in Jacobian. The results should be able to show a glimpse of the property of COSMIC splitting, especially for long time steps. 
+Accuracy higher than second order is not straightforward for a multi-dimensional scheme suitable for arbitrary meshes. The complexity and cost of the multi-dimensional scheme is similar to that of the dimensionally split scheme. However, in fact, neither scheme has accuracy higher than second order although they both have aspects that are third-order accurate. The dimensionally split scheme is third or forth order accurate in one dimension but the COSMIC splitting reduces the order of accuracy. We thought that discontinuities in the coordinate system would reduce the order of accuracy to first but it appears to be second order. The multi-dimensional scheme uses cubic interpolations but since we use the cell centre as the Gauss point for each cell, the multi-dimensional scheme is limited to second order accuracy. We have added this text to the end of the first paragraph of section 2:
+\begin{quote}
+The dimensionally split scheme is third-order accurate in one dimension but the COSMIC splitting reduces the order to two. The multi-dimensional scheme uses cubic interpolations but uses cell centoids as Gauss points so the order of accuracy is limited to two. When run explicitly, the cost of both schemes is similar (see section 3.4). These schemes are therefore considered suitable for comparison. 
+\end{quote}
 
-\item [E-mail, Reviewer 2]: The first questions that come to my mind when reading this paper are, ``why another advection scheme?'' and ``why another advection test case?'' given the multitude of existing schemes and tests. The demonstration of the good accuracy of standard dimensionally-split FFSL schemes is certainly useful, especially considering the well-publicized shortcomings of such methods. 
+\item [Major comment 2]: It is also questionable how useful it is to compare advection schemes without any form of monotonicity preservation, which is a necessity for modern solvers. The effect of this is most visible in Figure 4, where the more accurate dimensionally-split scheme has more grid-scale noise than the lower-order multi-dimensional scheme, likely because of the larger implicit diffusion in the lower-order scheme. A proper monotone FFSL scheme would greatly reduce these ripples with only a modest introduction of diffusive errors.
 
-\item [Yumeng]: 
+\item [Response]: We agree that advection schemes without monotonicity preservation are of limited use. While some of the dimensionally split scheme results have oscillations, they are still more accurate than the smooth results from the multi-dimensional scheme. Therefore including a good monotone limiter shouldn't change the conclusions of this paper. I am afraid that we no longer have the resources to implement a good monotone limiter for the dimensionally split scheme. We feel that these points are already covered sufficiently in section 3.1:
+\begin{quote}
+The dimensionally split scheme outperforms the multi-dimensional scheme on both meshes due to the higher-order accuracy of the split scheme. The dimensionally split scheme introduces a small error at 300 seconds where the tracer goes through the change in direction of the mesh which would be ameliorated if we were using monotonicity constraints. The second-order, multi-dimensional scheme shows phase lag but errors are almost entirely insensitive the mesh distortions. 
+\end{quote}
 
-\item [E-mail, Reviewer 2]:  However, I am concerned that the comparison is somewhat limited by the fact that the multi-dimensional scheme is of lower-order than the dimensionally-split scheme. How can the lower order of accuracy of the multi-dimensional scheme justified?
+\item [Minor Comment 1]: Given that a fundamentally new scheme is not presented here, a better title might be something like, ``Comparison of dimensionally-split and multi-dimensional atmospheric transport schemes for long time-steps''
 
-\item [Yumeng]:
+\item [Response]: Agreed, thanks.
 
-\item [E-mail, Reviewer 2]: It is also questionable how useful it is to compare advection schemes without any form of monotonicity preservation, which is a necessity for modern solvers. The effect of this is most visible in Figure 4, where the more accurate dimensionally-split scheme has more grid-scale noise than the lower-order multi-dimensional scheme, likely because of the larger implicit diffusion in the lower-order scheme. A proper monotone FFSL scheme would greatly reduce these ripples with only a modest introduction of diffusive errors.
+\item [Minor Comment 2]: Several references to Lin and Rood (1996) should be to Putman and Lin (2007), since only PL07 uses the cubed-sphere. LR96 is designed for cartesian and lat-lon grids. Also, only LR96 uses FFSL methods, while PL07 has dropped the semi-Lagrangian extension (which was most useful near the poles of lat-lon grids). 
 
-\item [Yumeng]: Yes, monotonicity preservation is important for modern solvers. The shape change is more likely to be phase error from time stepping scheme. However, it is unfair to compare scheme with limiter for FFSL with multi-dimensional scheme without proper limiter.
+\item [Response]: Thanks, changed.
 
-\item [E-mail, Reviewer 2]: Given that a fundamentally new scheme is not presented here, a better title might be something like, ``Comparison of dimensionally-split and multi-dimensional atmospheric transport schemes for long time-steps''
+\item [Minor Comment 3]: Figure 8: Is the variation in grid spacing done while keeping the width of the orography constant? 
 
-\item [Yumeng]: 
+\item [Response]: Yes. This is now clarified in section 3.2:
+\begin{quote}
+The width and height of the orography is kept constant.
+\end{quote}
 
-\item [E-mail, Reviewer 2]: Several references to Lin and Rood (1996) should be to Putman and Lin (2007), since only PL07 uses the cubed-sphere. LR96 is designed for cartesian and lat-lon grids. Also, only LR96 uses FFSL methods, while PL07 has dropped the semi-Lagrangian extension (which was most useful near the poles of lat-lon grids). 
+\item [Minor Comment 4]: Section 3.4: The discussion of computational cost of the algorithms is a very useful addition to the paper. The brief discussion of 3D extensions is also very useful.
 
-\item [Yumeng]: One wrong reference of this kind at last page has changed to Lin (2007).
+\item [Response]: Thank-you. Following a request from reviewer 1, we also now include a comparison of wall clock time for the multi-dimensional scheme run implicitly and explicitly in serial. 
+\end{enumerate}
 
-\item [E-mail, Reviewer 2]: Figure 8: Is the variation in grid spacing done while keeping the width of the orography constant? 
 
-\item [Yumeng]:  Yes.(?)
-
-\item [E-mail, Reviewer 2]: Section 3.4: The discussion of computational cost of the algorithms is a very useful addition to the paper. The brief discussion of 3D extensions is also very useful.
-\end{description}
 \bibliographystyle{abbrvnat}
 \bibliography{numerics}
 
