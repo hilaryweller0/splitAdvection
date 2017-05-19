@@ -206,7 +206,7 @@ Dimensionally split advection schemes are attractive for atmospheric modelling
  using COSMIC splitting.
  The dimensionally split scheme is compared with a genuinely multi-dimensional,
  method of lines scheme with implicit time-stepping which is stable for
- very large Courant numbers.
+ Courant numbers significantly larger than one.
 \end_layout
 
 \begin_layout Plain Layout
@@ -336,7 +336,12 @@ Introduction
 
 \begin_layout Standard
 Weather and climate models are being developed on quasi-uniform meshes in
- order to better exploit modern computers 
+ order to 
+\color blue
+equidistribute and reduce the storage needed for the domain of dependence
+ of the model degrees of freedom and hence
+\color inherit
+ better exploit modern computers 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg "
@@ -344,8 +349,9 @@ key "WTC12,LUJ+14,ST12,SG11,KNK15"
 
 \end_inset
 
- and so accurate and efficient transport (or advection) schemes on non-orthogona
-l meshes are required.
+.
+ Therefore accurate and efficient transport (or advection) schemes on non-orthog
+onal meshes are required.
  There is an abundance of desirable properties of advection schemes, including:
 \end_layout
 
@@ -396,6 +402,15 @@ Four (important) properties are listed together in the final item because
  schemes entirely on planar meshes rather than on the sphere, proposing
  test cases to challenge advection schemes on non-orthogonal meshes without
  the need to implement meshes in spherical geometry.
+ 
+\color blue
+We assume that a large fraction of the numerical errors associated with
+ terrain following co-ordinates and the cubed-sphere grid are due to the
+ mesh non-orthoganlity and distortion.
+ However there will also be errors due to cubed-sphere corners and inaccurate
+ representation of spherical geometry.
+ These are not addressed here.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -422,7 +437,11 @@ key "CW84"
  which integrates the dependent variable over a swept distance upstream
  of every face in order to calculate fluxes in and out of cells.
  Accurate long time steps can be achieved without significant cost by calculatin
-g cumulative mass fluxes along the domain 
+g cumulative mass fluxes along 
+\color blue
+lines of cells
+\color inherit
+ 
 \lang english
 
 \begin_inset CommandInset citation
@@ -431,25 +450,27 @@ key "LLM95"
 
 \end_inset
 
+
+\lang british
 .
  
-\lang british
+\strikeout on
 This is done without remapping 
 \color red
 on each cell a long trajectory
 \color inherit
  which can be an expensive procedure
-\strikeout on
 \color red
 , finding a conservative map between fields on overlapping meshes
 \strikeout default
 \color inherit
-\lang english
 .
- 
-\lang british
-One-dimensional schemes can be used with operator splitting to create dimensiona
-lly split, second-order accurate schemes 
+ One-dimensional schemes can be used with operator splitting to create dimension
+ally split, 
+\color blue
+temporally
+\color inherit
+ second-order accurate schemes 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
@@ -466,16 +487,8 @@ for Courant number less than one
  
 \color inherit
 on non-orthogonal meshes such as the cubed-sphere 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "eg"
-key "GNQ14"
-
-\end_inset
-
- 
 \color blue
-and special treatment can be applied over cube edges to improve accuracy
+if special treatment is applied over cube edges to improve accuracy
 \color inherit
 : 
 \begin_inset CommandInset citation
@@ -484,34 +497,17 @@ key "PL07"
 
 \end_inset
 
- use the average of two one-sided schemes at cube edges whereas 
+ use the average of two one-sided schemes at cube edges.
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "KNK15"
 
 \end_inset
 
- create ghost cells outside each cube panel boundary.
+ create ghost cells outside each cube panel boundary and achieve accuracy
+ between second and fourth order.
  
-\strikeout on
-\color red
-
-\begin_inset CommandInset citation
-LatexCommand citet
-key "GNQ14"
-
-\end_inset
-
- reported large error growth around cube edges for large Courant number
- using an alternating Strang splitting
-\strikeout default
-.
-
-\color inherit
- Without this special treatment, dimensionally split schemes do not account
- properly for mesh distortion and errors may occur.
- Accuracy between second and fourth order was found in practice on a range
- of test cases on the cubed-sphere by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "KNK15"
@@ -520,9 +516,22 @@ key "KNK15"
 
  
 \color blue
-using a transport scheme with dimensionally split reconstructions
+use a multi-dimensional transport scheme with dimensionally split reconstruction
+s
 \color inherit
 .
+ 
+\color red
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "GNQ14"
+
+\end_inset
+
+ report error growth around cube edges using Strang splitting.
+
+\color inherit
  
 \end_layout
 
@@ -541,24 +550,15 @@ key "SLF+02"
 
 
 \color red
- away from the orography and increase the distortion around the orography
- 
+ away from the ground
 \color inherit
-or to use floating Lagrangian vertical co-ordinates 
+ or to use floating Lagrangian vertical co-ordinates 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Lin04"
 
 \end_inset
 
-, 
-\color red
-which
-\color inherit
- 
-\color red
-incurs error from remapping between grids
-\color inherit
 .
  Dimension splitting may account for some of the errors over orography reported
  by 
@@ -600,23 +600,34 @@ key "IK04,LNU10,ZWS04"
 
 .
  The FFSL and MOL multi-dimensional schemes have not previously been extended
- to work with Courant numbers significantly larger than one.
- FFSL multi-dimensional schemes could be extended to handle large time-steps
+ to work with Courant numbers significantly larger than one, 
+\color blue
+a notable exception being 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "UN14"
+
+\end_inset
+
+, whose FFSL semi-Lagrangian method is stable for Courant numbers up to
+ around 2.5
+\color inherit
+.
+ FFSL multi-dimensional schemes could be extended to handle larger time-steps
  by integrating the upstream swept volume over a large upstream volume,
  interacting with a large number of upstream cells.
- However the cost would be proportional to the time-step since the larger
- the Courant number, the more cells the upstream swept volume would need
- to overlap with.
+ However the 
+\color blue
+integration cost 
+\color inherit
+would be proportional to the time-step since the larger the Courant number,
+ the more cells the upstream swept volume would need to overlap with.
  This technique therefore offers no advantage over using a smaller time-step.
  MOL multi-dimensional schemes can be extended to work with Courant numbers
  larger than one by using implicit time-stepping.
  This will increase the computational cost per tracer advected since the
  solution of a matrix equation would be needed for every advected tracer.
- 
-\color black
-Two
-\color inherit
- other disadvantages of implicit time-stepping are the large phase errors
+ Other disadvantages of implicit time-stepping are the large phase errors
  when long time-steps are used 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -625,15 +636,9 @@ key "DB12,LWW14"
 
 \end_inset
 
-
-\strikeout on
-\color red
-, the difficulty of achieving monotonicity
-\strikeout default
-\color inherit
- and 
-\color red
-the inconvinient for parallelization due to linear solvers
+, the difficulty of achieving monotonicity and 
+\color blue
+the parallelization cost of linear solvers
 \color inherit
 .
  This is in contrast to semi-Lagrangian or FFSL schemes which maintain accuracy
@@ -685,8 +690,14 @@ key "LLM96"
 
 \end_inset
 
+
+\color blue
+ which is inadequate for a scheme that will eventually be used on a cubed-sphere
+\color inherit
 .
- On the cubed-sphere, 
+ 
+\strikeout on
+On the cubed-sphere, 
 \color blue
 dimensionally split schemes need
 \color inherit
@@ -694,15 +705,9 @@ dimensionally split schemes need
 \color blue
 at
 \color inherit
- 
-\strikeout on
-is needed for the 
-\strikeout default
-cube edges 
-\strikeout on
+ is needed for the cube edges 
 \color red
 for finite volume schemes
-\strikeout default
 \color inherit
 
 \begin_inset CommandInset citation
@@ -713,13 +718,13 @@ key "PL07,KNK15"
 \end_inset
 
  
-\strikeout on
 \color red
 while less effort is needed for element-based method like finite element
  method or discontinuous Garlerkin method (reference?)
-\strikeout default
 \color inherit
 .
+
+\strikeout default
  Developing a transport scheme to the extent that it can be used on a multi-pane
 l cubed-sphere with special treatment of cube edges is a considerable undertakin
 g.
@@ -778,11 +783,11 @@ key "SLF+02"
 \end_inset
 
 , examining sensitivity to time-step, resolution and mountain height, all
- on the 
-\color red
-highly
+ on the basic terrain following mesh 
+\color blue
+without smoothing of terrain following layers
 \color inherit
- distorted basic terrain following mesh (section 
+ (section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:overOrog"
@@ -892,8 +897,10 @@ key "WS14"
  is combined with implicit, Crank-Nicholson time-stepping to allow long
  time-steps.
  Neither scheme has monotonicity or positivity preservation.
+
+\color blue
  The dimensionally split scheme is third-order accurate in one dimension
- but the COSMIC splitting reduces the order to two.
+ but the COSMIC splitting reduces the temporal order to two.
  The multi-dimensional scheme uses cubic interpolations but uses cell centoids
  as Gauss points so the order of accuracy is limited to two.
  When run explicitly, the cost of both schemes is similar (see section 
@@ -1174,6 +1181,18 @@ This departure point calculation assumes that the velocity is uniform on
  the computational mesh which has a first-order error which could be particularl
 y damaging for long Courant numbers, when the wrong departure cell could
  be found.
+ 
+\color blue
+The next step would be to use a second-order predictor-corrector departure
+ point calculation 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "eg"
+key "MDW+10"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1565,7 +1584,7 @@ reference "fig:stencil"
 
 \begin_inset Formula 
 \begin{equation}
-\phi=a+bx+cy+dx^{2}+exy+fy^{2}+gx^{3}+hx^{2}y+ixy^{2}
+\phi=a_{0}+a_{1}x+a_{2}y+a_{3}x^{2}+a_{4}xy+a_{5}y^{2}+a_{6}x^{3}+a_{7}x^{2}y+a_{8}xy^{2}
 \end{equation}
 
 \end_inset
@@ -1595,11 +1614,7 @@ omitting the
 
  term is omitted because it cannot be set with a stencil that is narrow
  in the direction of the flow.) Coefficients 
-\begin_inset Formula $a$
-\end_inset
-
- to 
-\begin_inset Formula $i$
+\begin_inset Formula $a_{i}$
 \end_inset
 
  are set from a least squares fit to the cell data in the stencil.
@@ -1645,13 +1660,13 @@ reference "fig:stencil"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
-	filename stencils.pdf
+	filename figures/stencils.pdf
 
 \end_inset
 
@@ -1662,11 +1677,11 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Stencils of upwind-biased cells for interpolating onto face 
+Stencil of upwind-biased cells for interpolating onto face 
 \begin_inset Formula $f$
 \end_inset
 
- using a 2d cubic polynomial for two different mesh structures.
+ using a 2d cubic polynomial for a rectangular mesh structure.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:stencil"
@@ -2665,9 +2680,13 @@ In summary, the dimensionally split scheme has excellent behaviour at large
  convergence for small Courant numbers and the errors increase and order
  of convergence decreases on non-orthogonal meshes.
  In contrast, the multi-dimensional scheme is insensitive to the orthogonality,
- converges with second-order and suffers from phase errors at large Courant
- numbers.
- 
+ converges with second-order 
+\color blue
+as expected
+\color inherit
+ and suffers from phase errors at large Courant numbers 
+\color blue
+due to the use of Crank-Nicolson implicit time-stepping.
 \end_layout
 
 \begin_layout Subsection
@@ -2720,7 +2739,11 @@ key "GCS75"
 \end_inset
 
  in order to present a challenging test case that maximises the non-orthogonalit
-y.
+y
+\color blue
+ that can be introduced by terrain following coordinates
+\color inherit
+.
  The transformation is given by:
 \begin_inset Formula 
 \begin{equation}
@@ -5998,17 +6021,7 @@ name "sec:concs"
 \begin_layout Standard
 We examine the errors associated with using a dimensionally split advection
  scheme and a multi-dimensional advection scheme on distorted meshes.
- The dimensionally split scheme is very accurate on orthogonal meshes and
- only loses a little accuracy on highly distorted meshes, despite a first-order
- departure point calculation.
- The multi-dimensional scheme with implicit time-stepping is less accurate
- on orthogonal meshes than the dimensionally split scheme but the accuracy
- is not sensitive to mesh distortions and the stability is less sensitive
- to Courant number.
-\end_layout
-
-\begin_layout Standard
-The dimensionally split scheme is the piecewise polynomial method 
+ The dimensionally split scheme is the piecewise polynomial method 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "PPM,"
@@ -6024,8 +6037,8 @@ key "LLM96"
 \end_inset
 
  that extends it to two spatial dimensions.
- PPM is converges with third-order in one dimension and COSMIC splitting
- enables second-order convergence in two orthogonal directions.
+ PPM converges with third-order in one dimension and COSMIC splitting enables
+ second-order convergence in two dimensions.
  PPM is a flux-form semi-Lagrangian scheme and so can handle large Courant
  numbers accurately without significant additional computational cost, with
  a time-step restriction based on the deformational Courant number.
@@ -6033,10 +6046,33 @@ key "LLM96"
  time (method of lines) and uses a cubic polynomial fit over a stencil of
  cells for spatial discretisation and trapezoidal implicit in time to retain
  stability for large Courant numbers.
+ 
+\color blue
+The multi-dimensional scheme uses cell centoids as Gauss points so the order
+ of accuracy is limited to two.
+
+\color inherit
  We use versions of both schemes without any monotonicity constraints in
  order to compare the handling of multi-dimensionality of the two schemes
  and order of convergence rather than comparing the limiters of the two
  schemes.
+
+\color blue
+ When run explicitly, the cost of both schemes is similar.
+ These schemes are therefore considered suitable for comparison.
+\end_layout
+
+\begin_layout Standard
+The dimensionally split scheme is 
+\strikeout on
+very
+\strikeout default
+ accurate on orthogonal meshes and only loses a little accuracy on highly
+ distorted meshes, despite a first-order departure point calculation.
+ The multi-dimensional scheme with implicit time-stepping is less accurate
+ on orthogonal meshes than the dimensionally split scheme but the accuracy
+ is not sensitive to mesh distortions and the stability is less sensitive
+ to Courant number.
 \end_layout
 
 \begin_layout Standard
