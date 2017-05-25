@@ -1,0 +1,84 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british,times]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[pdftex,a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{array}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage { fancybox}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{rotating}
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{tabular*}{1\linewidth}{@{\extracolsep{\fill}}>{\centering}m{0.14\textwidth}>{\centering}p{0.42\textwidth}c}
+ & Dimensionally split & Multi-dimensional\tabularnewline
+$\Delta t=25\ $s
+
+max $c$ = 0.74
+
+horiz $c$ =0.25
+
+$c_{d}=0.22$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{../YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{../HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt25CN_up_10000_Tall}\tabularnewline
+$\Delta t=50\ $s
+
+max $c$ = 1.48
+
+horiz $c$ =0.5
+
+$c_{d}=0.44$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{../YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{../HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt50CN_up_10000_Tall}\tabularnewline
+$\Delta t=100\ $s
+
+max $c$ = 2.96
+
+horiz $c$ =1
+
+$c_{d}=0.87$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{../YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{../HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt100CN_up_10000_Tall}\tabularnewline
+$\Delta t=200\ $s
+
+max $c$ = 5.93
+
+horiz $c$ =2
+
+$c_{d}=1.75$ & \includegraphics[bb=0bp 0bp 998bp 442bp,clip,width=0.39\textwidth,height=0.2\textwidth,valign=m]{../YumengsGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall} & \includegraphics[width=0.42\textwidth,valign=m]{../HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt200CN_up_10000_Tall}\tabularnewline
+$\Delta t=500\ $s
+
+max $c$ = 14.8
+
+horiz $c$ =5
+
+$c_{d}=4.4$ & unstable & \includegraphics[width=0.42\textwidth,valign=m]{../HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt500CN_up_10000_Tall}\tabularnewline
+$\Delta t=1000\ $s
+
+max $c$ = 29.6
+
+horiz $c$ =10
+
+$c_{d}=8.7$ & unstable & \includegraphics[width=0.42\textwidth,valign=m]{../HilarysGraphics/vSlice_horizontalAdvection_orography_save_cubicUpwindCPCFit_dt1000CN_up_10000_Tall}\tabularnewline
+\multicolumn{3}{c}{\includegraphics[width=0.85\textwidth]{../HilarysGraphics/vSlice_horizontalAdvection_orography_legends_Tall_TdiffAll}}\tabularnewline
+\end{tabular*}
+\end{document}

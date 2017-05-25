@@ -1,0 +1,44 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british,times]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[pdftex,a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage { fancybox}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{rotating}
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{tabular}{cc}
+Orthogonal, dimensionally split scheme & Non-orthogonal, dimensionally split scheme\tabularnewline
+\includegraphics[width=0.49\textwidth]{../YumengsGraphics/solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours} & \includegraphics[width=0.49\textwidth]{../YumengsGraphics/solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours}\tabularnewline
+Orthogonal, multi-dimensional scheme & Non-orthogonal, multi-dimensional scheme\tabularnewline
+\includegraphics[width=0.49\textwidth]{../HilarysGraphics/multiDadvectCases_solidBodyRotationOnPlane_orthogonal_100x100_dt_1_Tcontours} & \includegraphics[width=0.49\textwidth]{../HilarysGraphics/multiDadvectCases_solidBodyRotationOnPlane_nonOrthog_100x100_dt_1_Tcontours}\tabularnewline
+\multicolumn{2}{c}{\includegraphics[width=0.9\linewidth]{../HilarysGraphics/multiDadvectCases_solidBodyRotationOnPlane_legends_Tdiff}}\tabularnewline
+\end{tabular}
+\end{document}

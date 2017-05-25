@@ -11,17 +11,24 @@
 \usepackage{todonotes}
 
 
-\usepackage{lineno}
+\usepackage[switch]{lineno}
 \linenumbers
+
+\usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
+
+\newcommand\BibTeX{{\rmfamily B\kern-.05em \textsc{i\kern-.025em b}\kern-.08em
+T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+%\usepackage{moreverb}
 \end_preamble
-\options times,doublespace
+\options times
 \use_default_options false
 \maintain_unincluded_children false
 \language british
 \language_package default
 \inputencoding auto
 \fontencoding global
-\font_roman times
+\font_roman default
 \font_sans default
 \font_typewriter default
 \font_math auto
@@ -36,10 +43,10 @@
 \output_sync 0
 \bibtex_command default
 \index_command default
-\paperfontsize 12
+\paperfontsize default
 \spacing single
 \use_hyperref false
-\papersize a4paper
+\papersize default
 \use_geometry false
 \use_package amsmath 1
 \use_package amssymb 2
@@ -53,12 +60,12 @@
 \use_package undertilde 1
 \cite_engine natbib
 \cite_engine_type authoryear
-\biblio_style plainnat
+\biblio_style 
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\justification true
+\justification false
 \use_refstyle 0
 \index Index
 \shortcut idx
@@ -205,8 +212,10 @@ Dimensionally split advection schemes are attractive for atmospheric modelling
  one-dimensional Piecewise Parabolic Method and extended to two dimensions
  using COSMIC splitting.
  The dimensionally split scheme is compared with a genuinely multi-dimensional,
- method of lines scheme with implicit time-stepping which is stable for
- Courant numbers significantly larger than one.
+ method of lines scheme 
+\backslash
+textcolor{blue}{which}, with implicit time-stepping, is stable for Courant
+ numbers significantly larger than one.
 \end_layout
 
 \begin_layout Plain Layout
@@ -232,9 +241,12 @@ textcolor{red}{distorted non-orthogonal meshes} either to represent sloping
 \begin_layout Plain Layout
 
 Mesh distortions are expected to accentuate the errors associated with dimension
- splitting, however, the dimensionally split scheme is very accurate on
- orthogonal meshes and accuracy decreases only a little in the presence
- of large mesh distortions.
+ splitting, however, 
+\backslash
+textcolor{blue}{the accuracy of} the dimensionally split scheme 
+\backslash
+sout{is very accurate on orthogonal meshes and accuracy} decreases only
+ a little in the presence of mesh distortions.
  The dimensionally split scheme also loses some accuracy when long time-steps
  are used.
  The multi-dimensional scheme is almost entirely insensitive to mesh distortions
@@ -256,8 +268,8 @@ A naive estimate of computational cost (number of multiplies) reveals that
  If the multi-dimensional scheme is used instead with explicit time-stepping,
  the Courant number is restricted to less than 
 \backslash
-textcolor{blue}{two} but the cost becomes similar to the dimensionally split
- scheme.
+textcolor{blue}{one, the accuracy is maintained} and the cost becomes similar
+ to the dimensionally split scheme.
 \end_layout
 
 \begin_layout Plain Layout
@@ -320,7 +332,7 @@ listoftodos
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 onecolumn
 \end_layout
@@ -338,7 +350,7 @@ Introduction
 Weather and climate models are being developed on quasi-uniform meshes in
  order to 
 \color blue
-equidistribute and reduce the storage needed for the domain of dependence
+reduce and equidistribute the storage needed for the domain of dependence
  of the model degrees of freedom and hence
 \color inherit
  better exploit modern computers 
@@ -394,7 +406,7 @@ Boundedness, monotonicity, positivity and maintaining correlations between
 Four (important) properties are listed together in the final item because
  they will not be addressed here.
  In this paper, we address the issue of conservative, accurate, efficient
- advection schemes for logically rectangular, non-orthogonal meshes which
+ advection schemes on logically rectangular, non-orthogonal meshes which
  are stable in the presence of large Courant numbers.
  These schemes would be particularly relevant for cubed-sphere meshes and
  for terrain following meshes.
@@ -406,7 +418,7 @@ Four (important) properties are listed together in the final item because
 \color blue
 We assume that a large fraction of the numerical errors associated with
  terrain following co-ordinates and the cubed-sphere grid are due to the
- mesh non-orthoganlity and distortion.
+ mesh non-orthoganlity, distortion and discontinuity.
  However there will also be errors due to cubed-sphere corners and inaccurate
  representation of spherical geometry.
  These are not addressed here.
@@ -505,21 +517,14 @@ key "KNK15"
 
 \end_inset
 
- create ghost cells outside each cube panel boundary and achieve accuracy
- between second and fourth order.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "KNK15"
-
-\end_inset
-
  
 \color blue
 use a multi-dimensional transport scheme with dimensionally split reconstruction
 s
 \color inherit
 .
+ They create ghost cells outside each cube panel boundary and achieve accuracy
+ between second and fourth order.
  
 \color red
 
@@ -540,7 +545,11 @@ The same problems occur when using dimensionally split schemes over orography
  since terrain following layers become non-orthogonal over orography and
  special treatment cannot be used everywhere where there is orography.
  A common solution has been to make the terrain following layers as smooth
- as possible, reducing non-orthogonality 
+ as possible, reducing non-orthogonality
+\color red
+ away from the ground 
+\color inherit
+
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg"
@@ -548,10 +557,6 @@ key "SLF+02"
 
 \end_inset
 
-
-\color red
- away from the ground
-\color inherit
  or to use floating Lagrangian vertical co-ordinates 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -586,7 +591,7 @@ key "Las02,LR05b,Miu07b,TCD14"
 \begin_inset CommandInset citation
 LatexCommand citep
 before "MOL, discretising space and time separetely, eg."
-key "WWF09,SG11,KNK15,SWMD1x"
+key "WWF09,SG11,KNK15,SWMD17"
 
 \end_inset
 
@@ -622,7 +627,11 @@ integration cost
 \color inherit
 would be proportional to the time-step since the larger the Courant number,
  the more cells the upstream swept volume would need to overlap with.
- This technique therefore offers no advantage over using a smaller time-step.
+ 
+\strikeout on
+This technique therefore offers no advantage over using a smaller time-step.
+
+\strikeout default
  MOL multi-dimensional schemes can be extended to work with Courant numbers
  larger than one by using implicit time-stepping.
  This will increase the computational cost per tracer advected since the
@@ -676,6 +685,10 @@ It is therefore not clear what approach should be taken for achieving long
  time-steps when advecting multiple tracers on distorted meshes.
  In this paper, we show the effect of dimension splitting errors using a
  FFSL dimensionally split scheme on a number of test-cases which use distorted
+ and 
+\color blue
+un-distorted
+\color inherit
  meshes and compare with a genuinely multi-dimensional implicit MOL scheme
  using large and small Courant numbers.
 \end_layout
@@ -843,7 +856,7 @@ We present two conservative advection schemes suitable for long time-steps
  the linear advection equation:
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{u}\phi=0
+\frac{\partial\phi}{\partial t}+\nabla\cdot(\mathbf{u}\phi)=0
 \end{equation}
 
 \end_inset
@@ -852,7 +865,7 @@ where the dependent variable
 \begin_inset Formula $\phi$
 \end_inset
 
- is advected by velocity field 
+ is advected by a divergence free velocity field 
 \begin_inset Formula $\mathbf{u}(\mathbf{x},t)$
 \end_inset
 
@@ -890,12 +903,15 @@ key "LLM96"
  The second-order accurate spatial discretistaion of 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "WS14"
+key "SWMD17"
 
 \end_inset
 
- is combined with implicit, Crank-Nicholson time-stepping to allow long
- time-steps.
+ is combined with 
+\color blue
+an explicit, second-order Runge-Kutta time-stepping scheme and with 
+\color inherit
+ implicit, Crank-Nicholson time-stepping to allow long time-steps.
  Neither scheme has monotonicity or positivity preservation.
 
 \color blue
@@ -947,7 +963,18 @@ https://github.com/AtmosFOAM/
 \end_inset
 
 .
- 
+ The setup of the test cases is available at 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/hilaryweller0/multiDadvectCases.git
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -1023,9 +1050,10 @@ key "CW84"
 
  is updated using:
 \begin_inset Formula 
-\begin{equation}
-\phi_{i}^{(n+1)}=\phi_{i}^{(n)}+X_{C}\left(\phi\right)=\phi_{i}^{(n)}-\frac{u_{i+1/2}\phi_{i+1/2}-u_{i-1/2}\phi_{i-1/2}}{\Delta x}\label{PPMgauss}
-\end{equation}
+\begin{eqnarray}
+\phi_{i}^{(n+1)} & = & \phi_{i}^{(n)}+X_{C}\left(\phi\right)\label{PPMgauss}\\
+ & = & \phi_{i}^{(n)}-\frac{u_{i+1/2}\phi_{i+1/2}-u_{i-1/2}\phi_{i-1/2}}{\Delta x}
+\end{eqnarray}
 
 \end_inset
 
@@ -1070,9 +1098,10 @@ where
 
 by
 \begin_inset Formula 
-\begin{equation}
-p_{i}(x)=p_{i-1/2}+\xi\left(p_{i+1/2}-p_{i-1/2}+\left(1-\xi\right)6\left(\phi_{i}-\frac{1}{2}\left(p_{i-1/2}+p_{i+1/2}\right)\right)\right)
-\end{equation}
+\begin{eqnarray}
+p_{i}(x) & = & p_{i-1/2}+\xi\biggl\{ p_{i+1/2}-p_{i-1/2}\\
+ &  & +\left(1-\xi\right)6\left(\phi_{i}-\frac{1}{2}\left(p_{i-1/2}+p_{i+1/2}\right)\right)\biggr\}
+\end{eqnarray}
 
 \end_inset
 
@@ -1155,24 +1184,25 @@ key "LLM95"
 
  is: 
 \begin_inset Formula 
-\begin{equation}
-u_{i-\frac{1}{2}}\phi_{i-\frac{1}{2}}=\frac{1}{\Delta t}\int_{x_{d}}^{x_{i-1/2}}p(x)\ dx=\frac{1}{\Delta t}\left(M_{i-1/2}-M_{i-c_{N}-1/2}+\int_{x_{i-1/2-c_{N}}-c_{r}\Delta x}^{x_{i-1/2-c_{N}}}p(x)\ dx\right)\label{eq:PPMflux}
-\end{equation}
+\begin{eqnarray}
+u_{i-\frac{1}{2}}\phi_{i-\frac{1}{2}} & = & \frac{1}{\Delta t}\int_{x_{d}}^{x_{i-\frac{1}{2}}}p(x)\ dx\label{eq:PPMflux}\\
+ & = & \frac{1}{\Delta t}\left(M_{i-\frac{1}{2}}-M_{i-c_{N}-\frac{1}{2}}+\int_{x_{d}}^{x_{i_{d}+\frac{1}{2}}}p(x)\ dx\right)\nonumber 
+\end{eqnarray}
 
 \end_inset
 
 where 
-\begin_inset Formula $M_{i-1/2}$
+\begin_inset Formula $M_{i-\frac{1}{2}}$
 \end_inset
 
  is the cumulative mass from the start point to position 
-\begin_inset Formula $x_{i-1/2}$
+\begin_inset Formula $x_{i-\frac{1}{2}}$
 \end_inset
 
 : 
 \begin_inset Formula 
 \begin{equation}
-M_{i-1/2}=\sum_{k<i}\Delta x\phi_{k}.\label{eq:cumulativeMass}
+M_{i-\frac{1}{2}}=\sum_{k<i}\Delta x\phi_{k}.\label{eq:cumulativeMass}
 \end{equation}
 
 \end_inset
@@ -1304,10 +1334,12 @@ key "LLM96"
 
  directions:
 \begin_inset Formula 
-\begin{align}
-X_{C}(\phi)=-\frac{1}{\Delta x}\left(u_{e}\phi_{e}-u_{w}\phi_{w}\right) &  & Y_{C}(\phi)=-\frac{1}{\Delta y}\left(v_{n}\phi_{n}-v_{s}\phi_{s}\right)\label{eq:COSMIC_A}\\
-X_{A}(\phi)=X_{c}(\phi)+\frac{\phi_{ij}}{\Delta x}\left(u_{e}-u_{w}\right) &  & Y_{A}(\phi)=Y_{c}(\phi)+\frac{\phi_{ij}}{\Delta y}\left(v_{n}-v_{s}\right)\label{eq:COSMIC_C}
-\end{align}
+\begin{eqnarray}
+X_{C}(\phi) & = & -\frac{1}{\Delta x}\left(u_{e}\phi_{e}-u_{w}\phi_{w}\right)\label{eq:COSMIC_A}\\
+Y_{C}(\phi) & = & -\frac{1}{\Delta y}\left(v_{n}\phi_{n}-v_{s}\phi_{s}\right)\\
+X_{A}(\phi) & = & X_{c}(\phi)+\frac{\phi_{ij}}{\Delta x}\left(u_{e}-u_{w}\right)\label{eq:COSMIC_C}\\
+Y_{A}(\phi) & = & Y_{c}(\phi)+\frac{\phi_{ij}}{\Delta y}\left(v_{n}-v_{s}\right)
+\end{eqnarray}
 
 \end_inset
 
@@ -1445,10 +1477,12 @@ The operators
 
  are then:
 \begin_inset Formula 
-\begin{align}
-X_{C}(\phi)=-\frac{1}{\Delta x}\left(|J|_{e}^{-1}u_{e}\phi_{e}-|J|_{w}^{-1}u_{w}\phi_{w}\right) &  & Y_{C}(\phi)=-\frac{1}{\Delta y}\left(|J|_{n}^{-1}v_{n}\phi_{n}-|J|_{s}^{-1}v_{s}\phi_{s}\right)\label{eq:COSMIC_A-1}\\
-X_{A}(\phi)=X_{c}(\phi)+\frac{\phi_{ij}}{\Delta x}\left(|J|_{e}^{-1}u_{e}-|J|_{w}^{-1}u_{w}\right) &  & Y_{A}(\phi)=Y_{c}(\phi)+\frac{\phi_{ij}}{\Delta y}\left(|J|_{n}^{-1}v_{n}-|J|_{s}^{-1}v_{s}\right)\label{eq:COSMIC_C-1}
-\end{align}
+\begin{eqnarray}
+X_{C}(\phi) & = & -\frac{1}{\Delta x}\left(|J|_{e}^{-1}u_{e}\phi_{e}-|J|_{w}^{-1}u_{w}\phi_{w}\right)\label{eq:COSMIC_A-1}\\
+Y_{C}(\phi) & = & -\frac{1}{\Delta y}\left(|J|_{n}^{-1}v_{n}\phi_{n}-|J|_{s}^{-1}v_{s}\phi_{s}\right)\\
+X_{A}(\phi) & = & X_{c}(\phi)+\frac{\phi_{ij}}{\Delta x}\left(|J|_{e}^{-1}u_{e}-|J|_{w}^{-1}u_{w}\right)\label{eq:COSMIC_C-1}\\
+Y_{A}(\phi) & = & Y_{c}(\phi)+\frac{\phi_{ij}}{\Delta y}\left(|J|_{n}^{-1}v_{n}-|J|_{s}^{-1}v_{s}\right)
+\end{eqnarray}
 
 \end_inset
 
@@ -1458,9 +1492,10 @@ which are combined to update
 
  in each cell by: 
 \begin_inset Formula 
-\begin{equation}
-\phi_{ij}^{(n+1)}=\phi_{ij}^{n}+|J|_{ij}X_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)+|J|_{ij}Y_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).\label{eq:COSMICupdate}
-\end{equation}
+\begin{eqnarray}
+\phi_{ij}^{(n+1)} & = & \phi_{ij}^{n}+|J|_{ij}X_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}Y_{A}\left(\phi_{ij}^{(n)}\right)\right)\label{eq:COSMICupdate}\\
+ & + & |J|_{ij}Y_{C}\left(\phi_{ij}^{(n)}+\frac{|J|_{ij}}{2}X_{A}\left(\phi_{ij}^{(n)}\right)\right).
+\end{eqnarray}
 
 \end_inset
 
@@ -1511,7 +1546,8 @@ key "WS14,SWMD17"
 
 \end_inset
 
- combined with Crank-Nicholson in time.
+ combined with either implicit Crank-Nicholson in time or explicit RK2 (see
+ below).
  Although the interpolation uses a cubic polynomial, cell centre values
  are approximated as cell average values and face centre values are approximated
  as face average values so the method is limited to 2nd order accuracy in
@@ -1520,7 +1556,7 @@ key "WS14,SWMD17"
  divergence term of the advection equation:
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\mathbf{u}\phi\approx\frac{1}{V}\sum_{f\in c}\phi_{f}\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:multidGauss}
+\nabla\cdot(\mathbf{u}\phi)\approx\frac{1}{V}\sum_{f\in c}\phi_{f}\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:multidGauss}
 \end{equation}
 
 \end_inset
@@ -1583,9 +1619,10 @@ reference "fig:stencil"
 \lang english
 
 \begin_inset Formula 
-\begin{equation}
-\phi=a_{0}+a_{1}x+a_{2}y+a_{3}x^{2}+a_{4}xy+a_{5}y^{2}+a_{6}x^{3}+a_{7}x^{2}y+a_{8}xy^{2}
-\end{equation}
+\begin{eqnarray}
+\phi & = & a_{0}+a_{1}x+a_{2}y+a_{3}x^{2}+a_{4}xy\\
+ & + & a_{5}y^{2}+a_{6}x^{3}+a_{7}x^{2}y+a_{8}xy^{2}
+\end{eqnarray}
 
 \end_inset
 
@@ -1667,6 +1704,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename figures/stencils.pdf
+	width 100col%
 
 \end_inset
 
@@ -1681,7 +1719,11 @@ Stencil of upwind-biased cells for interpolating onto face
 \begin_inset Formula $f$
 \end_inset
 
- using a 2d cubic polynomial for a rectangular mesh structure.
+ using a 2d cubic polynomial for a rectangular mesh structure 
+\color blue
+for the multi-dimensional scheme
+\color inherit
+.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:stencil"
@@ -1727,16 +1769,20 @@ key "Las02"
  ensure that the fit goes exactly through the upwind and downwind cell.
  However if a value too large is used, the singular value problem becomes
  ill conditioned.
- We do not use any of the other stabilisation procedures as described by
  
+\color blue
+The stabilisation procedures described by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "SWMD17"
 
 \end_inset
 
-.
- The value 
+ are in the code but are not activated for these test cases because the
+ meshes are sufficiently regular.
+ 
+\color inherit
+The value 
 \begin_inset Formula $\phi_{f}$
 \end_inset
 
@@ -1763,7 +1809,11 @@ where
 \end_layout
 
 \begin_layout Subsubsection
-Implicit Solution, Matrix Solvers and Tolerances 
+Implicit 
+\color blue
+and Explicit Time-Stepping
+\color inherit
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:implicitMethod"
@@ -1774,7 +1824,22 @@ name "sub:implicitMethod"
 \end_layout
 
 \begin_layout Standard
-The trapezoidal implicit or Crank-Nicholson time-stepping leads to a matrix
+Assuming that the velocity field and mesh are constant in time, the explicit
+ Runge-Kutta 2 (Heun) time-stepping is defined as
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\phi^{\prime}-\phi^{n}}{\Delta t} & = & -\frac{1}{V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\sum_{c}w_{c}\phi_{c}^{n}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:RK2_1}\\
+\frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\biggl(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{\prime}\label{eq:RK2_2}\\
+ &  & +\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\biggl)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The trapezoidal implicit or Crank-Nicolson time-stepping leads to a matrix
  equation which needs to be solved to find all the 
 \begin_inset Formula $\phi$
 \end_inset
@@ -1794,14 +1859,19 @@ s at the next time-step.
 \begin_inset Formula 
 \begin{eqnarray}
 \frac{\phi^{\prime}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{\prime}+2\sum_{c}w_{c}\phi_{c}^{n}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:CN_1}\\
-\frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{n+1}+\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.\label{eq:CN_2}
+\frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\biggl(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{n+1}\label{eq:CN_2}\\
+ &  & +\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\biggr)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.
 \end{eqnarray}
 
 \end_inset
 
-For larger Courant numbers we use four implicit solves per time-step although
- sensitivity to this choice has not been investigated.
+For Courant numbers larger than one, we use four implicit solves per time-step
+ although sensitivity to this choice has not been investigated.
  
+\end_layout
+
+\begin_layout Subsubsection
+Matrix Solvers and Tolerances 
 \end_layout
 
 \begin_layout Standard
@@ -1864,8 +1934,12 @@ name "sec:results"
 In order to make test cases as simple as possible without the need for incorpora
 ting spherical geometry, multi-panel meshes or non-rectangular cells, our
  computational domain consists of a periodic two-dimensional plane with
- deformations in the co-ordinate system (or mesh) mimicking the kind of
- distortions which are produced 
+ deformations 
+\color blue
+and discontinuities
+\color inherit
+ in the co-ordinate system (or mesh) mimicking the kind of distortions which
+ are produced 
 \color blue
 near
 \color inherit
@@ -2096,15 +2170,14 @@ For the dimensionally split scheme, bi-periodic boundary conditions are
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf
+	filename figures/solidBodyRotationOnPlane_nonOrthog_50x50_analytic_constant_mesh.pdf
 	lyxscale 50
-	width 49text%
-	height 49text%
+	width 100col%
 
 \end_inset
 
@@ -2115,7 +2188,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Two non-orthogonal mesh on a plane with 
+The non-orthogonal mesh on a plane with 
 \begin_inset Formula $50\times50$
 \end_inset
 
@@ -2173,17 +2246,30 @@ reference "fig:solidBody"
  The second-order, multi-dimensional scheme shows phase lag but errors are
  almost entirely insensitive the mesh distortions.
  
+\color blue
+The results in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBody"
+
+\end_inset
+
+ use the implicit time-stepping but the results using explicit time-stepping
+ are similar.
+ 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename sbrc1.pdf
+	filename figures/sbrc1.png
+	lyxscale 50
+	width 100text%
 
 \end_inset
 
@@ -2322,17 +2408,21 @@ reference "fig:solidBody-dt10"
 
 .
  
+\color blue
+The explicit multi-dimensional scheme is not stable for this time-step.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename sbrc10.pdf
+	filename figures/sbrc10.png
+	lyxscale 50
+	width 100text%
 
 \end_inset
 
@@ -2478,18 +2568,34 @@ key "CW84,LLM96"
 .
  On the non-orthogonal mesh, the dimensionally split scheme has second order
  converges for both Courant numbers.
+ 
+\color blue
+Results of the explicit multi-dimensional scheme are also shown in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:solidBodyConverge"
+
+\end_inset
+
+ for the shorter time-step on the non-orthogonal mesh.
+ The explicit RK2 scheme is more accurate than the implicit (Crank-Nicolson)
+ scheme with the same order of convergence but does not come close to the
+ accuracy of the dimensionally split scheme.
+ 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename sbr_dx.pdf
+	filename figures/sbr_dx.pdf
+	width 100text%
 
 \end_inset
 
@@ -2539,7 +2645,8 @@ name "fig:solidBodyConverge"
 \end_layout
 
 \begin_layout Standard
-The different time-stepping schemes of the two models also affect accuracy.
+The different time-stepping schemes of the two models also affect convergence
+ with time-step.
  The 
 \begin_inset Formula $\ell_{2}$
 \end_inset
@@ -2566,7 +2673,7 @@ ing, has errors reducing as time-step increases, up to a Courant number
 \begin_inset Formula $\Delta t=2\ \text{s}$
 \end_inset
 
-) whereas the multi-dimensional scheme, which uses the method of lines to
+) whereas the multi-dimensional scheme using implicit, method of lines to
  treat space and time separately, always has error reducing as time-steps
  reduces.
  The flux-form semi-Lagrangian technique discretises space and time together
@@ -2589,19 +2696,24 @@ key "Dur10"
 
 \end_inset
 
-.)
+.) 
+\color blue
+The explicit version of the multi-dimensional scheme has errors that decrease
+ as time-step increases due to the spatial discretisation errors that are
+ being introduced at every time-step.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename sbr_dt.pdf
+	filename figures/sbr_dt.pdf
+	width 100line%
 
 \end_inset
 
@@ -2642,10 +2754,6 @@ Convergence with temporal resolution of the
 \end_inset
 
  to 
-\begin_inset Formula $ $
-\end_inset
-
-
 \begin_inset Formula $c=10$
 \end_inset
 
@@ -2654,6 +2762,8 @@ Convergence with temporal resolution of the
 \end_inset
 
 .
+ The multi-dimensional scheme shows results for implicit and explicit time-stepp
+ing on the non-orthogonal mesh.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -2701,9 +2811,20 @@ name "sub:overOrog"
 \end_layout
 
 \begin_layout Standard
-Non-orthogonal meshes (or co-ordinate systems) are usually necessary for
- representing orography which could be a challenge for dimensionally split
- schemes.
+Non-orthogonal meshes (or co-ordinate systems) are 
+\strikeout on
+usually
+\strikeout default
+ necessary for representing orography 
+\color blue
+with terrain following coordinates.
+ This is
+\color inherit
+ 
+\strikeout on
+which could be
+\strikeout default
+ a challenge for dimensionally split schemes.
  Horizontal-vertical split schemes are commonly used in this context 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -2833,12 +2954,16 @@ with
 \phi=\begin{cases}
 \cos^{2}\frac{\pi r}{2} & \text{ for }r\le1\\
 0 & \text{ otherwise}
-\end{cases}\text{ with }r=\sqrt{\left(\frac{x-x_{0}}{A_{x}}\right)^{2}+\left(\frac{z-z_{0}}{A_{z}}\right)^{2}}
+\end{cases}
 \end{equation}
 
 \end_inset
 
-with initial tracer centre, 
+with 
+\begin_inset Formula $r=\sqrt{\left(\frac{x-x_{0}}{A_{x}}\right)^{2}+\left(\frac{z-z_{0}}{A_{z}}\right)^{2}}$
+\end_inset
+
+, initial tracer centre, 
 \begin_inset Formula $(x_{0},z_{0})=(-50\text{ km},\ 9\text{ km})$
 \end_inset
 
@@ -2868,13 +2993,15 @@ with initial tracer centre,
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename overMountains.pdf
+	filename figures/overMountains.png
+	lyxscale 50
+	width 100line%
 
 \end_inset
 
@@ -2943,6 +3070,11 @@ reference "fig:horizontalAdvectionWithDt"
 \end_inset
 
  and for a range of Courant numbers.
+ 
+\color blue
+The multi-dimensional scheme uses implicit time-stepping
+\color inherit
+.
  The horizontal Courant number is defined as 
 \begin_inset Formula $u_{0}\Delta t/\Delta x$
 \end_inset
@@ -3078,7 +3210,7 @@ reference "fig:horizontalAdvectConverge"
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
@@ -3086,7 +3218,8 @@ status collapsed
 \noindent
 \align center
 \begin_inset Graphics
-	filename overMountains_dx.pdf
+	filename figures/overMountains_dx.pdf
+	width 100line%
 
 \end_inset
 
@@ -3105,11 +3238,10 @@ Convergence of the
 \begin_inset Formula $\ell_{\infty}$
 \end_inset
 
- error metrics for horizontal advection over a 3000m and a 6000m mountains
- after 10,000s for the dimensionally split (PPM) scheme and multi-dimensional
+ error metrics for horizontal advection over a mountain after 10,000s for
+ the dimensionally split (PPM) scheme and the implicit multi-dimensional
  MOL scheme, all using a horizontal Courant number of 0.25.
- Lines also show theoretical first- and second-order convergence are also
- shown.
+ Lines also show theoretical first- and second-order convergence.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -3123,47 +3255,6 @@ name "fig:horizontalAdvectConverge"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:horizontalAdvectConverge"
-
-\end_inset
-
- also shows convergence with resolution for a higher mountain in order to
- increase the non-orthogonality.
- The higher mountain uses 
-\begin_inset Formula $h_{0}=6\text{ km}$
-\end_inset
-
-, 
-\begin_inset Formula $z_{0}=12\text{ km}$
-\end_inset
-
-, 
-\begin_inset Formula $z_{1}=7\text{ km}$
-\end_inset
-
-, 
-\begin_inset Formula $z_{2}=8\text{ km}$
-\end_inset
-
-.
- The multi-dimensional scheme converges with second-order accuracy at all
- resolutions for the higher mountain whereas the split scheme is at best
- first-order accurate for the higher mountain.
 \end_layout
 
 \end_inset
@@ -3193,7 +3284,53 @@ name "sub:deformFlow"
 \end_layout
 
 \begin_layout Standard
-In deformational flow, there is no analytical solution and therefore we
+\begin_inset Float figure
+wide true
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures/deform_init.pdf
+	width 75line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The non-orthognal mesh/co-ordinate system for the deformational flow with
+ 
+\begin_inset Formula $120\times60$
+\end_inset
+
+ cells and the initial tracer conditions.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:deformGrid"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For deformational flow, there is no analytical solution and therefore we
  follow the approach of 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -3264,9 +3401,9 @@ key "LSPT12"
  direction.
  The stream function adapted to Cartesian co-ordinate is:
 \begin_inset Formula 
-\begin{eqnarray}
-\psi\left(x,y,t\right) & = & \frac{\hat{\psi}}{T}\left(\frac{L_{x}}{2\pi}\right)^{2}\sin^{2}\left(2\pi\left(\frac{x}{L_{x}}-\frac{t}{T}\right)\right)\cos^{2}\left(\pi\frac{y}{L_{y}}\right)\cos\left(\pi\frac{t}{T}\right)-L_{x}\frac{y}{T}
-\end{eqnarray}
+\begin{equation}
+\psi={\textstyle \frac{\hat{\psi}}{T}\left(\frac{L_{x}}{2\pi}\right)^{2}\sin^{2}\left(2\pi\left(\frac{x}{L_{x}}-\frac{t}{T}\right)\right)\cos^{2}\left(\frac{\pi y}{L_{y}}\right)\cos\left(\frac{\pi t}{T}\right)-\frac{L_{x}y}{T}}
+\end{equation}
 
 \end_inset
 
@@ -3355,50 +3492,6 @@ reference "fig:deformGrid"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename deform_init.pdf
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-The non-orthognal mesh/co-ordinate system for the deformational flow with
- 
-\begin_inset Formula $120\times60$
-\end_inset
-
- cells and the initial tracer conditions.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:deformGrid"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 The tracer concentrations after 1, 2, 3, 4 and 5 time units are shown in
  figure 
 \begin_inset CommandInset ref
@@ -3407,8 +3500,12 @@ reference "fig:deformResults"
 
 \end_inset
 
- using the dimensionally split and multi-dimensional schemes on a non-orthogonal
- mesh of 
+ using the dimensionally split and multi-dimensional schemes 
+\color blue
+(with explicit time-stepping although the results using implicit time-stepping
+ look identical)
+\color inherit
+ on a non-orthogonal mesh of 
 \begin_inset Formula $480\times240$
 \end_inset
 
@@ -3426,13 +3523,15 @@ reference "fig:deformResults"
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename deform.pdf
+	filename figures/deform.png
+	lyxscale 50
+	width 100line%
 
 \end_inset
 
@@ -3448,7 +3547,7 @@ Results of the deformational flow test case after 1, 2, 3, 4 and 5 time
 \begin_inset Formula $\times$
 \end_inset
 
-240 cells using the multi-dimensional and split schemes.
+240 cells using the explicit multi-dimensional and split schemes.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -3471,11 +3570,12 @@ name "fig:deformResults"
 
 \begin_layout Standard
 \begin_inset Float table
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="14" columns="7">
 <features rotate="0" tabularvalignment="middle">
@@ -4492,8 +4592,9 @@ name "tab:res_Courant"
 \end_layout
 
 \begin_layout Standard
-Sensitivity to orthogonality, resolution and time-step are explored using
- a range of simulations with maximum Courant numbers shown in table 
+Sensitivity to orthogonality, resolution, time-step and time scheme are
+ explored using a range of simulations with maximum Courant numbers shown
+ in table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:res_Courant"
@@ -4524,6 +4625,12 @@ reference "fig:deformationalConverge"
  and for a maximum Courant number close to ten.
  We will first consider the behaviour of the schemes at modest Courant number
  (maximum close to one).
+ 
+\color blue
+The explicit multi-dimensional scheme is stable at this Courant number and
+ errors are almost identical to those of the implicit scheme.
+
+\color inherit
  All of the schemes give first-order convergence with resolution at coarse
  resolutions due to error saturation (if the scheme is stable, errors are
  bounded above by about one).
@@ -4547,13 +4654,14 @@ reference "sub:PPM"
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename deform_dx.pdf
+	filename figures/deform_dx.pdf
+	width 100line%
 
 \end_inset
 
@@ -4595,8 +4703,8 @@ name "fig:deformationalConverge"
 \end_layout
 
 \begin_layout Standard
-We inspect sensitivity to time-step of both schemes on orthogonal and non-orthog
-onal meshes of 
+We inspect sensitivity to time-step of all schemes on orthogonal and non-orthogo
+nal meshes of 
 \begin_inset Formula $120\times60$
 \end_inset
 
@@ -4616,8 +4724,21 @@ reference "tab:res_Courant"
 
  giving maximum Courant numbers ranging from 0.25 to 10 (deformational Courant
  numbers always less than 0.32).
- This demonstrates potentially useful properties of the flux-form semi-Lagrangia
-n time-stepping used by the split scheme.
+ 
+\color blue
+Again this shows that the explicit time-stepping gives almost idetical errors
+ to the implicit time-stepping at time-steps at which it is stable.
+
+\color inherit
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:deformational_dt"
+
+\end_inset
+
+ demonstrates potentially useful properties of the flux-form semi-Lagrangian
+ time-stepping used by the split scheme.
  Ignoring errors in calculating the departure point, semi-Lagrangian schemes
  have errors proportional to 
 \begin_inset Formula $\Delta t^{-1}$
@@ -4637,10 +4758,10 @@ key "Dur10"
 \end_inset
 
  or 0.02), errors of the split scheme do grow with the time-step, due to
- the deformational nature of the flow and errors in calculating the departure
- points.
+ the deformational nature of the flow and first-order errors in calculating
+ the departure points.
  In contrast, using the multi-dimensional scheme which uses method of lines
- time-stepping, errors always increase as the time-step is increased.
+ time-stepping, errors increase as the time-step is increased.
  Comparisons between schemes in figures 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4674,13 +4795,14 @@ reference "fig:deformational_dt"
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
+wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename deform_dt.pdf
+	filename figures/deform_dt.pdf
+	width 100line%
 
 \end_inset
 
@@ -4731,8 +4853,11 @@ name "fig:deformational_dt"
 In summary, the dimensionally split scheme has good accuracy for deformational
  flow independent of mesh orthogonality.
  The multi-dimensional scheme is competitive at small Courant numbers but
- the semi-Lagrangian nature of the split scheme means that errors are very
- low for Courant numbers close to one.
+ the semi-Lagrangian nature of the split scheme means that 
+\color blue
+errors are very low when the Courant number is
+\color inherit
+ close to one.
  
 \end_layout
 
@@ -4863,13 +4988,13 @@ key "SWMD17"
 
 \end_inset
 
- which is stable and accurate up to a Courant number of one for this spatial
- discretistion and gives very similar results to the implicit scheme (not
- shown).
- 
+ which is stable and accurate up to a Courant number of one or two for this
+ spatial discretistion and gives very similar results to the implicit scheme.
 \end_layout
 
 \begin_layout Standard
+
+\strikeout on
 The explicit version of the dimensionally split scheme uses RK2 or Heun
  time-stepping, in which 
 \begin_inset Formula $\phi_{\text{up}}^{\prime}$
@@ -4902,7 +5027,9 @@ reference "eq:CN_2"
 \end_inset
 
 .
- On a logically rectangular two-dimensional mesh there are 12 cells in each
+ 
+\strikeout default
+On a logically rectangular two-dimensional mesh there are 12 cells in each
  stencil for each face (fig 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5037,7 +5164,7 @@ reference "tab:iterations"
 \begin_layout Standard
 \noindent
 \begin_inset Float table
-wide false
+wide true
 sideways false
 status open
 
@@ -5544,7 +5671,8 @@ Iterations per time-step orthogonal/non-orthogonal
 
 \begin_layout Plain Layout
 Number of solver iterations per time-step of the multi-dimensional scheme
- for all the simulations on orthogonal/non-orthogonal meshes.
+ for all the simulations on orthogonal/non-orthogonal meshes for the deformation
+al flow testcase.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -5565,6 +5693,10 @@ name "tab:iterations"
 
 \end_layout
 
+\begin_layout Subsubsection
+Cost Comparisons
+\end_layout
+
 \begin_layout Standard
 Combining the number of solver iterations, the number of multiply operations
  per solve and the number of multiply operations in calculating the explicit
@@ -5581,7 +5713,7 @@ reference "tab:multiplies"
 \begin_inset Formula $120\times60$
 \end_inset
 
- cells.
+ cells for the deformational flow test-case.
  Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5598,7 +5730,7 @@ reference "tab:multiplies"
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -5646,7 +5778,7 @@ Explicit
 \begin_inset Text
 
 \begin_layout Plain Layout
-Dimensionally
+Dim.
 \end_layout
 
 \end_inset
@@ -5684,7 +5816,7 @@ Multi-dimensional
 \begin_inset Text
 
 \begin_layout Plain Layout
-Split
+ Split
 \end_layout
 
 \end_inset
@@ -5950,13 +6082,8 @@ Split
 Total number of multiply operations per cell per time-step for different
  Courant numbers for the multi-dimensional scheme, an explicit version of
  the multi-dimensional scheme (using RK2 or Heun time-stepping) and the
- dimensionally split scheme on two-dimensional, logically rectangular meshes.
- The multi-dimensional scheme using RK2 time-stepping is stable for Courant
- numbers 
-\begin_inset Formula $\le1$
-\end_inset
-
- and gives very similar solutions to the implicit version.
+ dimensionally split scheme on two-dimensional, logically rectangular meshes
+ for the deformational flow testcase.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -6005,6 +6132,48 @@ There is considerable flexibility in the solver configuration: the number
  than having the higher-order correction entirely a deferred correction
  on first-order upwind, but such a change would need to ensure that the
  matrix remains diagonally dominant.
+ 
+\end_layout
+
+\begin_layout Standard
+We also compared the real computational cost of the implicit and explicit
+ versions of the multi-dimensional scheme running the deformational test
+ case in serial on a non-orthogonal mesh with a maximum Courant number of
+ 1.
+ At the resolution of 
+\begin_inset Formula $120\times60$
+\end_inset
+
+, the model using implicit time-stepping is 
+\begin_inset Formula $5\%$
+\end_inset
+
+ more expensive that the explicit model.
+ This drops to 
+\begin_inset Formula $2.5\%$
+\end_inset
+
+ at the resolution of 
+\begin_inset Formula $960\times480$
+\end_inset
+
+.
+ Despite the implicit scheme having four times as many multiplies as calculated
+ for table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:multiplies"
+
+\end_inset
+
+, the cost is insignificant.
+ This demonstrates both the danger of only looking at the number of multiplies
+ and the danger of using results of timing code.
+ The linear equation solvers on OpenFOAM have undergone years of optimisation
+ whereas the stencils for calculating the cubic fit have been developed
+ less and entail unpredictable memory access patterns and likely frequent
+ cache misses.
+ 
 \end_layout
 
 \begin_layout Section
@@ -6044,8 +6213,11 @@ key "LLM96"
  a time-step restriction based on the deformational Courant number.
  The second-order accurate multi-dimensional scheme is split in space and
  time (method of lines) and uses a cubic polynomial fit over a stencil of
- cells for spatial discretisation and trapezoidal implicit in time to retain
- stability for large Courant numbers.
+ cells for spatial discretisation and 
+\color blue
+explicit RK2 or
+\color inherit
+ Crank-Nicolson in time to retain stability for large Courant numbers.
  
 \color blue
 The multi-dimensional scheme uses cell centoids as Gauss points so the order
@@ -6060,19 +6232,6 @@ The multi-dimensional scheme uses cell centoids as Gauss points so the order
 \color blue
  When run explicitly, the cost of both schemes is similar.
  These schemes are therefore considered suitable for comparison.
-\end_layout
-
-\begin_layout Standard
-The dimensionally split scheme is 
-\strikeout on
-very
-\strikeout default
- accurate on orthogonal meshes and only loses a little accuracy on highly
- distorted meshes, despite a first-order departure point calculation.
- The multi-dimensional scheme with implicit time-stepping is less accurate
- on orthogonal meshes than the dimensionally split scheme but the accuracy
- is not sensitive to mesh distortions and the stability is less sensitive
- to Courant number.
 \end_layout
 
 \begin_layout Standard
@@ -6110,7 +6269,11 @@ key "SLF+02"
 \end_inset
 
  using a basic terrain following mesh in order to maximise the distortions
- and a version using higher orography.
+ 
+\color blue
+due to terrain following coordinates
+\color inherit
+.
  The third test case is the deformational flow test case of 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -6124,40 +6287,58 @@ key "LSPT12"
 \end_layout
 
 \begin_layout Standard
-The dimensionally split scheme is 
-\strikeout on
-\color red
-extremely
-\strikeout default
-\color inherit
- accurate on orthogonal meshes and retains accuracy when long time-steps
- are used.
- However on distorted meshes, particularly at changes in direction such
- as those that appear at cube sphere edges or over orography, the split
- scheme loses some accuracy.
+
+\color blue
+The dimensionally split scheme is most accurate on orthogonal meshes but
+ only loses a little accuracy on highly distorted meshes, despite a first-order
+ departure point calculation.
  In contrast, the multi-dimensional scheme is almost entirely insensitive
  to mesh distortion and asymptotes to second-order convergence at high resolutio
 n.
  As is expected for implicit time-stepping, phase errors occur when using
  long time-steps but the spatially well resolved features are advected at
  the correct speed and the multi-dimensional scheme is always stable.
+ On orthogonal meshes, the dimensionally split scheme remains highly accurate
+ when large Courant numbers are used (as long as the deformational Courant
+ number is low).
+ However on distorted meshes, the split scheme loses accuracy at large Courant
+ numbers.
 \end_layout
 
 \begin_layout Standard
+
+\color blue
+Computational cost is estimated by the number of multiplies.
+ 
+\color inherit
 The matrix solver associated with the implicit time-stepping of the multi-dimens
-ional scheme means that it is always considerably more expensive than the
- split scheme with cost increasing with Courant number.
+ional scheme means that it is always 
+\strikeout on
+considerably
+\strikeout default
+ more expensive than the split scheme with cost increasing with Courant
+ number.
  We haven't investigated sensitivity to solver and pre-conditioner choices
  and it may be possible to do  better.
- But the flux-form semi-Lagrangian method enables long time-steps without
- any matrix solutions and this will always be difficult to beat.
- It is possible to use the multi-dimensional scheme with explicit time-stepping
- such as Runge-Kutta.
- In that case, the Courant number is restricted to be less than one but
- the cost is similar to the dimensionally split scheme.
+ 
+\color blue
+However in practice we found that the implicit solution contributed only
+ 
+\begin_inset Formula $2.5\%-5\%$
+\end_inset
+
+ of the over-all cost of the multi-dimensional model.
+ 
+\color inherit
+The flux-form semi-Lagrangian method enables long time-steps without any
+ matrix solutions and this will always be difficult to beat.
+ We also use the multi-dimensional scheme with explicit time-stepping making
+ the cost similar to the dimensionally split scheme.
 \end_layout
 
 \begin_layout Standard
+
+\strikeout on
 The conclusions of this paper are consistent with those of 
 \begin_inset CommandInset citation
 LatexCommand citet

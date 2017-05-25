@@ -1,0 +1,43 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british,times]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[pdftex,a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage { fancybox}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{rotating}
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\usepackage { fancybox}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{tabular}{cc}
+$\ell_{2}$ error, $c\le1$ & $\ell_{\infty}$ error, $c\le1$\tabularnewline
+\includegraphics[width=0.48\linewidth]{../HilarysGraphics/multiDadvectCases_deformingAdvectionCyclic_plots_l2errors_c1} & \includegraphics[width=0.48\linewidth]{../HilarysGraphics/multiDadvectCases_deformingAdvectionCyclic_plots_linferrors_c1}\tabularnewline
+$\ell_{2}$ error, $c\le10$ & $\ell_{\infty}$ error, $c\le10$\tabularnewline
+\includegraphics[width=0.48\linewidth]{../HilarysGraphics/multiDadvectCases_deformingAdvectionCyclic_plots_l2errors_c10} & \includegraphics[width=0.48\linewidth]{../HilarysGraphics/multiDadvectCases_deformingAdvectionCyclic_plots_linferrors_c10}\tabularnewline
+\end{tabular}
+\end{document}
