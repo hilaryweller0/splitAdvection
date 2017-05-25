@@ -348,12 +348,7 @@ Introduction
 
 \begin_layout Standard
 Weather and climate models are being developed on quasi-uniform meshes in
- order to 
-\color blue
-reduce and equidistribute the storage needed for the domain of dependence
- of the model degrees of freedom and hence
-\color inherit
- better exploit modern computers 
+ order to better exploit modern computers 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "eg "
@@ -362,8 +357,26 @@ key "WTC12,LUJ+14,ST12,SG11,KNK15"
 \end_inset
 
 .
- Therefore accurate and efficient transport (or advection) schemes on non-orthog
-onal meshes are required.
+ 
+\color blue
+Latitude-longitude meshes needed measures to enable long time-steps near
+ the poles such as polar filtering, semi-implicit and semi-Lagrangian 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "DCM+05"
+
+\end_inset
+
+.
+ These methods necessarily have large domains of dependence near the poles
+ which leads to poor parallel scaling at high resolution.
+ Quasi-uniform meshes avoid parallel scaling bottlenecks near the poles
+ but lead to non-orthogonal meshes (eg the cubed-sphere) or different structures
+ (eg icosahedra).
+ 
+\color inherit
+Therefore accurate and efficient transport (or advection) schemes on non-orthogo
+nal meshes are required.
  There is an abundance of desirable properties of advection schemes, including:
 \end_layout
 
@@ -4726,8 +4739,8 @@ reference "tab:res_Courant"
  numbers always less than 0.32).
  
 \color blue
-Again this shows that the explicit time-stepping gives almost idetical errors
- to the implicit time-stepping at time-steps at which it is stable.
+Again this shows that the explicit time-stepping gives almost identical
+ errors to the implicit time-stepping at time-steps at which it is stable.
 
 \color inherit
  Figure 
@@ -5730,7 +5743,7 @@ reference "tab:multiplies"
 \begin_inset Float table
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -6136,6 +6149,8 @@ There is considerable flexibility in the solver configuration: the number
 \end_layout
 
 \begin_layout Standard
+
+\color blue
 We also compared the real computational cost of the implicit and explicit
  versions of the multi-dimensional scheme running the deformational test
  case in serial on a non-orthogonal mesh with a maximum Courant number of
