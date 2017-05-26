@@ -1870,8 +1870,15 @@ s at the next time-step.
  Consequently, assuming that the velocity field and mesh are constant in
  time, the time-stepping scheme is defined as:
 \begin_inset Formula 
+\begin{equation}
+\frac{\phi^{\prime}-\phi^{n}}{\Delta t}=-\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{\prime}+2\sum_{c}w_{c}\phi_{c}^{n}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:CN_1}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
 \begin{eqnarray}
-\frac{\phi^{\prime}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\left(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{\prime}+2\sum_{c}w_{c}\phi_{c}^{n}\right)\mathbf{u}_{f}\cdot\mathbf{S}_{f}\label{eq:CN_1}\\
 \frac{\phi^{n+1}-\phi^{n}}{\Delta t} & = & -\frac{1}{2V}\sum_{f\in c}\biggl(\phi_{\text{up}}^{n}+\phi_{\text{up}}^{n+1}\label{eq:CN_2}\\
  &  & +\sum_{c}w_{c}\phi_{c}^{n}+\sum_{c}w_{c}\phi_{c}^{\prime}\biggr)\mathbf{u}_{f}\cdot\mathbf{S}_{f}.
 \end{eqnarray}
