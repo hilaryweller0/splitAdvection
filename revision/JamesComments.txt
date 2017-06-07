@@ -1,0 +1,48 @@
+Hello everyone
+
+Sorry I've only just been able to read through this.  I have some comments below, I think all of them are cosmetic.  I'm happy to resubmit without seeing another manuscript.
+
+Response document
+-----------------
+
+1. typo in response document title: "artile"
+2. typo: "mesh non-orthoganlity"
+3. "errors due to cubed-sphere corners" -- suggest that you don't mention cubed-sphere corners in line 44 because you haven't yet distinguished between corners and edges.  You address this clearly on line 146 in any case.  See my comment about lines 43-46 below.
+4. "un-distorted" is one word
+5. typo: "cell centoids"
+6. "results in figure 3 use the implicit time-stepping" -- maybe remove "the"
+7. "but the results using explicit time-stepping are similar" -- maybe add "(not shown)"
+8. Page 2, Line 46 "Guo et al., 2014, eg." -- eg should precede the citation
+
+Manuscript
+----------
+
+- abstract, hyphenate "well resolved"
+line 2 -- Maybe start with "Many traditional weather and climate models use latitude-longitude meshes, but new models are being developed on quasi-uniform meshes in order to better exploit modern computers [citations]."
+line 6 -- suggest present tense, "Latitude-longitude meshes need measures to enable long time-steps ..."
+line 8 -- suggest "semi-implicit and semi-Lagrangian *methods* (Davies et al. 2005)"
+line 9 -- singular "which lead to"
+line 43 -- typo "mesh non-orthoganlity"
+lines 43-46 -- suggest "Other sources of numerical errors, such as those associated with the representation of spherical geometry, are not addressed here."
+line 68 -- suggest "... if special treatment is applied over cube edges; for example, Putman and Lin (2007) use the average of two, one-sided schemes at cube edges"
+line 75 -- suggest replacing the paragraph with:
+
+Meshes also become non-orthogonal when orography is represented with terrain-following layers.  The problem is commonly alleviated by smoothing terrain-following layers to reduce non-orthogonality away from the ground (Schaer et al. 2002), or by using floating Lagrangian vertical coordinates (Lin 2004).  The special treatment applied to dimensionally split schemes for cubed-spheres cannot be applied for terrain-following layers because sloping orography appears throughout the domain.  Dimension splitting may account for ...
+
+line 93 -- suggest "Few FFSL schemes or multi-dimensional MOL schemes have been extended to work with Courant numbers significantly larger than one, a notable exception being ..."
+line 101 -- suggest "However, the integration cost would be proportial to the time-step since an upstream swept volume would overlap with more cells."
+line 122 -- conservative semi-Lagrangian schemes in general, or a particular one?
+line 179 -- say "and with *an* implicit, Crank-Nicholson time-stepping *scheme*"
+line 185 -- maybe say "When explicit time-stepping is used, the cost of both schemes is similar ..."
+line 194 -- you don't need the .git suffix
+line 226 -- maybe say "The departure point calculation could be improved by using a second-order predictor-corrector (e.g. Melvin et al. 2010)"
+Figure 1 -- Mention that the tracer phi is stored at cell centres (grey dots) and mention the wind direction, and "up" and "down" cells.  Say that x--y is the coordinate system local to the stencil.
+line 647 -- suggest "... identical errors to the implicit time-stepping *for* time-steps at which the explicit time-stepping is stable"
+line 799 -- suggest "We also measured the wall-clock computation cost, comparing the implicit and explicit versions ..."
+line 806 -- suggest "the difference in wall-clock time is negligible"
+line 811 -- suggest "the stencils for calculating the cubic fit have not been optimised and entail ..."
+line 855 -- "In contrast" -- what is the contrast here?
+line 864 -- add comma "However, on distorted meshes, the split scheme ..."
+line 872 -- suggest "... of the total wall-clock computation time ..."
+
+

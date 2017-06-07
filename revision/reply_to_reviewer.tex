@@ -10,7 +10,7 @@
 
 \begin{document}
 
-\title{Responses to reviewer comments on artile QJ-17-0017\\
+\title{Responses to reviewer comments on article QJ-17-0017\\
 Dimension Splitting and a Long Time-Step Multi-Dimensional Scheme for Atmospheric Transport}
 \author{Yumeng Chen \and Hilary Weller \and Stephen Pring \and and James Shaw}
 \maketitle
@@ -31,13 +31,13 @@ Thank-you for pointing out the \cite{GNQ14} paper. See response to pdf annotatio
 It is stated that results in this 2-D framework will generalize well to the cubed-sphere, but I believe that in order to truly make that statement, one would have to implement a given scheme on both meshes and then compare. My experience on the cubed-sphere mesh is that it.
 
 \item [Response]:
-Agreed. Our test cases on a plane will highlight errors due to non-orthogonality and due to discontinuities at cube edges but cannot help to describe errors at cube corners. Some sentences have been added to the introduction:
+Agreed. Our test cases on a plane will highlight errors due to non-orthogonality and due to discontinuities at cube edges. Some sentences have been added to the introduction:
 \begin{quote}
-We assume that a large fraction of the numerical errors associated with terrain following co-ordinates and the cubed-sphere grid are due to the mesh non-orthoganlity and distortion. However there will also be errors due to cubed-sphere corners and inaccurate representation of spherical geometry. These are not addressed here. 
+We assume that a large fraction of the numerical errors associated with terrain following co-ordinates and the cubed-sphere grid are due to the mesh non-orthogonality and distortion. Other sources of numerical errors, such as those associated with the representation of spherical geometry, are not addressed here.
 \end{quote}
 and
 \begin{quote}
-These test cases will mimic the problems encountered at cubed-sphere edges but will not give any information about additional errors that might occur at cubed-sphere corners. 
+These test cases will mimic the problems encountered near cubed-sphere edges. 
 \end{quote}
 A similar caveat has been inserted in the second paragraph of the abstract, the first paragraph of section 3 and in the third paragraph of the conclusions. 
 
@@ -52,7 +52,7 @@ Mesh distortions are expected to accentuate the errors associated with dimension
 \end{quote}
 \item In the introduction:
 \begin{quote}
-we show the effect of dimension splitting errors using a FFSL dimensionally split scheme on a number of test-cases which use distorted \textcolor{blue}{and un-distorted} meshes.
+we show the effect of dimension splitting errors using a FFSL dimensionally split scheme on a number of test-cases which use distorted \textcolor{blue}{and undistorted} meshes.
 \end{quote}
 \item In the conclusions
 \begin{quote}
@@ -63,14 +63,14 @@ The dimensionally split scheme is most accurate on orthogonal meshes but only lo
 We also now compare the dimensionally split scheme with the multi-dimensional scheme when the multi-dimensional scheme is run with explicit and implicit time-stepping. New results are described in section 3. The errors of the multi-dimensional scheme (which is now described in full by \cite{SWMD17}) are insensitive to the choice of time-stepping type (implicit or explicit) for Courant numbers smaller than two. These comparisons have also revealed that the implicit solve is a small part of the total cost of the advection. This is now discussed in section 3.4:
 
 \begin{quote}
-We also compared the real computational cost of the implicit and explicit versions of the multi-dimensional scheme running the deformational test case in serial on a non-orthogonal mesh with a maximum Courant number of 1. At the resolution of $120\times 60$, the model using implicit time-stepping is 5\% 
+We also measured the wall-clock computation cost, comparing the implicit and explicit versions of the multi-dimensional scheme running the deformational test case in serial on a non-orthogonal mesh with a maximum Courant number of 1. At the resolution of $120\times 60$, the model using implicit time-stepping is 5\% 
 more expensive that the explicit model. This drops to 2.5\%
-at the resolution of $960\times 480$. Despite the implicit scheme having four times as many multiplies as calculated for table 3, the cost is insignificant. This demonstrates both the danger of only looking at the number of multiplies and the danger of using results of timing code. The linear equation solvers on OpenFOAM have undergone years of optimisation whereas the stencils for calculating the cubic fit have been developed less and entail unpredictable memory access patterns and likely frequent cache misses. 
+at the resolution of $960\times 480$. Despite the implicit scheme having four times as many multiplies as calculated for table 3, the difference in wall-clock time is negligible. This demonstrates both the danger of only looking at the number of multiplies and the danger of using results of timing code. The linear equation solvers on OpenFOAM have undergone years of optimisation whereas the stencils for calculating the cubic fit have not been optimised and entail unpredictable memory access patterns and likely frequent cache misses. 
 \end{quote}
 
 We have added some description of why we think it suitable to compare the dimensionally split and multi-dimensional schemes at the beginning of section 2:
 \begin{quote}
-The dimensionally split scheme is third-order accurate in one dimension but the COSMIC splitting reduces the temporal order to two. The multi-dimensional scheme uses cubic interpolations but uses cell centoids as Gauss points so the order of accuracy is limited to two. When run explicitly, the cost of both schemes is similar (see section 3.4). These schemes are therefore considered suitable for comparison. 
+The dimensionally split scheme is third-order accurate in one dimension but the COSMIC splitting reduces the temporal order to two. The multi-dimensional scheme uses cubic interpolations but uses cell centroids as Gauss points so the order of accuracy is limited to two. When explicit time-stepping is used, the cost of both schemes is similar (see section 3.4). These schemes are therefore considered suitable for comparison. 
 \end{quote}
 
 Several additions have been made as we are now using implicit and explicit time-stepping for the multi-dimensional scheme:
@@ -86,7 +86,7 @@ Section 2.3.1 has been split into two, the first to describe the implicit and ex
 
 \item Added to section 3.1:
 \begin{quote}
-The results in figure 3 use the implicit time-stepping but the results using explicit time-stepping are similar. 
+The results in figure 3 use implicit time-stepping but the results using explicit time-stepping are similar (not shown). 
 \end{quote}
 and
 \begin{quote}
@@ -118,14 +118,14 @@ The explicit multi-dimensional scheme is stable at this Courant number and error
 \end{quote}
 and
 \begin{quote}
-Again this shows that the explicit time-stepping gives almost identical errors to the implicit time-stepping at time-steps at which it is stable.
+Again this shows that the explicit time-stepping gives almost identical errors to the implicit time-stepping for time-steps at which it is stable.
 \end{quote}
 
 Added to the conclusions:
 \begin{quote}
 Computational cost is estimated by the number of multiplies.\\
 ...\\
-However in practice we found that the implicit solution contributed only 2.5\%-5\% of the over-all cost of the multi-dimensional model.
+However in practice we found that the implicit solution contributed only 2.5\%-5\% of the total wall-clock computation time.
 \end{quote}
 \end{itemize}
 \end{description}
@@ -141,9 +141,9 @@ Page and line numbers refer to the original annotated document.
 
 \item [Page 2, Line 4]: quasi-uniform resolution doesn't help better exploit modern architectures; they're largely orthogonal concepts. Quasi-uniform resolution just improves the global time step restriction.
 
-\item [Response]: Have added the following to the beginning of the introduction:
+\item [Response]: Have changed the beginning of the introduction to:
 \begin{quote}
-Latitude-longitude meshes needed measures to enable long time-steps near the poles such as polar filtering, semi-implicit and semi-Lagrangian \cite[]{DCM+05}. These methods necessarily have large domains of dependence near the poles which leads to poor parallel scaling at high resolution. Quasi-uniform meshes avoid parallel scaling bottlenecks near the poles but lead to non-orthogonal meshes (eg the cubed-sphere) or different structures (eg icosahedra).
+Many traditional weather and climate models use latitude-longitude meshes, but new models are being developed on quasi-uniform meshes in order to better exploit modern computers \cite[eg][]{WTC12,LUJ+14,ST12,SG11,KNK15}. Latitude-longitude meshes need measures to enable long time-steps near the poles such as polar filtering, semi-implicit and semi-Lagrangian methods \cite[]{DCM+05}. These methods necessarily have large domains of dependence near the poles which leads to poor parallel scaling at high resolution. Quasi-uniform meshes avoid parallel scaling bottlenecks near the poles but lead to non-orthogonal meshes (eg the cubed-sphere) or different structures (eg icosahedra).
 \end{quote}
 
 \item [Page 2, Line 27]: I feel the strong need for a caveat here. I appreciate the desire to create a simpler test case not involving spherical geometry, because the cubed-sphere really is easy to mess up. However, my personal experience is that dimensional splitting  on the cubed-sphere incurs significantly more error compared to dimensional splitting on a plane. This could potentially be because spherical geometry coupled with non-orthogonality incurs more splitting error than non-orthogonality alone. Without directly confirming the applicability of this framework to the cubed-sphere by correlating error measures between them, I think the authors need to qualify more clearly that this applicability remains a *hypothesis.*
@@ -169,7 +169,7 @@ We assume that a large fraction of the numerical errors associated with terrain 
 
 \item [Response]: These sentences have been changed to:
 \begin{quote}
-Dimensionally split schemes have been found to give good accuracy on non-orthogonal meshes such as the cubed-sphere if special treatment is applied over cube edges to improve accuracy: \cite{PL07} use the average of two one-sided schemes at cube edges. \cite{KNK15} create ghost cells outside each cube panel boundary and achieve accuracy between second and fourth order. \cite{KNK15} use a multi-dimensional transport scheme with dimensionally split reconstructions. \cite[eg]{GNQ14} report error growth around cube edges using Strang splitting. 
+Dimensionally split schemes have been found to give good accuracy on non-orthogonal meshes such as the cubed-sphere if special treatment is applied over cube edges to improve accuracy: for example, \cite{PL07} use the average of two one-sided schemes at cube edges. \cite{KNK15} use a multi-dimensional transport scheme with dimensionally split reconstructions. They create ghost cells outside each cube panel boundary and achieve accuracy between second and fourth order. \cite{GNQ14} report error growth around cube edges using Strang splitting. 
 \end{quote}
 
 \item [Page 2, Line 46]: There's another paper that actually does do dimensional splitting on the cubed-sphere:
@@ -242,7 +242,7 @@ using a basic terrain following mesh in order to maximise the distortions \textc
 
 \item [Response]: We have added:
 \begin{quote}
-The next step would be to use a second-order predictor-corrector departure point calculation \cite[eg][]{MDW+10}.
+The departure point calculation could be improved by using a second-order predictor-corrector departure point calculation \cite[eg][]{MDW+10}.
 \end{quote}
 
 \item [Page 5, Line 27]: Is this done for sake of expense, since advective SL schemes only need one upwind evaluation, and not an integral; or are the other reasons for this?
@@ -271,7 +271,7 @@ If the purpose of this paper were solely to introduce new test cases, I think th
 
 \item [Response]: We agree that the baseline could be better. However the two schemes do have similar complexity and cost. The final sentence has been changed to:
 \begin{quote}
-In contrast, the multi-dimensional scheme is insensitive to the orthogonality, converges with second-order \textcolor{blue}{as expected} and suffers from phase errors at large Courant numbers \textcolor{blue}{due to the use of Crank-Nicolson implicit time-stepping}.
+The multi-dimensional scheme is insensitive to the orthogonality, converges with second-order \textcolor{blue}{as expected} and suffers from phase errors at large Courant numbers \textcolor{blue}{due to the use of Crank-Nicolson implicit time-stepping}.
 \end{quote}
 
 \item [Page 13, Line 19]: Does it really ``maximize'' the non-orthogonality or just make for a ``highly'' non-orthogonal test case?
